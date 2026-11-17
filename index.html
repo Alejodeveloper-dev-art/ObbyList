@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta name="google-site-verification" content="M8h2JYq_KewTkDv1GSojdis2v2CCX0N1TayeP-i6ZOI" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ObbyList - Ranking Oficial de Tiered Obbies & Towers</title>
+    <style>
+        :root {
+            --bg-dark: #121417;
+            --bg-card: #1b1e23;
+            --bg-hover: #242830;
+            --bg-input: #14171c;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border: #2e333d;
+            --tier-extreme: #ef4444;
+            --tier-extended: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* HEADER ESTILO POINTERCRATE */
+        header {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            height: 64px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+        }
+
+        .logo {
+            font-size: 1.45rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .logo small {
+            font-size: 0.7rem;
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            height: 100%;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0.55rem 0.9rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            color: var(--text-main);
+            background-color: var(--bg-hover);
+        }
+
+        /* DROPDOWN MENU */
+        .dropdown {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 64px;
+            left: 0;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            min-width: 210px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            z-index: 300;
+            overflow: hidden;
+        }
+
+        .dropdown:hover .dropdown-menu,
+        .dropdown.open .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-item {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 0.85rem 1.1rem;
+            font-size: 0.92rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.15s;
+            display: block;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--bg-hover);
+            color: var(--text-main);
+            padding-left: 1.35rem;
+        }
+
+        /* CONTENEDOR PRINCIPAL */
+        main {
+            max-width: 1220px;
+            margin: 2rem auto;
+            padding: 0 1.2rem;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* SUB-NAVEGACIÓN ESTILO POINTERCRATE (Main List / Extended List) */
+        .list-subnav {
+            display: flex;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .list-subnav-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            border-right: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 0.85rem 1rem;
+            font-size: 0.98rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .list-subnav-btn:last-child {
+            border-right: none;
+        }
+
+        .list-subnav-btn:hover {
+            background-color: var(--bg-hover);
+            color: var(--text-main);
+        }
+
+        .list-subnav-btn.active {
+            background-color: rgba(59, 130, 246, 0.14);
+            color: var(--accent);
+            box-shadow: inset 0 -3px 0 var(--accent);
+        }
+
+        .section-header {
+            margin-bottom: 1.2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.7rem;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+        }
+
+        /* LAYOUT LISTA + SIDEBAR LIST EDITORS */
+        .demonlist-layout {
+            display: grid;
+            grid-template-columns: 1fr 290px;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        @media (max-width: 920px) {
+            .demonlist-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* BARRA DE FILTROS EN LISTA */
+        .filter-bar {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-bar input {
+            flex: 2;
+            min-width: 220px;
+        }
+
+        .filter-bar select {
+            flex: 1;
+            min-width: 170px;
+        }
+
+        /* TARJETAS DE NIVELES ESTILO POINTERCRATE DEMONLIST */
+        .obby-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.15rem 1.35rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1.4rem;
+            transition: transform 0.15s, background-color 0.15s, border-color 0.15s;
+            cursor: pointer;
+        }
+
+        .obby-card:hover {
+            background-color: var(--bg-hover);
+            border-color: #3f4654;
+            transform: translateY(-2px);
+        }
+
+        .obby-thumb-wrapper {
+            position: relative;
+            width: 225px;
+            height: 126px;
+            flex-shrink: 0;
+            border-radius: 4px;
+            overflow: hidden;
+            background-color: #101215;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .obby-thumb-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .thumb-placeholder {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            padding: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .thumb-placeholder span {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+            opacity: 0.5;
+        }
+
+        .thumb-play-badge {
+            position: absolute;
+            bottom: 6px;
+            right: 6px;
+            background: rgba(0, 0, 0, 0.78);
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 4px;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .thumb-play-badge:hover {
+            background: var(--accent);
+        }
+
+        .obby-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .obby-title-row {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1.25;
+            margin-bottom: 0.25rem;
+        }
+
+        .obby-rank-num {
+            color: var(--text-main);
+        }
+
+        .obby-rank-num.extended {
+            color: var(--tier-extended);
+        }
+
+        .obby-publisher {
+            font-size: 0.98rem;
+            color: var(--text-muted);
+            margin-bottom: 0.35rem;
+        }
+
+        .obby-publisher strong {
+            color: var(--text-main);
+            text-decoration: underline dotted var(--text-muted);
+            text-underline-offset: 3px;
+        }
+
+        .obby-points-line {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .tier-pill {
+            display: inline-block;
+            background-color: rgba(239, 68, 68, 0.15);
+            color: var(--tier-extreme);
+            border: 1px solid var(--tier-extreme);
+            padding: 0.12rem 0.55rem;
+            border-radius: 14px;
+            font-size: 0.74rem;
+            font-weight: 700;
+        }
+
+        .tier-pill.extended {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: var(--tier-extended);
+            border-color: var(--tier-extended);
+        }
+
+        @media (max-width: 640px) {
+            .obby-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .obby-thumb-wrapper {
+                width: 100%;
+                height: 175px;
+            }
+        }
+
+        .obby-details {
+            display: none;
+            background-color: #16181d;
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            padding: 1rem 1.4rem;
+            margin-top: -1rem;
+            margin-bottom: 1rem;
+        }
+
+        .obby-details.open {
+            display: block;
+        }
+
+        .victors-list {
+            list-style: none;
+            margin-top: 0.5rem;
+        }
+
+        .victors-list li {
+            padding: 0.45rem 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.92rem;
+        }
+
+        .victors-list li:last-child {
+            border-bottom: none;
+        }
+
+        .victors-list a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .victors-list a:hover {
+            text-decoration: underline;
+        }
+
+        .no-video {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            font-style: italic;
+        }
+
+        /* PANEL DERECHO: LIST EDITORS ESTILO POINTERCRATE */
+        .editors-box {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.4rem 1.2rem;
+            text-align: center;
+        }
+
+        .editors-box h3 {
+            font-size: 1.45rem;
+            font-weight: 800;
+            padding-bottom: 0.75rem;
+            margin-bottom: 0.85rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .editors-box p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1.1rem;
+            line-height: 1.45;
+        }
+
+        .editors-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            font-size: 0.92rem;
+        }
+
+        .editors-list li strong {
+            color: var(--text-main);
+        }
+
+        /* STATS VIEWER ESTILO POINTERCRATE (3 COLUMNAS) */
+        .stats-layout {
+            display: grid;
+            grid-template-columns: 310px 1fr 270px;
+            gap: 1.2rem;
+            align-items: start;
+        }
+
+        @media (max-width: 960px) {
+            .stats-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel-box {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .panel-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 0.7rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.45rem;
+        }
+
+        .player-list-scroll {
+            max-height: 540px;
+            overflow-y: auto;
+            margin-top: 0.75rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .player-row-item {
+            padding: 0.65rem 0.7rem;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.15s;
+            font-size: 0.92rem;
+        }
+
+        .player-row-item:hover {
+            background-color: var(--bg-hover);
+        }
+
+        .player-row-item.selected {
+            background-color: rgba(59, 130, 246, 0.18);
+            border-left: 3px solid var(--accent);
+        }
+
+        .player-rank-num {
+            font-weight: 800;
+            color: var(--accent);
+            margin-right: 0.4rem;
+        }
+
+        .player-clan {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .player-pts-small {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        /* FICHA CENTRAL DEL JUGADOR */
+        .player-profile-empty {
+            text-align: center;
+            padding: 4rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .profile-header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .profile-name {
+            font-size: 1.7rem;
+            font-weight: 800;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 1.4rem;
+        }
+
+        .stat-mini-card {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.8rem;
+        }
+
+        .stat-mini-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .stat-mini-value {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-top: 0.2rem;
+        }
+
+        .completed-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0.8rem;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            font-size: 0.92rem;
+        }
+
+        .completed-item a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* REGLAS / GUIDELINES */
+        .rules-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .rules-card h3 {
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+            font-size: 1.2rem;
+        }
+
+        .rules-card ul {
+            margin-left: 1.3rem;
+            color: var(--text-muted);
+        }
+
+        .rules-card li {
+            margin-bottom: 0.45rem;
+        }
+
+        .rules-card strong {
+            color: var(--text-main);
+        }
+
+        /* FORMULARIOS */
+        .form-box {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.68rem 0.8rem;
+            background-color: var(--bg-input);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        button.btn-primary {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.4rem;
+            font-size: 0.98rem;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+        }
+
+        button.btn-primary:hover {
+            background-color: var(--accent-hover);
+        }
+
+        button.btn-secondary {
+            background-color: var(--bg-hover);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 0.65rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            margin-right: 0.5rem;
+        }
+
+        button.btn-secondary:hover {
+            border-color: var(--accent);
+        }
+
+        .alert {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 6px;
+            background-color: rgba(59, 130, 246, 0.15);
+            border: 1px solid var(--accent);
+            display: none;
+            font-size: 0.92rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo" onclick="showTab('list', 'main')">
+            OBBY<span>LIST</span> <small>BETA v0.5</small>
+        </div>
+
+        <nav>
+            <!-- MENÚ DESPLEGABLE ESTILO POINTERCRATE -->
+            <div class="dropdown" id="list-dropdown">
+                <button class="nav-btn active" id="nav-list-btn" onclick="toggleDropdown()">
+                    ObbyList ▾
+                </button>
+                <div class="dropdown-menu">
+                    <button class="dropdown-item" onclick="showTab('list', 'main')">Main List (Top 5)</button>
+                    <button class="dropdown-item" onclick="showTab('list', 'extended')">Extended List</button>
+                    <button class="dropdown-item" onclick="showTab('rules')">Guidelines / Reglas</button>
+                </div>
+            </div>
+
+            <button class="nav-btn" id="nav-stats" onclick="showTab('stats')">Stats Viewer</button>
+            <button class="nav-btn" id="nav-submit" onclick="showTab('submit')">Enviar Récord</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- SECCIÓN 1: MAIN & EXTENDED LIST -->
+        <section id="list" class="section active">
+            <!-- BARRA DE PESTAÑAS ESTILO POINTERCRATE -->
+            <div class="list-subnav">
+                <button class="list-subnav-btn active" id="subnav-main" onclick="showTab('list', 'main')">Main List</button>
+                <button class="list-subnav-btn" id="subnav-extended" onclick="showTab('list', 'extended')">Extended List</button>
+                <button class="list-subnav-btn" onclick="showTab('rules')">Guidelines</button>
+            </div>
+
+            <div class="demonlist-layout">
+                <!-- COLUMNA IZQUIERDA: TARJETAS DE NIVELES -->
+                <div>
+                    <div class="filter-bar">
+                        <input type="text" id="searchObby" placeholder="Buscar nivel, creador o verificador..." oninput="renderList()">
+                        <select id="filterTier" onchange="renderList()">
+                            <option value="ALL">Todos los Tiers</option>
+                            <option value="Tier 19">Tier 19 / Nil</option>
+                            <option value="Tier 18">Tier 18</option>
+                            <option value="Tier 17">Tier 17</option>
+                            <option value="Tier 16">Tier 16</option>
+                            <option value="Tier 15">Tier 15</option>
+                        </select>
+                    </div>
+
+                    <div id="obby-container"></div>
+                </div>
+
+                <!-- COLUMNA DERECHA: LIST EDITORS ESTILO POINTERCRATE -->
+                <aside class="editors-box">
+                    <h3>List Editors</h3>
+                    <p>Contacta a cualquiera de los editores si tienes problemas con la lista o quieres sugerir un cambio de puesto.</p>
+                    <ul class="editors-list">
+                        <li><strong>Wolfyter</strong> • Owner & List Admin</li>
+                        <li><strong>ObbyMod1</strong> • Tier Reviewer</li>
+                        <li><strong>ObbyMod2</strong> • Record Verifier</li>
+                    </ul>
+                </aside>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: STATS VIEWER ESTILO POINTERCRATE -->
+        <section id="stats" class="section">
+            <div class="section-header">
+                <div>
+                    <h2 id="stats-header-title">Stats Viewer - Internacional</h2>
+                    <p>Selecciona un jugador de la lista izquierda para inspeccionar su perfil completo y niveles completados.</p>
+                </div>
+            </div>
+
+            <div class="stats-layout">
+                <!-- COLUMNA IZQUIERDA: BUSCADOR Y LISTA -->
+                <div class="panel-box">
+                    <input type="text" id="playerSearchInput" placeholder="Buscar jugador..." oninput="renderStatsSidebar()">
+                    <div class="player-list-scroll" id="player-sidebar-list"></div>
+                </div>
+
+                <!-- COLUMNA CENTRAL: PERFIL DEL JUGADOR -->
+                <div class="panel-box" id="player-profile-panel">
+                    <div class="player-profile-empty">
+                        Haz clic en el nombre de un jugador a la izquierda para ver sus estadísticas.
+                    </div>
+                </div>
+
+                <!-- COLUMNA DERECHA: FILTROS ESTILO POINTERCRATE -->
+                <div>
+                    <div class="panel-box" style="margin-bottom: 1rem;">
+                        <div class="panel-title">Ordenar Niveles</div>
+                        <select id="profileSortSelect" onchange="refreshSelectedProfile()">
+                            <option value="rank">Por Dificultad (#1 primero)</option>
+                            <option value="alpha">Alfabéticamente (A - Z)</option>
+                        </select>
+                    </div>
+
+                    <div class="panel-box">
+                        <div class="panel-title">País / Región</div>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.6rem;">
+                            Filtra el ranking para ver los mejores jugadores de un país específico.
+                        </p>
+                        <select id="countryFilterSelect" onchange="renderStatsSidebar()">
+                            <option value="ALL">Todos (Internacional)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: GUIDELINES / REGLAS OFICIALES -->
+        <section id="rules" class="section">
+            <div class="section-header">
+                <div>
+                    <h2>Guidelines / Reglas Oficiales</h2>
+                    <p>Normativa obligatoria para que un récord sea aceptado en ObbyList.</p>
+                </div>
+            </div>
+
+            <div class="rules-card">
+                <h3>1. Requisitos de Video y FPS</h3>
+                <ul>
+                    <li><strong>Grabación completa sin cortes:</strong> El video debe mostrar el intento completo desde antes de tocar el primer salto hasta tocar el Winpad.</li>
+                    <li><strong>Límite de FPS:</strong> Están permitidos entre <strong>60 FPS y 240 FPS</strong> (usando el selector oficial de Roblox o Bloxstrap). No se aceptan runs a menos de 60 FPS ni con unlocker ilimitado.</li>
+                    <li><strong>Contador de FPS visible:</strong> Debes tener activado el contador de FPS (Shift + F5) o el overlay de rendimiento durante toda la run.</li>
+                </ul>
+            </div>
+
+            <div class="rules-card">
+                <h3>2. Audio, Clicks y Handcam</h3>
+                <ul>
+                    <li><strong>Clicks audibles:</strong> Obligatorio en todos los niveles de la <strong>Main List (Tier 17+)</strong>.</li>
+                    <li><strong>Handcam (cámara de manos):</strong> Obligatoria para verificaciones o récords en niveles <strong>Tier 18 o superior</strong>.</li>
+                </ul>
+            </div>
+
+            <div class="rules-card">
+                <h3>3. Modificaciones Prohibidas</h3>
+                <ul>
+                    <li><strong>Prohibido el uso de exploits, macros o scripts externos:</strong> Cualquier modificación de hitbox, gravedad, velocidad o alineación automática conlleva ban permanente de la lista.</li>
+                    <li><strong>FPS Flicks / Truss Flicks:</strong> Permitidos únicamente si la mecánica es nativa del motor de Roblox a los FPS legales.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: ENVIAR RÉCORD + HERRAMIENTAS DE ADMIN -->
+        <section id="submit" class="section">
+            <div class="section-header">
+                <div>
+                    <h2>Enviar Récord (Simulador & Admin)</h2>
+                    <p>Los récords añadidos aquí se guardan en tu navegador. Usa el botón de exportar para actualizar tu archivo HTML.</p>
+                </div>
+            </div>
+
+            <div class="form-box">
+                <form id="record-form">
+                    <div class="form-group">
+                        <label>Usuario de Roblox:</label>
+                        <input type="text" id="playerName" placeholder="Ej. NuevoJugador" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Clan / Tag (Opcional):</label>
+                        <input type="text" id="playerClan" placeholder="Ej. EToH (déjalo vacío si no tiene)">
+                    </div>
+                    <div class="form-group">
+                        <label>País:</label>
+                        <select id="playerCountry" required>
+                            <option value="Argentina">Argentina</option>
+                            <option value="USA">USA</option>
+                            <option value="Rusia">Rusia</option>
+                            <option value="Canadá">Canadá</option>
+                            <option value="México">México</option>
+                            <option value="Chile">Chile</option>
+                            <option value="España">España</option>
+                            <option value="Colombia">Colombia</option>
+                            <option value="Perú">Perú</option>
+                            <option value="Brasil">Brasil</option>
+                            <option value="Turquía">Turquía</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nivel completado:</label>
+                        <select id="obbySelect" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Link de YouTube / Medal (Opcional):</label>
+                        <input type="url" id="videoUrl" placeholder="https://youtube.com/watch?v=...">
+                    </div>
+                    <button type="submit" class="btn-primary">Registrar Récord en la Lista</button>
+                </form>
+                <div id="submit-alert" class="alert"></div>
+            </div>
+
+            <div class="form-box">
+                <h3 style="margin-bottom: 0.4rem;">Panel de Administrador (Exportar Datos)</h3>
+                <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.8rem;">
+                    Cuando pruebes récords nuevos y quieras guardarlos definitivamente en tu web para subirlos a GitHub, haz clic en exportar y reemplaza el bloque <code>defaultObbies</code> en tu archivo.
+                </p>
+                <button type="button" class="btn-secondary" onclick="exportData()">Copiar código actualizado</button>
+                <button type="button" class="btn-secondary" onclick="resetData()">Restaurar datos originales</button>
+                <textarea id="export-box" rows="6" style="margin-top: 0.8rem; display: none; font-family: monospace; font-size: 0.82rem;"></textarea>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const MAIN_LIST_LIMIT = 5; // Puestos 1 al 5 son Main List; del 6 en adelante son Extended List
+
+        const countryFlags = {
+            "Argentina": "🇦🇷",
+            "USA": "🇺🇸",
+            "Rusia": "🇷🇺",
+            "Canadá": "🇨🇦",
+            "México": "🇲🇽",
+            "Chile": "🇨🇱",
+            "España": "🇪🇸",
+            "Colombia": "🇨🇴",
+            "Perú": "🇵🇪",
+            "Brasil": "🇧🇷",
+            "Turquía": "🇹🇷",
+            "Otro": "🌐"
+        };
+
+        // Solo Stairway To Heaven tiene el link de ejemplo; el resto queda vacío ("") para rellenar
+        const defaultObbies = [
+            {
+                id: 1,
+                name: "Tower of It Never Ends",
+                creator: "Varied Creators",
+                verifier: "MonsterIsABlock",
+                tier: "Tier 19 / Peak Nil",
+                style: "Purist / Endurance",
+                video: "https://www.youtube.com/watch?v=bwDpQOuQaGg",
+                thumbnail: "",
+                victors: [
+                    { player: "MonsterIsABlock", clan: "NIL", country: "USA", video: "" }
+                ]
+            },
+            {
+                id: 2,
+                name: "Stairway To Heaven",
+                creator: "Kaan2005 & Team",
+                verifier: "BoomSasok",
+                tier: "Low Tier 18",
+                style: "Purist (200 Jumps)",
+                video: "https://www.youtube.com/watch?v=OepgrC5PyZo&list=RDOepgrC5PyZo&start_radio=1&pp=ygUXc3RhaXJ3YXkgdG8gaGVhdmVuIG9iYnmgBwE%3D",
+                thumbnail: "",
+                victors: [
+                    { player: "BoomSasok", clan: "OBBY", country: "Rusia", video: "https://www.youtube.com/watch?v=OepgrC5PyZo&list=RDOepgrC5PyZo&start_radio=1&pp=ygUXc3RhaXJ3YXkgdG8gaGVhdmVuIG9iYnmgBwE%3D" },
+                    { player: "MonsterIsABlock", clan: "NIL", country: "USA", video: "" },
+                    { player: "cycllx", clan: "EToH", country: "Canadá", video: "" }
+                ]
+            },
+            {
+                id: 3,
+                name: "S.T.O.N.E: Reborn",
+                creator: "Obby Community",
+                verifier: "MonsterIsABlock",
+                tier: "Tier 18",
+                style: "Technical / Jank",
+                video: "",
+                thumbnail: "",
+                victors: [
+                    { player: "MonsterIsABlock", clan: "NIL", country: "USA", video: "" },
+                    { player: "BoomSasok", clan: "OBBY", country: "Rusia", video: "" }
+                ]
+            },
+            {
+                id: 4,
+                name: "Tower of Wigglecore",
+                creator: "EToH Builders",
+                verifier: "BoomSasok",
+                tier: "Tier 17 / Unreal",
+                style: "Technical / Client-Objects",
+                video: "",
+                thumbnail: "",
+                victors: [
+                    { player: "BoomSasok", clan: "OBBY", country: "Rusia", video: "" },
+                    { player: "SeeRyanplay", clan: "EToH", country: "USA", video: "" },
+                    { player: "cycllx", clan: "EToH", country: "Canadá", video: "" }
+                ]
+            },
+            {
+                id: 5,
+                name: "Shinku no naraku",
+                creator: "Japanese Obbyists",
+                verifier: "Kaan2005",
+                tier: "Tier 16",
+                style: "Purist Classic",
+                video: "",
+                thumbnail: "",
+                victors: [
+                    { player: "Kaan2005", clan: "TR", country: "Turquía", video: "" },
+                    { player: "BoomSasok", clan: "OBBY", country: "Rusia", video: "" },
+                    { player: "SeeRyanplay", clan: "EToH", country: "USA", video: "" },
+                    { player: "wolfigamerplay", clan: "YOQUESE", country: "Argentina", video: "" }
+                ]
+            },
+            {
+                id: 6,
+                name: "Tower of Elongated Runs",
+                creator: "EToH Community",
+                verifier: "cycllx",
+                tier: "Tier 15",
+                style: "Purist / Classic",
+                video: "",
+                thumbnail: "",
+                victors: [
+                    { player: "cycllx", clan: "EToH", country: "Canadá", video: "" },
+                    { player: "SeeRyanplay", clan: "EToH", country: "USA", video: "" }
+                ]
+            }
+            
+        ];
+
+        // CARGAR DESDE LOCALSTORAGE O USAR DATOS POR DEFECTO
+        let obbies = JSON.parse(localStorage.getItem('obbylist_data_v5')) || JSON.parse(JSON.stringify(defaultObbies));
+        let currentListMode = 'main';
+        let selectedPlayerName = null;
+
+        function saveToStorage() {
+            localStorage.setItem('obbylist_data_v5', JSON.stringify(obbies));
+        }
+
+        function getFlag(country) {
+            return countryFlags[country] || "🌐";
+        }
+
+        function calculatePoints(rank) {
+            return Math.round(500 * Math.pow(0.88, rank - 1) * 100) / 100;
+        }
+
+        // Extraer automáticamente miniatura de YouTube si existe enlace
+        function resolveThumbnail(obby) {
+            if (obby.thumbnail && obby.thumbnail.trim() !== '') {
+                return obby.thumbnail.trim();
+            }
+            const sourceUrl = obby.video || (obby.victors[0] && obby.victors[0].video) || '';
+            const ytMatch = sourceUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+            if (ytMatch && ytMatch[1]) {
+                return 'https://img.youtube.com/vi/' + ytMatch[1] + '/hqdefault.jpg';
+            }
+            return '';
+        }
+
+        // RENDERIZAR MAIN O EXTENDED LIST
+        function renderList() {
+            const container = document.getElementById('obby-container');
+            const select = document.getElementById('obbySelect');
+            const searchVal = document.getElementById('searchObby').value.toLowerCase();
+            const tierVal = document.getElementById('filterTier').value;
+
+            container.innerHTML = '';
+            select.innerHTML = '';
+
+            // Rellenar selector del formulario con todos los niveles
+            obbies.forEach(function(obby, index) {
+                const rank = index + 1;
+                const option = document.createElement('option');
+                option.value = obby.id;
+                option.textContent = '#' + rank + ' - ' + obby.name + ' (' + obby.tier + ')';
+                select.appendChild(option);
+            });
+
+            // Filtrar según pestaña (Main o Extended) y buscador
+            obbies.forEach(function(obby, index) {
+                const rank = index + 1;
+                const isExtended = rank > MAIN_LIST_LIMIT;
+
+                if (currentListMode === 'main' && isExtended) return;
+                if (currentListMode === 'extended' && !isExtended) return;
+
+                const matchesSearch =
+                    obby.name.toLowerCase().includes(searchVal) ||
+                    obby.creator.toLowerCase().includes(searchVal) ||
+                    obby.verifier.toLowerCase().includes(searchVal);
+
+                const matchesTier = (tierVal === 'ALL') || obby.tier.includes(tierVal);
+
+                if (!matchesSearch || !matchesTier) return;
+
+                const points = calculatePoints(rank);
+                const thumbSrc = resolveThumbnail(obby);
+                const verifyLink = obby.video || (obby.victors[0] && obby.victors[0].video) || '';
+
+                let thumbHTML = '';
+                if (thumbSrc) {
+                    thumbHTML =
+                        '<img src="' + thumbSrc + '" alt="' + obby.name + '">' +
+                        (verifyLink ? '<a class="thumb-play-badge" href="' + verifyLink + '" target="_blank" onclick="event.stopPropagation()">▶ Ver Video</a>' : '');
+                } else {
+                    thumbHTML =
+                        '<div class="thumb-placeholder">' +
+                            '<span>🖼️</span>' +
+                            'Sin imagen / URL' +
+                        '</div>';
+                }
+
+                const card = document.createElement('div');
+                card.className = 'obby-card';
+                card.onclick = function() {
+                    document.getElementById('details-' + obby.id).classList.toggle('open');
+                };
+
+                card.innerHTML =
+                    '<div class="obby-thumb-wrapper">' + thumbHTML + '</div>' +
+                    '<div class="obby-body">' +
+                        '<div class="obby-title-row">' +
+                            '<span class="obby-rank-num ' + (isExtended ? 'extended' : '') + '">#' + rank + '</span> – ' + obby.name +
+                        '</div>' +
+                        '<div class="obby-publisher">published by <strong>' + obby.creator + '</strong> • verified by <strong>' + obby.verifier + '</strong></div>' +
+                        '<div class="obby-points-line">' +
+                            '<span>' + points.toFixed(2) + ' (100%) points</span>' +
+                            '<span class="tier-pill ' + (isExtended ? 'extended' : '') + '">' + obby.tier + '</span>' +
+                        '</div>' +
+                    '</div>';
+
+                const details = document.createElement('div');
+                details.className = 'obby-details';
+                details.id = 'details-' + obby.id;
+
+                let victorsHTML = '';
+                obby.victors.forEach(function(v) {
+                    const clanTag = v.clan ? '<span class="player-clan">[' + v.clan + ']</span> ' : '';
+                    const videoLinkHTML = v.video ?
+                        '<a href="' + v.video + '" target="_blank">Ver Prueba (60 FPS) ↗</a>' :
+                        '<span class="no-video">Sin enlace registrado</span>';
+
+                    victorsHTML +=
+                        '<li>' +
+                            '<span>' + getFlag(v.country) + ' ' + clanTag + '<strong>' + v.player + '</strong> (' + v.country + ')</span>' +
+                            videoLinkHTML +
+                        '</li>';
+                });
+
+                details.innerHTML =
+                    '<p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.5rem;">Estilo: <strong>' + obby.style + '</strong> | Vencedores (' + obby.victors.length + '):</p>' +
+                    '<ul class="victors-list">' + victorsHTML + '</ul>';
+
+                container.appendChild(card);
+                container.appendChild(details);
+            });
+
+            if (container.innerHTML === '') {
+                container.innerHTML = '<div class="panel-box" style="text-align:center;color:var(--text-muted);">No se encontraron niveles con esos filtros.</div>';
+            }
+        }
+
+        // CONSTRUIR MAPA DE JUGADORES PARA STATS VIEWER
+        function buildPlayersData() {
+            const playerMap = {};
+
+            obbies.forEach(function(obby, index) {
+                const rank = index + 1;
+                const points = calculatePoints(rank);
+
+                obby.victors.forEach(function(v) {
+                    if (!playerMap[v.player]) {
+                        playerMap[v.player] = {
+                            name: v.player,
+                            clan: v.clan || '',
+                            country: v.country,
+                            points: 0,
+                            completed: [],
+                            verified: [],
+                            hardest: obby.name,
+                            bestRank: rank
+                        };
+                    }
+                    playerMap[v.player].points += points;
+                    playerMap[v.player].completed.push({
+                        rank: rank,
+                        name: obby.name,
+                        tier: obby.tier,
+                        points: points,
+                        video: v.video
+                    });
+
+                    if (obby.verifier.toLowerCase() === v.player.toLowerCase()) {
+                        playerMap[v.player].verified.push(obby.name);
+                    }
+
+                    if (rank < playerMap[v.player].bestRank) {
+                        playerMap[v.player].hardest = obby.name;
+                        playerMap[v.player].bestRank = rank;
+                    }
+                });
+            });
+
+            return Object.values(playerMap).sort(function(a, b) {
+                return b.points - a.points;
+            });
+        }
+
+        function updateCountryDropdown(players) {
+            const countrySelect = document.getElementById('countryFilterSelect');
+            const currentVal = countrySelect.value;
+            const countries = [...new Set(players.map(p => p.country))].sort();
+
+            countrySelect.innerHTML = '<option value="ALL">Todos (Internacional)</option>';
+            countries.forEach(function(c) {
+                const opt = document.createElement('option');
+                opt.value = c;
+                opt.textContent = getFlag(c) + ' ' + c;
+                countrySelect.appendChild(opt);
+            });
+
+            if (countries.includes(currentVal)) {
+                countrySelect.value = currentVal;
+            }
+        }
+
+        function renderStatsSidebar() {
+            const allPlayers = buildPlayersData();
+            updateCountryDropdown(allPlayers);
+
+            const searchTerm = document.getElementById('playerSearchInput').value.toLowerCase();
+            const countryFilter = document.getElementById('countryFilterSelect').value;
+
+            document.getElementById('stats-header-title').textContent =
+                countryFilter === 'ALL' ? 'Stats Viewer - Internacional' : 'Stats Viewer - ' + getFlag(countryFilter) + ' ' + countryFilter;
+
+            const filteredPlayers = allPlayers.filter(function(p) {
+                const matchCountry = (countryFilter === 'ALL') || (p.country === countryFilter);
+                const matchName = p.name.toLowerCase().includes(searchTerm) || (p.clan && p.clan.toLowerCase().includes(searchTerm));
+                return matchCountry && matchName;
+            });
+
+            const sidebar = document.getElementById('player-sidebar-list');
+            sidebar.innerHTML = '';
+
+            filteredPlayers.forEach(function(p, idx) {
+                const item = document.createElement('div');
+                item.className = 'player-row-item' + (selectedPlayerName === p.name ? ' selected' : '');
+                item.onclick = function() {
+                    selectedPlayerName = p.name;
+                    renderStatsSidebar();
+                    renderPlayerProfile(p, idx + 1);
+                };
+
+                const clanHTML = p.clan ? '<span class="player-clan">[' + p.clan + ']</span> ' : '';
+                item.innerHTML =
+                    '<div>' +
+                        '<span class="player-rank-num">#' + (idx + 1) + '</span> ' +
+                        getFlag(p.country) + ' ' + clanHTML + '<strong>' + p.name + '</strong>' +
+                    '</div>' +
+                    '<span class="player-pts-small">' + p.points.toFixed(1) + '</span>';
+
+                sidebar.appendChild(item);
+            });
+
+            if (filteredPlayers.length === 0) {
+                sidebar.innerHTML = '<div style="padding:1rem;color:var(--text-muted);font-size:0.88rem;">Sin resultados.</div>';
+            }
+        }
+
+        function renderPlayerProfile(player, displayRank) {
+            const panel = document.getElementById('player-profile-panel');
+            const sortMode = document.getElementById('profileSortSelect').value;
+
+            let levels = [...player.completed];
+            if (sortMode === 'alpha') {
+                levels.sort((a, b) => a.name.localeCompare(b.name));
+            } else {
+                levels.sort((a, b) => a.rank - b.rank);
+            }
+
+            const clanTag = player.clan ? '<span style="color:var(--accent);">[' + player.clan + ']</span> ' : '';
+            const verifiedText = player.verified.length > 0 ? player.verified.join(', ') : 'Ninguno';
+
+            let completedHTML = '';
+            levels.forEach(function(lvl) {
+                const videoBtn = lvl.video ?
+                    '<a href="' + lvl.video + '" target="_blank">Video ↗</a>' :
+                    '<span class="no-video">Sin enlace</span>';
+
+                completedHTML +=
+                    '<div class="completed-item">' +
+                        '<div>' +
+                            '<strong style="color:var(--accent);">#' + lvl.rank + '</strong> ' +
+                            '<strong>' + lvl.name + '</strong> ' +
+                            '<span style="color:var(--text-muted);font-size:0.82rem;">(' + lvl.tier + ' • +' + lvl.points + ' pts)</span>' +
+                        '</div>' +
+                        videoBtn +
+                    '</div>';
+            });
+
+            panel.innerHTML =
+                '<div class="profile-header">' +
+                    '<div class="profile-name">' + getFlag(player.country) + ' ' + clanTag + player.name + '</div>' +
+                    '<span class="tier-pill">Puesto #' + displayRank + '</span>' +
+                '</div>' +
+                '<div class="profile-grid">' +
+                    '<div class="stat-mini-card">' +
+                        '<div class="stat-mini-label">Puntaje Total</div>' +
+                        '<div class="stat-mini-value">' + player.points.toFixed(1) + ' pts</div>' +
+                    '</div>' +
+                    '<div class="stat-mini-card">' +
+                        '<div class="stat-mini-label">Hardest</div>' +
+                        '<div class="stat-mini-value" style="font-size:0.98rem;">' + player.hardest + '</div>' +
+                    '</div>' +
+                    '<div class="stat-mini-card">' +
+                        '<div class="stat-mini-label">Completados</div>' +
+                        '<div class="stat-mini-value">' + player.completed.length + ' niveles</div>' +
+                    '</div>' +
+                '</div>' +
+                '<p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:1rem;">' +
+                    '<strong>Verificaciones:</strong> ' + verifiedText +
+                '</p>' +
+                '<div class="panel-title">Niveles Completados</div>' +
+                completedHTML;
+        }
+
+        function refreshSelectedProfile() {
+            if (!selectedPlayerName) return;
+            const allPlayers = buildPlayersData();
+            const idx = allPlayers.findIndex(p => p.name === selectedPlayerName);
+            if (idx !== -1) {
+                renderPlayerProfile(allPlayers[idx], idx + 1);
+            }
+        }
+
+
+        // PEGA AQUÍ LA URL QUE COPIASTE DE DISCORD
+        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1572278824576487465/leqAJpt-CNMP5AUgPbPg0SecgOUj7LO66WGYmd3sK4WE87Dow-GMtjKShHbAZciSIErv";
+
+        // ENVIAR RÉCORD A DISCORD (WEBHOOK)
+        document.getElementById('record-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const playerName = document.getElementById('playerName').value.trim();
+            const playerClan = document.getElementById('playerClan').value.trim().toUpperCase();
+            const playerCountry = document.getElementById('playerCountry').value;
+            const obbyId = parseInt(document.getElementById('obbySelect').value);
+            const videoUrl = document.getElementById('videoUrl').value.trim();
+            const alertBox = document.getElementById('submit-alert');
+
+            const targetObby = obbies.find(o => o.id === obbyId);
+            if (!targetObby) return;
+
+            if (!videoUrl) {
+                alertBox.textContent = '⚠️ Debes incluir el enlace del video (YouTube/Medal) para verificar el récord.';
+                alertBox.style.display = 'block';
+                return;
+            }
+
+            // Mensaje estructurado (Embed) que llegará a Discord
+            const payload = {
+                username: "ObbyList Submissions",
+                embeds: [{
+                    title: "🏆 Nuevo Récord Enviado",
+                    color: 3899638, // Azul ObbyList
+                    fields: [
+                        { name: "Jugador", value: (playerClan ? `[${playerClan}] ` : "") + playerName, inline: true },
+                        { name: "País", value: `${getFlag(playerCountry)} ${playerCountry}`, inline: true },
+                        { name: "Nivel", value: `${targetObby.name} (${targetObby.tier})`, inline: false },
+                        { name: "Video / Prueba", value: videoUrl, inline: false }
+                    ],
+                    footer: { text: "Pendiente de revisión por moderadores" },
+                    timestamp: new Date().toISOString()
+                }]
+            };
+
+            try {
+                alertBox.textContent = '⏳ Enviando récord a revisión...';
+                alertBox.style.display = 'block';
+
+                const response = await fetch(DISCORD_WEBHOOK_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    alertBox.textContent = '✅ ¡Récord enviado con éxito! Un moderador revisará tu video pronto.';
+                    this.reset();
+                } else {
+                    alertBox.textContent = '❌ Error al enviar el récord. Revisa que la URL del Webhook sea correcta.';
+                }
+            } catch (error) {
+                alertBox.textContent = '❌ Error de conexión al contactar con Discord.';
+            }
+        });
+
+        // EXPORTAR Y RESTAURAR
+        function exportData() {
+            const box = document.getElementById('export-box');
+            box.style.display = 'block';
+            box.value = 'const defaultObbies = ' + JSON.stringify(obbies, null, 4) + ';';
+            box.select();
+            document.execCommand('copy');
+            alert('✅ Código copiado al portapapeles. Pégalo reemplazando defaultObbies en tu archivo HTML.');
+        }
+
+        function resetData() {
+            if (confirm('¿Seguro que quieres borrar los récords simulados y volver a los datos originales?')) {
+                localStorage.removeItem('obbylist_data_v5');
+                obbies = JSON.parse(JSON.stringify(defaultObbies));
+                selectedPlayerName = null;
+                renderList();
+                renderStatsSidebar();
+                document.getElementById('player-profile-panel').innerHTML =
+                    '<div class="player-profile-empty">Haz clic en el nombre de un jugador a la izquierda para ver sus estadísticas.</div>';
+            }
+        }
+
+        // NAVEGACIÓN Y DROPDOWN
+        function toggleDropdown() {
+            document.getElementById('list-dropdown').classList.toggle('open');
+        }
+
+        window.addEventListener('click', function(e) {
+            if (!e.target.closest('#list-dropdown')) {
+                document.getElementById('list-dropdown').classList.remove('open');
+            }
+        });
+
+        function showTab(tabId, listMode) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('list-dropdown').classList.remove('open');
+
+            document.getElementById(tabId).classList.add('active');
+
+            if (tabId === 'list') {
+                document.getElementById('nav-list-btn').classList.add('active');
+                currentListMode = listMode || 'main';
+                document.getElementById('subnav-main').classList.toggle('active', currentListMode === 'main');
+                document.getElementById('subnav-extended').classList.toggle('active', currentListMode === 'extended');
+                renderList();
+            } else if (tabId === 'rules') {
+                document.getElementById('nav-list-btn').classList.add('active');
+            } else if (tabId === 'stats') {
+                document.getElementById('nav-stats').classList.add('active');
+                renderStatsSidebar();
+            } else if (tabId === 'submit') {
+                document.getElementById('nav-submit').classList.add('active');
+            }
+        }
+
+        // INICIALIZAR
+        renderList();
+        renderStatsSidebar();
+    </script>
+</body>
+</html>
