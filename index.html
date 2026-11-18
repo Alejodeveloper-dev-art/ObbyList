@@ -738,13 +738,38 @@
             display: none;
             font-size: 0.92rem;
         }
+        
+        .roblox-profile-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border);
+    padding: 0.35rem 0.75rem;
+    border-radius: 30px;
+}
+
+.roblox-avatar-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%; /* Esto lo hace 100% circular */
+    object-fit: cover;
+    border: 2px solid var(--accent);
+    background-color: #1f242d;
+}
+
+.roblox-nick-text {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo" onclick="showTab('list', 'main')">
-            OBBY<span>LIST</span> <small>BETA v0.5</small>
+            OBBY<span>LIST</span> <small>Alpha v0.6.0</small>
         </div>
 
         <nav>
@@ -892,7 +917,7 @@
             <div class="section-header">
                 <div>
                     <h2>Enviar Récord (Simulador & Admin)</h2>
-                    <p>Los récords añadidos aquí se guardan en tu navegador. Usa el botón de exportar para actualizar tu archivo HTML.</p>
+                    <p>Los récords añadidos aquí se envían a revisión. Usa el botón de exportar para actualizar tu archivo HTML.</p>
                 </div>
             </div>
 
@@ -966,7 +991,23 @@
             "Otro": "🌐"
         };
 
-        // Solo Stairway To Heaven tiene el link de ejemplo; el resto queda vacío ("") para rellenar
+        // OPCIONAL: Puedes poner aquí el ID numérico de Roblox de cada jugador para que cargue su cara automáticamente.
+        // Ejemplo: "MonsterIsABlock": "12345678"
+        const robloxUserIds = {
+            "MonsterIsABlock": "",
+            "BoomSasok": "",
+            "cycllx": "",
+            "SeeRyanplay": "",
+            "Kaan2005": "",
+            "wolfigamerplay": ""
+        };
+
+        // Imagen por defecto en círculo si el jugador aún no tiene ID de Roblox configurado
+        const DEFAULT_AVATAR_SVG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%231f242d'/><circle cx='50' cy='38' r='18' fill='%239ca3af'/><path d='M20 88 C20 65, 80 65, 80 88' fill='%239ca3af'/></svg>";
+
+        // =========================================================================
+        // LISTA DE NIVELES (Aquí es donde agregas nuevos niveles fácilmente)
+        // =========================================================================
         const defaultObbies = [
             {
                 id: 1,
@@ -1041,6 +1082,7 @@
                     { player: "wolfigamerplay", clan: "YOQUESE", country: "Argentina", video: "" }
                 ]
             },
+
             {
                 id: 6,
                 name: "Tower of Elongated Runs",
@@ -1054,8 +1096,20 @@
                     { player: "cycllx", clan: "EToH", country: "Canadá", video: "" },
                     { player: "SeeRyanplay", clan: "EToH", country: "USA", video: "" }
                 ]
+            },
+            {
+                id: 7,
+                name: "Ikea Tower",
+                creator: "EToH Community",
+                verifier: "cycllx",
+                tier: "Unreal",
+                style: "Purist / Classic",
+                video: "",
+                thumbnail: "",
+                victors: [
+                    { player: "cycllx", clan: "EToH", country: "Canadá", video: "" },
+                ]
             }
-            
         ];
 
         // CARGAR DESDE LOCALSTORAGE O USAR DATOS POR DEFECTO
@@ -1087,6 +1141,9 @@
             }
             return '';
         }
+
+
+
 
         // RENDERIZAR MAIN O EXTENDED LIST
         function renderList() {
@@ -1299,6 +1356,25 @@
             }
         }
 
+        // CARGAR AVATAR DE ROBLOX EN EL CÍRCULO (Si tiene ID configurado)
+        async function loadPlayerRobloxAvatar(playerName) {
+            const imgEl = document.getElementById('profile-roblox-avatar');
+            if (!imgEl) return;
+
+            const rbxId = robloxUserIds[playerName];
+            if (!rbxId || rbxId.trim() === '') return;
+
+            try {
+                const res = await fetch('https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=' + rbxId + '&size=150x150&format=Png&isCircular=true');
+                const data = await res.json();
+                if (data && data.data && data.data[0] && data.data[0].imageUrl) {
+                    imgEl.src = data.data[0].imageUrl;
+                }
+            } catch (err) {
+                console.log('No se pudo cargar avatar de Roblox:', err);
+            }
+        }
+
         function renderPlayerProfile(player, displayRank) {
             const panel = document.getElementById('player-profile-panel');
             const sortMode = document.getElementById('profileSortSelect').value;
@@ -1333,6 +1409,7 @@
             panel.innerHTML =
                 '<div class="profile-header">' +
                     '<div class="profile-name">' + getFlag(player.country) + ' ' + clanTag + player.name + '</div>' +
+                    '<img id="profile-roblox-avatar" class="roblox-avatar-circle" src="' + DEFAULT_AVATAR_SVG + '" alt="Avatar de ' + player.name + '" title="Avatar de Roblox de ' + player.name + '">' +
                     '<span class="tier-pill">Puesto #' + displayRank + '</span>' +
                 '</div>' +
                 '<div class="profile-grid">' +
@@ -1354,6 +1431,9 @@
                 '</p>' +
                 '<div class="panel-title">Niveles Completados</div>' +
                 completedHTML;
+
+            // Intentar cargar su imagen de Roblox si tiene ID registrado
+            loadPlayerRobloxAvatar(player.name);
         }
 
         function refreshSelectedProfile() {
@@ -1364,7 +1444,6 @@
                 renderPlayerProfile(allPlayers[idx], idx + 1);
             }
         }
-
 
         // PEGA AQUÍ LA URL QUE COPIASTE DE DISCORD
         const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1572278824576487465/leqAJpt-CNMP5AUgPbPg0SecgOUj7LO66WGYmd3sK4WE87Dow-GMtjKShHbAZciSIErv";
