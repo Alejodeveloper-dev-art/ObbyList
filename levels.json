@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Nombre del nivel #1",
+    "tier": "Tier o dificultad",
+    "verifier": "Nombre del verificador"
+  },
+  {
+    "name": "Nombre del nivel #2",
+    "tier": "Tier o dificultad",
+    "verifier": "Nombre del verificador"
+  }
+]
