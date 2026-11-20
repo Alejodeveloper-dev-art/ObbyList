@@ -1,12 +1,72 @@
 [
   {
-    "name": "Nombre del nivel #1",
-    "tier": "Tier o dificultad",
-    "verifier": "Nombre del verificador"
+    "id": 1,
+    "name": "ToTQFP (Tower of The Quest For Perfection)",
+    "tier": "High-Peak (~13.80)",
+    "difficulty": "Unreal",
+    "verifier": "Gehadimad"
   },
   {
-    "name": "Nombre del nivel #2",
-    "tier": "Tier o dificultad",
-    "verifier": "Nombre del verificador"
+    "id": 2,
+    "name": "ToINE (Tower of It Never Ends)",
+    "tier": "Mid-High",
+    "difficulty": "Unreal",
+    "verifier": "MonsterIsABlock"
+  },
+  {
+    "id": 3,
+    "name": "ToMEC (Tower of My Emotional Compass)",
+    "tier": "Mid-High",
+    "difficulty": "Horrific",
+    "verifier": "InBetweenSignals"
+  },
+  {
+    "id": 4,
+    "name": "STONE: Reborn",
+    "tier": "Mid-High",
+    "difficulty": "Horrific",
+    "verifier": "MonsterIsABlock"
+  },
+  {
+    "id": 5,
+    "name": "ToID (Tower of Impending Doom)",
+    "tier": "Mid",
+    "difficulty": "Catastrophic",
+    "verifier": "greenbean1421"
+  },
+  {
+    "id": 6,
+    "name": "ToW (Tower of Wigglecore)",
+    "tier": "Mid",
+    "difficulty": "Terrifying",
+    "verifier": "BoomSasok"
+  },
+  {
+    "id": 7,
+    "name": "ToMH (Tower of Monochromatic Haze)",
+    "tier": "Mid (13.50)",
+    "difficulty": "Extreme",
+    "verifier": "Gehadimad"
+  },
+  {
+    "id": 8,
+    "name": "ToTCR (Tower of The Concluding Run)",
+    "tier": "Mid",
+    "difficulty": "Extreme",
+    "verifier": "glizzygladiattorrr"
+  },
+  {
+    "id": 9,
+    "name": "ToMIH (Tower of My Inner Hatred)",
+    "tier": "Mid",
+    "difficulty": "Insane",
+    "verifier": "SwiftThunder06"
+  },
+  {
+    "id": 10,
+    "name": "ToYOLO (Tower of You Only Live Once)",
+    "tier": "Mid",
+    "difficulty": "Insane",
+    "verifier": "a6iq1"
   }
 ]
