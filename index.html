@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ObbyList - Ranking Oficial de Tiered Obbies & Towers</title>
-    <style>
+     <style>
         :root {
             --bg-dark: #121417;
             --bg-card: #1b1e23;
@@ -33,7 +33,7 @@
             line-height: 1.6;
         }
 
-        /* HEADER ESTILO POINTERCRATE */
+        /* HEADER */
         header {
             background-color: var(--bg-card);
             border-bottom: 1px solid var(--border);
@@ -165,7 +165,7 @@
             display: block;
         }
 
-        /* SUB-NAVEGACIÓN ESTILO POINTERCRATE (Main List / Extended List) */
+        /* SUB-NAVEGACIÓN */
         .list-subnav {
             display: flex;
             background-color: var(--bg-card);
@@ -223,7 +223,7 @@
             font-size: 0.92rem;
         }
 
-        /* LAYOUT LISTA + SIDEBAR LIST EDITORS */
+        /* LAYOUT LISTA + SIDEBAR */
         .demonlist-layout {
             display: grid;
             grid-template-columns: 1fr 290px;
@@ -235,6 +235,12 @@
             .demonlist-layout {
                 grid-template-columns: 1fr;
             }
+        }
+
+        .sidebar-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
         }
 
         /* BARRA DE FILTROS EN LISTA */
@@ -255,7 +261,7 @@
             min-width: 170px;
         }
 
-        /* TARJETAS DE NIVELES ESTILO POINTERCRATE DEMONLIST */
+        /* TARJETAS DE NIVELES */
         .obby-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border);
@@ -271,7 +277,7 @@
 
         .obby-card:hover {
             background-color: var(--bg-hover);
-            border-color: #3f4654;
+            border-color: var(--accent);
             transform: translateY(-2px);
         }
 
@@ -388,6 +394,23 @@
             border-color: var(--tier-extended);
         }
 
+        /* BADGES CON COLORES DE DIFICULTAD */
+        .diff-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.14rem 0.6rem;
+            border-radius: 14px;
+            font-size: 0.74rem;
+            font-weight: 800;
+        }
+        .diff-insane { background: rgba(0, 0, 255, 0.22); color: #809fff; border: 1px solid #0000ff; }
+        .diff-extreme { background: rgba(0, 136, 255, 0.2); color: #66b8ff; border: 1px solid #0088ff; }
+        .diff-terrifying { background: rgba(0, 255, 255, 0.16); color: #5ce6e6; border: 1px solid #00ffff; }
+        .diff-catastrophic { background: rgba(255, 255, 255, 0.16); color: #ffffff; border: 1px solid #ffffff; }
+        .diff-horrific { background: #000000; color: #b8b8ff; border: 1.5px solid #9696ff; }
+        .diff-unreal { background: #000000; color: #b366ff; border: 1.5px solid #5500aa; }
+
         @media (max-width: 640px) {
             .obby-card {
                 flex-direction: column;
@@ -399,47 +422,299 @@
             }
         }
 
-        .obby-details {
-            display: none;
-            background-color: #16181d;
-            border: 1px solid var(--border);
-            border-top: none;
-            border-radius: 0 0 6px 6px;
-            padding: 1rem 1.4rem;
-            margin-top: -1rem;
-            margin-bottom: 1rem;
+        /* =========================================================================
+           VISTA DETALLADA DE NIVEL (PÁGINA DEDICADA)
+           ========================================================================= */
+        .level-page-container {
+            max-width: 880px;
+            margin: 0 auto;
         }
 
-        .obby-details.open {
-            display: block;
-        }
-
-        .victors-list {
-            list-style: none;
-            margin-top: 0.5rem;
-        }
-
-        .victors-list li {
-            padding: 0.45rem 0;
-            border-bottom: 1px solid var(--border);
+        .level-back-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.92rem;
+            margin-bottom: 1rem;
         }
 
-        .victors-list li:last-child {
+        .btn-back-list {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.55rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .btn-back-list:hover {
+            background-color: var(--bg-hover);
+            border-color: var(--accent);
+        }
+
+        .level-hero-box {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.8rem 2rem;
+            margin-bottom: 1.3rem;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        .level-nav-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .level-arrow-btn {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.15s;
+            flex-shrink: 0;
+        }
+
+        .level-arrow-btn:hover:not(:disabled) {
+            background-color: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        .level-arrow-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .level-hero-title-wrap {
+            text-align: center;
+            flex: 1;
+        }
+
+        .level-hero-rank {
+            display: inline-block;
+            font-size: 0.82rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            background: rgba(59, 130, 246, 0.14);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            padding: 2px 10px;
+            border-radius: 20px;
+            margin-bottom: 0.4rem;
+        }
+
+        .level-hero-title {
+            font-size: 2.15rem;
+            font-weight: 900;
+            letter-spacing: 0.4px;
+            line-height: 1.2;
+            color: var(--text-main);
+        }
+
+        .level-creators-sub {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.96rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .level-creators-sub strong {
+            color: var(--text-main);
+        }
+
+        .level-quote-desc {
+            text-align: center;
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            max-width: 680px;
+            margin: 0 auto 1.4rem auto;
+            padding-bottom: 1.2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* VIDEO EMBEBIDO 16:9 */
+        .level-video-frame {
+            position: relative;
+            width: 100%;
+            max-width: 680px;
+            margin: 0 auto 1.6rem auto;
+            aspect-ratio: 16 / 9;
+            background-color: #0d0f12;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+        }
+
+        .level-video-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        .level-no-video-box {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            gap: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        /* GRID DE METADATOS DEL NIVEL */
+        .level-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+            gap: 0.9rem;
+            border-top: 1px solid var(--border);
+            padding-top: 1.4rem;
+        }
+
+        .level-meta-item {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.85rem 1rem;
+            text-align: center;
+        }
+
+        .level-meta-label {
+            font-size: 0.74rem;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .level-meta-value {
+            font-size: 1.02rem;
+            font-weight: 800;
+            color: var(--text-main);
+            word-break: break-word;
+        }
+
+        .level-meta-value a {
+            color: var(--accent);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .level-meta-value a:hover {
+            text-decoration: underline;
+        }
+
+        /* TABLA / LISTA DE RÉCORDS EN LA PÁGINA DEL NIVEL */
+        .level-records-box {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.6rem 2rem;
+        }
+
+        .level-records-header {
+            text-align: center;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .level-records-header h3 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+        }
+
+        .level-records-header p {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        .records-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .records-table th {
+            text-align: left;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            padding: 0.65rem 0.8rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .records-table td {
+            padding: 0.8rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+
+        .records-table tr:last-child td {
             border-bottom: none;
         }
 
-        .victors-list a {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
+        .records-table tr:hover td {
+            background-color: var(--bg-hover);
         }
 
-        .victors-list a:hover {
+        .record-player-link {
+            color: var(--text-main);
+            font-weight: 700;
+            cursor: pointer;
+            transition: color 0.15s;
+        }
+
+        .record-player-link:hover {
+            color: var(--accent);
             text-decoration: underline;
+        }
+
+        .record-video-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background-color: rgba(59, 130, 246, 0.14);
+            color: var(--accent);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            padding: 0.3rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.15s;
+        }
+
+        .record-video-btn:hover {
+            background-color: var(--accent);
+            color: #fff;
         }
 
         .no-video {
@@ -448,7 +723,7 @@
             font-style: italic;
         }
 
-        /* PANEL DERECHO: LIST EDITORS ESTILO POINTERCRATE */
+        /* PANEL DERECHO: LIST EDITORS + WIDGET DISCORD */
         .editors-box {
             background-color: var(--bg-card);
             border: 1px solid var(--border);
@@ -484,7 +759,23 @@
             color: var(--text-main);
         }
 
-        /* STATS VIEWER ESTILO POINTERCRATE (3 COLUMNAS) */
+        .discord-widget-box {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .discord-widget-box h3 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin-bottom: 0.65rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* STATS VIEWER (3 COLUMNAS) */
         .stats-layout {
             display: grid;
             grid-template-columns: 310px 1fr 270px;
@@ -547,12 +838,6 @@
             font-weight: 800;
             color: var(--accent);
             margin-right: 0.4rem;
-        }
-
-        .player-clan {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            font-weight: 700;
         }
 
         .player-pts-small {
@@ -738,64 +1023,55 @@
             display: none;
             font-size: 0.92rem;
         }
-        
-        .roblox-profile-badge {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    background-color: var(--bg-dark);
-    border: 1px solid var(--border);
-    padding: 0.35rem 0.75rem;
-    border-radius: 30px;
-}
 
-.roblox-avatar-circle {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%; /* Esto lo hace 100% circular */
-    object-fit: cover;
-    border: 2px solid var(--accent);
-    background-color: #1f242d;
-}
-
-.roblox-nick-text {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    font-weight: 600;
-}
+        /* BOTÓN DE CRÉDITOS SIMPLE / SIN DECORACIÓN */
+        footer {
+            max-width: 1220px;
+            margin: 2rem auto 1.5rem auto;
+            padding: 1rem 1.2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo" onclick="showTab('list', 'main')">
-            OBBY<span>LIST</span> <small>Alpha v0.6.0</small>
+            OBBY<span>LIST</span> <small>Alpha v0.9.0</small>
         </div>
 
         <nav>
-            <!-- MENÚ DESPLEGABLE ESTILO POINTERCRATE -->
             <div class="dropdown" id="list-dropdown">
                 <button class="nav-btn active" id="nav-list-btn" onclick="toggleDropdown()">
                     ObbyList ▾
                 </button>
                 <div class="dropdown-menu">
-                    <button class="dropdown-item" onclick="showTab('list', 'main')">Main List (Top 5)</button>
-                    <button class="dropdown-item" onclick="showTab('list', 'extended')">Extended List</button>
+                    <button class="dropdown-item" onclick="showTab('list', 'main')">Main List (Top 7)</button>
+                    <button class="dropdown-item" onclick="showTab('list', 'extended')">Extended List (#8+)</button>
                     <button class="dropdown-item" onclick="showTab('rules')">Guidelines / Reglas</button>
                 </div>
             </div>
 
-            <button class="nav-btn" id="nav-stats" onclick="showTab('stats')">Stats Viewer</button>
-            <button class="nav-btn" id="nav-submit" onclick="showTab('submit')">Enviar Récord</button>
+            <button class="nav-btn" id="nav-stats" onclick="showTab('stats')" data-i18n="nav_stats">Stats Viewer</button>
+            <button class="nav-btn" id="nav-submit" onclick="showTab('submit')" data-i18n="nav_submit">Enviar Récord</button>
+
+            <select id="langSelect" onchange="changeLanguage(this.value)" style="width: auto; padding: 0.4rem 0.6rem; font-size: 0.85rem; font-weight: 700;">
+                <option value="es">🇦🇷 ES</option>
+                <option value="en">🇺🇸 EN</option>
+            </select>
         </nav>
     </header>
 
     <main>
         <!-- SECCIÓN 1: MAIN & EXTENDED LIST -->
         <section id="list" class="section active">
-            <!-- BARRA DE PESTAÑAS ESTILO POINTERCRATE -->
             <div class="list-subnav">
-                <button class="list-subnav-btn active" id="subnav-main" onclick="showTab('list', 'main')">Main List</button>
+                <button class="list-subnav-btn active" id="subnav-main" onclick="showTab('list', 'main')">Main List (Top 7)</button>
                 <button class="list-subnav-btn" id="subnav-extended" onclick="showTab('list', 'extended')">Extended List</button>
                 <button class="list-subnav-btn" onclick="showTab('rules')">Guidelines</button>
             </div>
@@ -807,36 +1083,46 @@
                         <input type="text" id="searchObby" placeholder="Buscar nivel, creador o verificador..." oninput="renderList()">
                         <select id="filterTier" onchange="renderList()">
                             <option value="ALL">Todos los Tiers</option>
-                            <option value="Tier 19">Tier 19 / Nil</option>
-                            <option value="Tier 18">Tier 18</option>
-                            <option value="Tier 17">Tier 17</option>
-                            <option value="Tier 16">Tier 16</option>
-                            <option value="Tier 15">Tier 15</option>
+                            <option value="High-Peak">High-Peak</option>
+                            <option value="Mid-High">Mid-High</option>
+                            <option value="Mid">Mid</option>
                         </select>
                     </div>
 
                     <div id="obby-container"></div>
                 </div>
 
-                <!-- COLUMNA DERECHA: LIST EDITORS ESTILO POINTERCRATE -->
-                <aside class="editors-box">
-                    <h3>List Editors</h3>
-                    <p>Contacta a cualquiera de los editores si tienes problemas con la lista o quieres sugerir un cambio de puesto.</p>
-                    <ul class="editors-list">
-                        <li><strong>Wolfyter</strong> • Owner & List Admin</li>
-                        <li><strong>ObbyMod1</strong> • Tier Reviewer</li>
-                        <li><strong>ObbyMod2</strong> • Record Verifier</li>
-                    </ul>
-                </aside>
+                <!-- COLUMNA DERECHA: LIST EDITORS + DISCORD WIDGET -->
+                <div class="sidebar-stack">
+                    <aside class="editors-box">
+                        <h3>List Editors</h3>
+                        <p data-i18n="editors_desc">Contacta a cualquiera de los editores si tienes problemas con la lista o quieres sugerir un cambio de puesto.</p>
+                        <ul class="editors-list">
+                            <li><strong>Wolfyter</strong> • Owner & List Admin</li>
+                            <li><strong>ObbyMod1</strong> • Tier Reviewer</li>
+                            <li><strong>ObbyMod2</strong> • Record Verifier</li>
+                        </ul>
+                    </aside>
+
+                    <aside class="discord-widget-box">
+                        <h3>Discord Oficial</h3>
+                        <iframe src="https://discord.com/widget?id=1428179469524009063&theme=dark" width="100%" height="380" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+                    </aside>
+                </div>
             </div>
         </section>
 
-        <!-- SECCIÓN 2: STATS VIEWER ESTILO POINTERCRATE -->
+        <!-- SECCIÓN FICHA DEDICADA DEL NIVEL -->
+        <section id="level-detail" class="section">
+            <div class="level-page-container" id="level-detail-content"></div>
+        </section>
+
+        <!-- SECCIÓN 2: STATS VIEWER -->
         <section id="stats" class="section">
             <div class="section-header">
                 <div>
                     <h2 id="stats-header-title">Stats Viewer - Internacional</h2>
-                    <p>Selecciona un jugador de la lista izquierda para inspeccionar su perfil completo y niveles completados.</p>
+                    <p data-i18n="stats_subtitle">Selecciona un jugador de la lista izquierda para inspeccionar su perfil completo y niveles completados.</p>
                 </div>
             </div>
 
@@ -849,24 +1135,24 @@
 
                 <!-- COLUMNA CENTRAL: PERFIL DEL JUGADOR -->
                 <div class="panel-box" id="player-profile-panel">
-                    <div class="player-profile-empty">
+                    <div class="player-profile-empty" data-i18n="stats_empty">
                         Haz clic en el nombre de un jugador a la izquierda para ver sus estadísticas.
                     </div>
                 </div>
 
-                <!-- COLUMNA DERECHA: FILTROS ESTILO POINTERCRATE -->
+                <!-- COLUMNA DERECHA: FILTROS -->
                 <div>
                     <div class="panel-box" style="margin-bottom: 1rem;">
-                        <div class="panel-title">Ordenar Niveles</div>
+                        <div class="panel-title" data-i18n="sort_levels">Ordenar Niveles</div>
                         <select id="profileSortSelect" onchange="refreshSelectedProfile()">
-                            <option value="rank">Por Dificultad (#1 primero)</option>
-                            <option value="alpha">Alfabéticamente (A - Z)</option>
+                            <option value="rank" data-i18n="sort_rank">Por Dificultad (#1 primero)</option>
+                            <option value="alpha" data-i18n="sort_alpha">Alfabéticamente (A - Z)</option>
                         </select>
                     </div>
 
                     <div class="panel-box">
-                        <div class="panel-title">País / Región</div>
-                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.6rem;">
+                        <div class="panel-title" data-i18n="country_region">País / Región</div>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.6rem;" data-i18n="country_desc">
                             Filtra el ranking para ver los mejores jugadores de un país específico.
                         </p>
                         <select id="countryFilterSelect" onchange="renderStatsSidebar()">
@@ -881,33 +1167,33 @@
         <section id="rules" class="section">
             <div class="section-header">
                 <div>
-                    <h2>Guidelines / Reglas Oficiales</h2>
-                    <p>Normativa obligatoria para que un récord sea aceptado en ObbyList.</p>
+                    <h2 data-i18n="rules_title">Guidelines / Reglas Oficiales</h2>
+                    <p data-i18n="rules_subtitle">Normativa obligatoria para que un récord sea aceptado en ObbyList.</p>
                 </div>
             </div>
 
             <div class="rules-card">
-                <h3>1. Requisitos de Video y FPS</h3>
+                <h3 data-i18n="rule1_title">1. Requisitos de Video y FPS</h3>
                 <ul>
-                    <li><strong>Grabación completa sin cortes:</strong> El video debe mostrar el intento completo desde antes de tocar el primer salto hasta tocar el Winpad.</li>
-                    <li><strong>Límite de FPS:</strong> Están permitidos entre <strong>60 FPS y 240 FPS</strong> (usando el selector oficial de Roblox o Bloxstrap). No se aceptan runs a menos de 60 FPS ni con unlocker ilimitado.</li>
-                    <li><strong>Contador de FPS visible:</strong> Debes tener activado el contador de FPS (Shift + F5) o el overlay de rendimiento durante toda la run.</li>
+                    <li data-i18n="rule1_li1">Grabación completa sin cortes: El video debe mostrar el intento completo desde antes de tocar el primer salto hasta tocar el Winpad.</li>
+                    <li data-i18n="rule1_li2">Límite de FPS: Están permitidos entre 60 FPS y 240 FPS (usando el selector oficial de Roblox o Bloxstrap). No se aceptan runs a menos de 60 FPS ni con unlocker ilimitado.</li>
+                    <li data-i18n="rule1_li3">Contador de FPS visible: Debes tener activado el contador de FPS (Shift + F5) o el overlay de rendimiento durante toda la run.</li>
                 </ul>
             </div>
 
             <div class="rules-card">
-                <h3>2. Audio, Clicks y Handcam</h3>
+                <h3 data-i18n="rule2_title">2. Audio, Clicks y Handcam</h3>
                 <ul>
-                    <li><strong>Clicks audibles:</strong> Obligatorio en todos los niveles de la <strong>Main List (Tier 17+)</strong>.</li>
-                    <li><strong>Handcam (cámara de manos):</strong> Obligatoria para verificaciones o récords en niveles <strong>Tier 18 o superior</strong>.</li>
+                    <li data-i18n="rule2_li1">Clicks audibles: Obligatorio en todos los niveles de la Main List.</li>
+                    <li data-i18n="rule2_li2">Handcam (cámara de manos): Obligatoria para verificaciones o récords en niveles de dificultad alta.</li>
                 </ul>
             </div>
 
             <div class="rules-card">
-                <h3>3. Modificaciones Prohibidas</h3>
+                <h3 data-i18n="rule3_title">3. Modificaciones Prohibidas</h3>
                 <ul>
-                    <li><strong>Prohibido el uso de exploits, macros o scripts externos:</strong> Cualquier modificación de hitbox, gravedad, velocidad o alineación automática conlleva ban permanente de la lista.</li>
-                    <li><strong>FPS Flicks / Truss Flicks:</strong> Permitidos únicamente si la mecánica es nativa del motor de Roblox a los FPS legales.</li>
+                    <li data-i18n="rule3_li1">Prohibido el uso de exploits, macros o scripts externos: Cualquier modificación de hitbox, gravedad, velocidad o alineación automática conlleva ban permanente de la lista.</li>
+                    <li data-i18n="rule3_li2">FPS Flicks / Truss Flicks: Permitidos únicamente si la mecánica es nativa del motor de Roblox a los FPS legales.</li>
                 </ul>
             </div>
         </section>
@@ -916,47 +1202,34 @@
         <section id="submit" class="section">
             <div class="section-header">
                 <div>
-                    <h2>Enviar Récord (Simulador & Admin)</h2>
-                    <p>Los récords añadidos aquí se envían a revisión. Usa el botón de exportar para actualizar tu archivo HTML.</p>
+                    <h2 data-i18n="submit_title">Enviar Récord (Simulador & Admin)</h2>
+                    <p data-i18n="submit_subtitle">Los récords añadidos aquí se envían a revisión. Usa el botón de exportar para actualizar tu archivo HTML.</p>
                 </div>
             </div>
 
             <div class="form-box">
                 <form id="record-form">
                     <div class="form-group">
-                        <label>Usuario de Roblox:</label>
+                        <label data-i18n="lbl_user">Usuario de Roblox:</label>
                         <input type="text" id="playerName" placeholder="Ej. NuevoJugador" required>
                     </div>
                     <div class="form-group">
-                        <label>Clan / Tag (Opcional):</label>
-                        <input type="text" id="playerClan" placeholder="Ej. EToH (déjalo vacío si no tiene)">
+                        <label data-i18n="lbl_discord">Usuario de Discord (para corroborar identidad):</label>
+                        <input type="text" id="playerDiscord" placeholder="Ej. jugador_123" required>
                     </div>
                     <div class="form-group">
-                        <label>País:</label>
-                        <select id="playerCountry" required>
-                            <option value="Argentina">Argentina</option>
-                            <option value="USA">USA</option>
-                            <option value="Rusia">Rusia</option>
-                            <option value="Canadá">Canadá</option>
-                            <option value="México">México</option>
-                            <option value="Chile">Chile</option>
-                            <option value="España">España</option>
-                            <option value="Colombia">Colombia</option>
-                            <option value="Perú">Perú</option>
-                            <option value="Brasil">Brasil</option>
-                            <option value="Turquía">Turquía</option>
-                            <option value="Otro">Otro</option>
-                        </select>
+                        <label data-i18n="lbl_country">País:</label>
+                        <select id="playerCountry" required></select>
                     </div>
                     <div class="form-group">
-                        <label>Nivel completado:</label>
+                        <label data-i18n="lbl_level">Nivel completado:</label>
                         <select id="obbySelect" required></select>
                     </div>
                     <div class="form-group">
-                        <label>Link de YouTube / Medal (Opcional):</label>
+                        <label data-i18n="lbl_video">Link de YouTube / Medal:</label>
                         <input type="url" id="videoUrl" placeholder="https://youtube.com/watch?v=...">
                     </div>
-                    <button type="submit" class="btn-primary">Registrar Récord en la Lista</button>
+                    <button type="submit" class="btn-primary" data-i18n="btn_submit_record">Registrar Récord en la Lista</button>
                 </form>
                 <div id="submit-alert" class="alert"></div>
             </div>
@@ -971,181 +1244,447 @@
                 <textarea id="export-box" rows="6" style="margin-top: 0.8rem; display: none; font-family: monospace; font-size: 0.82rem;"></textarea>
             </div>
         </section>
+
+        <!-- SECCIÓN 5: CRÉDITOS -->
+        <section id="credits" class="section">
+            <h2>Créditos</h2>
+            <p style="margin-top: 0.5rem;">ObbyList creado por Wolfyter.</p>
+            <p>Aquí puedes agregar los créditos del equipo, colaboradores y agradecimientos.</p>
+            <br>
+            <button onclick="showTab('list', 'main')">Volver</button>
+        </section>
     </main>
 
+    <footer>
+        <span>ObbyList • Alpha v0.9.0</span>
+        <button onclick="showTab('credits')">Créditos</button>
+    </footer>
+
     <script>
-        const MAIN_LIST_LIMIT = 5; // Puestos 1 al 5 son Main List; del 6 en adelante son Extended List
+        // Main List = Top 7; del #8 en adelante pasa a Extended List
+        const MAIN_LIST_LIMIT = 7;
 
-        const countryFlags = {
-            "Argentina": "🇦🇷",
-            "USA": "🇺🇸",
-            "Rusia": "🇷🇺",
-            "Canadá": "🇨🇦",
-            "México": "🇲🇽",
-            "Chile": "🇨🇱",
-            "España": "🇪🇸",
-            "Colombia": "🇨🇴",
-            "Perú": "🇵🇪",
-            "Brasil": "🇧🇷",
-            "Turquía": "🇹🇷",
-            "Otro": "🌐"
+        const translations = {
+            es: {
+                nav_stats: "Stats Viewer",
+                nav_submit: "Enviar Récord",
+                search_placeholder: "Buscar nivel, creador o verificador...",
+                player_search_placeholder: "Buscar jugador...",
+                all_tiers: "Todos los Tiers",
+                editors_desc: "Contacta a cualquiera de los editores si tienes problemas con la lista o quieres sugerir un cambio de puesto.",
+                back_list: "← Volver al Ranking",
+                level_sheet: "Ficha oficial del nivel",
+                created_by: "Creado por",
+                by_word: "por",
+                verified_by: "verificado por",
+                verifier: "Verificador",
+                location: "Locación",
+                difficulty: "Dificultad",
+                duration: "Duración",
+                points: "Puntos (100%)",
+                verif_date: "Fecha de Verificación",
+                style: "Estilo de Gameplay",
+                records_title: "Récords Registrados",
+                records_sub: "100% requerido para calificar",
+                th_player: "Jugador",
+                th_country: "País",
+                th_proof: "Prueba",
+                watch_video: "▶ Ver Video",
+                no_video: "Sin video",
+                no_link: "Sin link cargado",
+                no_verif_video: "Aún no hay video de verificación registrado para este nivel.",
+                stats_subtitle: "Selecciona un jugador de la lista izquierda para inspeccionar su perfil completo y niveles completados.",
+                stats_empty: "Haz clic en el nombre de un jugador a la izquierda para ver sus estadísticas.",
+                sort_levels: "Ordenar Niveles",
+                sort_rank: "Por Dificultad (#1 primero)",
+                sort_alpha: "Alfabéticamente (A - Z)",
+                country_region: "País / Región",
+                country_desc: "Filtra el ranking para ver los mejores jugadores de un país específico.",
+                all_countries: "Todos (Internacional)",
+                total_score: "Puntaje Total",
+                completed_lbl: "Completados",
+                levels_word: "niveles",
+                verifications_lbl: "Verificaciones:",
+                none_word: "Ninguno",
+                completed_levels_title: "Niveles Completados",
+                rules_title: "Guidelines / Reglas Oficiales",
+                rules_subtitle: "Normativa obligatoria para que un récord sea aceptado en ObbyList.",
+                rule1_title: "1. Requisitos de Video y FPS",
+                rule1_li1: "Grabación completa sin cortes: El video debe mostrar el intento completo desde antes de tocar el primer salto hasta tocar el Winpad.",
+                rule1_li2: "Límite de FPS: Están permitidos entre 60 FPS y 240 FPS (usando el selector oficial de Roblox o Bloxstrap). No se aceptan runs a menos de 60 FPS ni con unlocker ilimitado.",
+                rule1_li3: "Contador de FPS visible: Debes tener activado el contador de FPS (Shift + F5) o el overlay de rendimiento durante toda la run.",
+                rule2_title: "2. Audio, Clicks y Handcam",
+                rule2_li1: "Clicks audibles: Obligatorio en todos los niveles de la Main List.",
+                rule2_li2: "Handcam (cámara de manos): Obligatoria para verificaciones o récords en niveles de dificultad alta.",
+                rule3_title: "3. Modificaciones Prohibidas",
+                rule3_li1: "Prohibido el uso de exploits, macros o scripts externos: Cualquier modificación de hitbox, gravedad, velocidad o alineación automática conlleva ban permanente de la lista.",
+                rule3_li2: "FPS Flicks / Truss Flicks: Permitidos únicamente si la mecánica es nativa del motor de Roblox a los FPS legales.",
+                submit_title: "Enviar Récord (Simulador & Admin)",
+                submit_subtitle: "Los récords añadidos aquí se envían a revisión. Usa el botón de exportar para actualizar tu archivo HTML.",
+                lbl_user: "Usuario de Roblox:",
+                lbl_discord: "Usuario de Discord (para corroborar identidad):",
+                lbl_country: "País:",
+                lbl_level: "Nivel completado:",
+                lbl_video: "Link de YouTube / Medal:",
+                btn_submit_record: "Registrar Récord en la Lista"
+            },
+            en: {
+                nav_stats: "Stats Viewer",
+                nav_submit: "Submit Record",
+                search_placeholder: "Search level, creator or verifier...",
+                player_search_placeholder: "Search player...",
+                all_tiers: "All Tiers",
+                editors_desc: "Contact any of the list editors if you have issues with the list or want to suggest a placement change.",
+                back_list: "← Back to Ranking",
+                level_sheet: "Official level sheet",
+                created_by: "Created by",
+                by_word: "by",
+                verified_by: "verified by",
+                verifier: "Verifier",
+                location: "Location",
+                difficulty: "Difficulty",
+                duration: "Length",
+                points: "Points (100%)",
+                verif_date: "Verification Date",
+                style: "Gameplay Style",
+                records_title: "Registered Records",
+                records_sub: "100% required to qualify",
+                th_player: "Player",
+                th_country: "Country",
+                th_proof: "Proof",
+                watch_video: "▶ Watch Video",
+                no_video: "No video",
+                no_link: "No link provided",
+                no_verif_video: "No verification video has been registered for this level yet.",
+                stats_subtitle: "Select a player from the left list to inspect their full profile and completed levels.",
+                stats_empty: "Click on a player's name on the left to view their stats.",
+                sort_levels: "Sort Levels",
+                sort_rank: "By Difficulty (#1 first)",
+                sort_alpha: "Alphabetically (A - Z)",
+                country_region: "Country / Region",
+                country_desc: "Filter the leaderboard to see the top players from a specific country.",
+                all_countries: "All (International)",
+                total_score: "Total Score",
+                completed_lbl: "Completed",
+                levels_word: "levels",
+                verifications_lbl: "Verifications:",
+                none_word: "None",
+                completed_levels_title: "Completed Levels",
+                rules_title: "Guidelines / Official Rules",
+                rules_subtitle: "Mandatory rules for a record to be accepted on ObbyList.",
+                rule1_title: "1. Video and FPS Requirements",
+                rule1_li1: "Full unedited recording: The video must show the entire attempt from before touching the first jump until touching the Winpad.",
+                rule1_li2: "FPS Limit: Allowed between 60 FPS and 240 FPS (using Roblox's official selector or Bloxstrap). Runs below 60 FPS or with an unlimited unlocker are not accepted.",
+                rule1_li3: "Visible FPS counter: You must have the FPS counter (Shift + F5) or performance overlay enabled throughout the entire run.",
+                rule2_title: "2. Audio, Clicks & Handcam",
+                rule2_li1: "Audible clicks: Mandatory on all Main List levels.",
+                rule2_li2: "Handcam: Mandatory for verifications or records on high-difficulty levels.",
+                rule3_title: "3. Prohibited Modifications",
+                rule3_li1: "No exploits, macros, or external scripts: Any hitbox, gravity, speed, or auto-alignment modification results in a permanent ban from the list.",
+                rule3_li2: "FPS Flicks / Truss Flicks: Allowed only if the mechanic is native to the Roblox engine at legal FPS.",
+                submit_title: "Submit Record (Simulator & Admin)",
+                submit_subtitle: "Records submitted here are sent for review. Use the export button to update your HTML file.",
+                lbl_user: "Roblox Username:",
+                lbl_discord: "Discord Username (to verify identity):",
+                lbl_country: "Country:",
+                lbl_level: "Completed Level:",
+                lbl_video: "YouTube / Medal Link:",
+                btn_submit_record: "Submit Record to List"
+            }
         };
 
-        // OPCIONAL: Puedes poner aquí el ID numérico de Roblox de cada jugador para que cargue su cara automáticamente.
-        // Ejemplo: "MonsterIsABlock": "12345678"
-        const robloxUserIds = {
-            "MonsterIsABlock": "",
-            "BoomSasok": "",
-            "cycllx": "",
-            "SeeRyanplay": "",
-            "Kaan2005": "",
-            "wolfigamerplay": ""
-        };
+        let currentLang = localStorage.getItem('obbylist_lang') || 'es';
+        let currentOpenObbyId = null;
 
-        // Imagen por defecto en círculo si el jugador aún no tiene ID de Roblox configurado
-        const DEFAULT_AVATAR_SVG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%231f242d'/><circle cx='50' cy='38' r='18' fill='%239ca3af'/><path d='M20 88 C20 65, 80 65, 80 88' fill='%239ca3af'/></svg>";
+        function t(key) {
+            return (translations[currentLang] && translations[currentLang][key]) || key;
+        }
+
+        // GENERADOR AUTOMÁTICO DE TODOS LOS PAÍSES
+        const ISO_COUNTRIES = [
+            "AF","AL","DZ","AD","AO","AG","AR","AM","AU","AT","AZ","BS","BH","BD","BB","BY","BE","BZ","BJ","BT",
+            "BO","BA","BW","BR","BN","BG","BF","BI","CV","KH","CM","CA","CF","TD","CL","CN","CO","KM","CG","CD",
+            "CR","CI","HR","CU","CY","CZ","DK","DJ","DM","DO","EC","EG","SV","GQ","ER","EE","SZ","ET","FJ","FI",
+            "FR","GA","GM","GE","DE","GH","GR","GD","GT","GN","GW","GY","HT","HN","HU","IS","IN","ID","IR","IQ",
+            "IE","IL","IT","JM","JP","JO","KZ","KE","KI","KP","KR","KW","KG","LA","LV","LB","LS","LR","LY","LI",
+            "LT","LU","MG","MW","MY","MV","ML","MT","MH","MR","MU","MX","FM","MD","MC","MN","ME","MA","MZ","MM",
+            "NA","NR","NP","NL","NZ","NI","NE","NG","MK","NO","OM","PK","PW","PS","PA","PG","PY","PE","PH","PL",
+            "PT","QA","RO","RU","RW","KN","LC","VC","WS","SM","ST","SA","SN","RS","SC","SL","SG","SK","SI","SB",
+            "SO","ZA","SS","ES","LK","SD","SR","SE","CH","SY","TW","TJ","TZ","TH","TL","TG","TO","TT","TN","TR",
+            "TM","TV","UG","UA","AE","GB","US","UY","UZ","VU","VA","VE","VN","YE","ZM","ZW"
+        ];
+
+        function isoToFlag(code) {
+            if (!code || code.length !== 2) return "🌐";
+            return String.fromCodePoint(...[...code.toUpperCase()].map(c => 127397 + c.charCodeAt(0)));
+        }
+
+        const countryToFlagMap = {};
+        const allCountryNames = [];
+
+        (function initCountries() {
+            const displayEs = new Intl.DisplayNames(['es'], { type: 'region' });
+            ISO_COUNTRIES.forEach(code => {
+                const name = displayEs.of(code);
+                const flag = isoToFlag(code);
+                if (name) {
+                    countryToFlagMap[name] = flag;
+                    allCountryNames.push(name);
+                }
+            });
+            allCountryNames.sort((a, b) => a.localeCompare(b, 'es'));
+
+            countryToFlagMap["USA"] = "🇺🇸";
+            countryToFlagMap["Estados Unidos"] = "🇺🇸";
+            countryToFlagMap["Rusia"] = "🇷🇺";
+            countryToFlagMap["Canadá"] = "🇨🇦";
+            countryToFlagMap["Turquía"] = "🇹🇷";
+            countryToFlagMap["Argentina"] = "🇦🇷";
+            countryToFlagMap["Otro"] = "🌐";
+        })();
+
+        function getFlag(country) {
+            return countryToFlagMap[country] || "🌐";
+        }
+
+        function populateSubmitCountrySelect() {
+            const sel = document.getElementById('playerCountry');
+            if (!sel) return;
+            sel.innerHTML = '';
+            allCountryNames.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.textContent = getFlag(name) + ' ' + name;
+                if (name === 'Argentina') opt.selected = true;
+                sel.appendChild(opt);
+            });
+        }
+
+        function getDifficultyBadgeHTML(difficultyName) {
+            if (!difficultyName) return '';
+            const d = difficultyName.toLowerCase();
+            let cls = 'diff-insane';
+            if (d.includes('unreal')) cls = 'diff-unreal';
+            else if (d.includes('horrific')) cls = 'diff-horrific';
+            else if (d.includes('catastrophic')) cls = 'diff-catastrophic';
+            else if (d.includes('terrifying')) cls = 'diff-terrifying';
+            else if (d.includes('extreme')) cls = 'diff-extreme';
+            else if (d.includes('insane')) cls = 'diff-insane';
+
+            return '<span class="diff-badge ' + cls + '">' + difficultyName + '</span>';
+        }
 
         // =========================================================================
-        // LISTA DE NIVELES (Aquí es donde agregas nuevos niveles fácilmente)
+        // TOP 10 DE TUS CAPTURAS (SIN THUMBNAIL NI CLAN)
+        // #1 - #7 => MAIN LIST | #8 - #10 => EXTENDED LIST
         // =========================================================================
         const defaultObbies = [
             {
                 id: 1,
-                name: "Tower of It Never Ends",
-                creator: "Varied Creators",
-                verifier: "MonsterIsABlock",
-                tier: "Tier 19 / Peak Nil",
-                style: "Purist / Endurance",
-                video: "https://www.youtube.com/watch?v=bwDpQOuQaGg",
-                thumbnail: "",
+                name: "ToTQFP (Tower of The Quest For Perfection)",
+                creator: "4d9r, bLockerman666",
+                verifier: "Gehadimad",
+                locationUrl: "",
+                locationLabel: "Timeless Manor (TEA)",
+                tier: "High-Peak (~13.80)",
+                difficulty: "Unreal",
+                duration: "Moderate (15+ min.)",
+                verificationDate: "September 17, 2026",
+                style: "Classic, Linear • Raw Difficulty, Punishment",
+                description: "",
+                video: "",
                 victors: [
-                    { player: "MonsterIsABlock", clan: "NIL", country: "USA", video: "" }
+                    { player: "Gehadimad", country: "USA", video: "" }
                 ]
             },
             {
                 id: 2,
-                name: "Stairway To Heaven",
-                creator: "Kaan2005 & Team",
-                verifier: "BoomSasok",
-                tier: "Low Tier 18",
-                style: "Purist (200 Jumps)",
-                video: "https://www.youtube.com/watch?v=OepgrC5PyZo&list=RDOepgrC5PyZo&start_radio=1&pp=ygUXc3RhaXJ3YXkgdG8gaGVhdmVuIG9iYnmgBwE%3D",
-                thumbnail: "",
+                name: "ToINE (Tower of It Never Ends)",
+                creator: "ciel_azulsky",
+                verifier: "MonsterIsABlock",
+                locationUrl: "",
+                locationLabel: "The Eternal Abyss",
+                tier: "Mid-High",
+                difficulty: "Unreal",
+                duration: "Very Long (30 Min+)",
+                verificationDate: "May 6, 2026",
+                style: "Consistency, Linear • Length, Punishment",
+                description: "",
+                video: "",
                 victors: [
-                    { player: "BoomSasok", clan: "OBBY", country: "Rusia", video: "https://www.youtube.com/watch?v=OepgrC5PyZo&list=RDOepgrC5PyZo&start_radio=1&pp=ygUXc3RhaXJ3YXkgdG8gaGVhdmVuIG9iYnmgBwE%3D" },
-                    { player: "MonsterIsABlock", clan: "NIL", country: "USA", video: "" },
-                    { player: "cycllx", clan: "EToH", country: "Canadá", video: "" }
+                    { player: "MonsterIsABlock", country: "USA", video: "" }
                 ]
             },
             {
                 id: 3,
-                name: "S.T.O.N.E: Reborn",
-                creator: "Obby Community",
-                verifier: "MonsterIsABlock",
-                tier: "Tier 18",
-                style: "Technical / Jank",
+                name: "ToMEC (Tower of My Emotional Compass)",
+                creator: "a1ien_ation, InBetweenSignals",
+                verifier: "InBetweenSignals",
+                locationUrl: "",
+                locationLabel: "Lag-Free CTT",
+                tier: "Mid-High",
+                difficulty: "Horrific",
+                duration: "Long (20+ min.)",
+                verificationDate: "October 29, 2026",
+                style: "Technical, Camera Control • Raw Difficulty",
+                description: "",
                 video: "",
-                thumbnail: "",
                 victors: [
-                    { player: "MonsterIsABlock", clan: "NIL", country: "USA", video: "" },
-                    { player: "BoomSasok", clan: "OBBY", country: "Rusia", video: "" }
+                    { player: "InBetweenSignals", country: "USA", video: "" }
                 ]
             },
             {
                 id: 4,
-                name: "Tower of Wigglecore",
-                creator: "EToH Builders",
-                verifier: "BoomSasok",
-                tier: "Tier 17 / Unreal",
-                style: "Technical / Client-Objects",
-                video: "",
-                thumbnail: "",
+                name: "STONE: Reborn",
+                creator: "IceNSalt, 7Zakki1",
+                verifier: "MonsterIsABlock",
+                locationUrl: "",
+                locationLabel: "The Eternal Abyss",
+                tier: "Mid-High",
+                difficulty: "Horrific",
+                duration: "Very Long (30+ min.)",
+                verificationDate: "January 19, 2026",
+                style: "Mixed, Technical • Length, Raw Difficulty",
+                description: "",
+                video: "https://www.youtube.com/watch?v=N4B9qvfS8qQ",
                 victors: [
-                    { player: "BoomSasok", clan: "OBBY", country: "Rusia", video: "" },
-                    { player: "SeeRyanplay", clan: "EToH", country: "USA", video: "" },
-                    { player: "cycllx", clan: "EToH", country: "Canadá", video: "" }
+                    { player: "MonsterIsABlock", country: "USA", video: "" }
                 ]
             },
             {
                 id: 5,
-                name: "Shinku no naraku",
-                creator: "Japanese Obbyists",
-                verifier: "Kaan2005",
-                tier: "Tier 16",
-                style: "Purist Classic",
+                name: "ToID (Tower of Impending Doom)",
+                creator: "Various Creators",
+                verifier: "greenbean1421",
+                locationUrl: "",
+                locationLabel: "The Eternal Abyss",
+                tier: "Mid",
+                difficulty: "Catastrophic",
+                duration: "Absurdly Long (90+ min.)",
+                verificationDate: "May 11, 2025",
+                style: "Mixed • Length, Punishment",
+                description: "",
                 video: "",
-                thumbnail: "",
                 victors: [
-                    { player: "Kaan2005", clan: "TR", country: "Turquía", video: "" },
-                    { player: "BoomSasok", clan: "OBBY", country: "Rusia", video: "" },
-                    { player: "SeeRyanplay", clan: "EToH", country: "USA", video: "" },
-                    { player: "wolfigamerplay", clan: "YOQUESE", country: "Argentina", video: "" }
+                    { player: "greenbean1421", country: "USA", video: "" }
                 ]
             },
-
             {
                 id: 6,
-                name: "Tower of Elongated Runs",
-                creator: "EToH Community",
-                verifier: "cycllx",
-                tier: "Tier 15",
-                style: "Purist / Classic",
+                name: "ToW (Tower of Wigglecore)",
+                creator: "ScorpioexLOLez, kkdpracticeacc",
+                verifier: "BoomSasok",
+                locationUrl: "",
+                locationLabel: "The Eternal Abyss",
+                tier: "Mid",
+                difficulty: "Terrifying",
+                duration: "Very Short (5+ min.)",
+                verificationDate: "July 28, 2025",
+                style: "Camera Control • Raw Difficulty",
+                description: "",
                 video: "",
-                thumbnail: "",
                 victors: [
-                    { player: "cycllx", clan: "EToH", country: "Canadá", video: "" },
-                    { player: "SeeRyanplay", clan: "EToH", country: "USA", video: "" }
+                    { player: "BoomSasok", country: "Rusia", video: "" }
                 ]
             },
             {
                 id: 7,
-                name: "Ikea Tower",
-                creator: "EToH Community",
-                verifier: "cycllx",
-                tier: "Unreal",
-                style: "Purist / Classic",
+                name: "ToMH (Tower of Monochromatic Haze)",
+                creator: "Various Creators",
+                verifier: "Gehadimad",
+                locationUrl: "",
+                locationLabel: "The Eternal Abyss",
+                tier: "Mid (13.50)",
+                difficulty: "Extreme",
+                duration: "Long (20+ min.)",
+                verificationDate: "July 6, 2025",
+                style: "Purism, Technical • Raw Difficulty, Punishment",
+                description: "",
                 video: "",
-                thumbnail: "",
                 victors: [
-                    { player: "cycllx", clan: "EToH", country: "Canadá", video: "" },
+                    { player: "Gehadimad", country: "USA", video: "" }
+                ]
+            },
+            {
+                id: 8,
+                name: "ToTCR (Tower of The Concluding Run)",
+                creator: "sokol50",
+                verifier: "glizzygladiattorrr",
+                locationUrl: "",
+                locationLabel: "The Eternal Abyss",
+                tier: "Mid",
+                difficulty: "Extreme",
+                duration: "Moderate (15+ min.)",
+                verificationDate: "August 29, 2026",
+                style: "Camera Control, COs • Length, Raw Difficulty",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "glizzygladiattorrr", country: "USA", video: "" }
+                ]
+            },
+            {
+                id: 9,
+                name: "ToMIH (Tower of My Inner Hatred)",
+                creator: "Various Creators",
+                verifier: "SwiftThunder06",
+                locationUrl: "",
+                locationLabel: "The Eternal Abyss",
+                tier: "Mid",
+                difficulty: "Insane",
+                duration: "Very Long (30+ min.)",
+                verificationDate: "September 23, 2025",
+                style: "Mixed • Raw Difficulty, Punishment",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "SwiftThunder06", country: "USA", video: "" }
+                ]
+            },
+            {
+                id: 10,
+                name: "ToYOLO (Tower of You Only Live Once)",
+                creator: "1n_rtex, a6iq1",
+                verifier: "a6iq1",
+                locationUrl: "",
+                locationLabel: "Lag-Free CTT",
+                tier: "Mid",
+                difficulty: "Insane",
+                duration: "Short (10+ min.)",
+                verificationDate: "October 10, 2026",
+                style: "Purism, Technical • Raw Difficulty, Punishment",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "a6iq1", country: "USA", video: "" }
                 ]
             }
         ];
 
-        // CARGAR DESDE LOCALSTORAGE O USAR DATOS POR DEFECTO
-        let obbies = JSON.parse(localStorage.getItem('obbylist_data_v5')) || JSON.parse(JSON.stringify(defaultObbies));
+        let obbies = JSON.parse(localStorage.getItem('obbylist_data_v9')) || JSON.parse(JSON.stringify(defaultObbies));
         let currentListMode = 'main';
         let selectedPlayerName = null;
 
         function saveToStorage() {
-            localStorage.setItem('obbylist_data_v5', JSON.stringify(obbies));
-        }
-
-        function getFlag(country) {
-            return countryFlags[country] || "🌐";
+            localStorage.setItem('obbylist_data_v9', JSON.stringify(obbies));
         }
 
         function calculatePoints(rank) {
             return Math.round(500 * Math.pow(0.88, rank - 1) * 100) / 100;
         }
 
-        // Extraer automáticamente miniatura de YouTube si existe enlace
-        function resolveThumbnail(obby) {
-            if (obby.thumbnail && obby.thumbnail.trim() !== '') {
-                return obby.thumbnail.trim();
-            }
-            const sourceUrl = obby.video || (obby.victors[0] && obby.victors[0].video) || '';
-            const ytMatch = sourceUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-            if (ytMatch && ytMatch[1]) {
-                return 'https://img.youtube.com/vi/' + ytMatch[1] + '/hqdefault.jpg';
-            }
-            return '';
+        function extractYouTubeId(url) {
+            if (!url) return '';
+            const ytMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+            return (ytMatch && ytMatch[1]) ? ytMatch[1] : '';
         }
 
+        function resolveThumbnail(obby) {
+            const sourceUrl = obby.video || (obby.victors[0] && obby.victors[0].video) || '';
+            const ytId = extractYouTubeId(sourceUrl);
+            return ytId ? ('https://img.youtube.com/vi/' + ytId + '/hqdefault.jpg') : '';
+        }
 
-
-
-        // RENDERIZAR MAIN O EXTENDED LIST
         function renderList() {
             const container = document.getElementById('obby-container');
             const select = document.getElementById('obbySelect');
@@ -1155,7 +1694,6 @@
             container.innerHTML = '';
             select.innerHTML = '';
 
-            // Rellenar selector del formulario con todos los niveles
             obbies.forEach(function(obby, index) {
                 const rank = index + 1;
                 const option = document.createElement('option');
@@ -1164,7 +1702,6 @@
                 select.appendChild(option);
             });
 
-            // Filtrar según pestaña (Main o Extended) y buscador
             obbies.forEach(function(obby, index) {
                 const rank = index + 1;
                 const isExtended = rank > MAIN_LIST_LIMIT;
@@ -1189,19 +1726,19 @@
                 if (thumbSrc) {
                     thumbHTML =
                         '<img src="' + thumbSrc + '" alt="' + obby.name + '">' +
-                        (verifyLink ? '<a class="thumb-play-badge" href="' + verifyLink + '" target="_blank" onclick="event.stopPropagation()">▶ Ver Video</a>' : '');
+                        (verifyLink ? '<a class="thumb-play-badge" href="' + verifyLink + '" target="_blank" onclick="event.stopPropagation()">▶ YouTube</a>' : '');
                 } else {
                     thumbHTML =
                         '<div class="thumb-placeholder">' +
-                            '<span>🖼️</span>' +
-                            'Sin imagen / URL' +
+                            '<span>🎬</span>' +
+                            'Sin video' +
                         '</div>';
                 }
 
                 const card = document.createElement('div');
                 card.className = 'obby-card';
                 card.onclick = function() {
-                    document.getElementById('details-' + obby.id).classList.toggle('open');
+                    openLevelDetail(obby.id);
                 };
 
                 card.innerHTML =
@@ -1210,37 +1747,16 @@
                         '<div class="obby-title-row">' +
                             '<span class="obby-rank-num ' + (isExtended ? 'extended' : '') + '">#' + rank + '</span> – ' + obby.name +
                         '</div>' +
-                        '<div class="obby-publisher">published by <strong>' + obby.creator + '</strong> • verified by <strong>' + obby.verifier + '</strong></div>' +
+                        '<div class="obby-publisher">' + t('by_word') + ' <strong>' + obby.creator + '</strong> • ' + t('verified_by') + ' <strong>' + obby.verifier + '</strong></div>' +
                         '<div class="obby-points-line">' +
-                            '<span>' + points.toFixed(2) + ' (100%) points</span>' +
+                            '<span>' + points.toFixed(2) + ' pts</span>' +
                             '<span class="tier-pill ' + (isExtended ? 'extended' : '') + '">' + obby.tier + '</span>' +
+                            getDifficultyBadgeHTML(obby.difficulty) +
+                            '<span style="font-size:0.8rem;">• ' + obby.victors.length + ' record(s)</span>' +
                         '</div>' +
                     '</div>';
 
-                const details = document.createElement('div');
-                details.className = 'obby-details';
-                details.id = 'details-' + obby.id;
-
-                let victorsHTML = '';
-                obby.victors.forEach(function(v) {
-                    const clanTag = v.clan ? '<span class="player-clan">[' + v.clan + ']</span> ' : '';
-                    const videoLinkHTML = v.video ?
-                        '<a href="' + v.video + '" target="_blank">Ver Prueba (60 FPS) ↗</a>' :
-                        '<span class="no-video">Sin enlace registrado</span>';
-
-                    victorsHTML +=
-                        '<li>' +
-                            '<span>' + getFlag(v.country) + ' ' + clanTag + '<strong>' + v.player + '</strong> (' + v.country + ')</span>' +
-                            videoLinkHTML +
-                        '</li>';
-                });
-
-                details.innerHTML =
-                    '<p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.5rem;">Estilo: <strong>' + obby.style + '</strong> | Vencedores (' + obby.victors.length + '):</p>' +
-                    '<ul class="victors-list">' + victorsHTML + '</ul>';
-
                 container.appendChild(card);
-                container.appendChild(details);
             });
 
             if (container.innerHTML === '') {
@@ -1248,7 +1764,164 @@
             }
         }
 
-        // CONSTRUIR MAPA DE JUGADORES PARA STATS VIEWER
+        function openLevelDetail(obbyId) {
+            const index = obbies.findIndex(o => o.id === obbyId);
+            if (index === -1) return;
+
+            currentOpenObbyId = obbyId;
+            const obby = obbies[index];
+            const rank = index + 1;
+            const points = calculatePoints(rank);
+            const prevObby = index > 0 ? obbies[index - 1] : null;
+            const nextObby = index < obbies.length - 1 ? obbies[index + 1] : null;
+
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('nav-list-btn').classList.add('active');
+            document.getElementById('level-detail').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            const videoSource = obby.video || (obby.victors[0] && obby.victors[0].video) || '';
+            const ytId = extractYouTubeId(videoSource);
+
+            let videoHTML = '';
+            if (ytId) {
+                videoHTML = '<iframe src="https://www.youtube.com/embed/' + ytId + '" title="' + obby.name + ' Verification" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
+            } else if (videoSource) {
+                videoHTML =
+                    '<div class="level-no-video-box">' +
+                        '<p>Video externo</p>' +
+                        '<a class="record-video-btn" href="' + videoSource + '" target="_blank">Abrir Video ↗</a>' +
+                    '</div>';
+            } else {
+                videoHTML =
+                    '<div class="level-no-video-box">' +
+                        '<span style="font-size:2rem;opacity:0.4;">🎬</span>' +
+                        '<p>' + t('no_verif_video') + '</p>' +
+                    '</div>';
+            }
+
+            const locText = (obby.locationLabel && obby.locationLabel.trim() !== '') ? obby.locationLabel : 'Roblox Place';
+            const locationHTML = (obby.locationUrl && obby.locationUrl.trim() !== '')
+                ? '<a href="' + obby.locationUrl + '" target="_blank">' + locText + ' ↗</a>'
+                : '<span style="color:var(--text-main);font-weight:700;">' + locText + '</span>';
+
+            const descHTML = (obby.description && obby.description.trim() !== '')
+                ? '<div class="level-quote-desc">"' + obby.description + '"</div>'
+                : '<div style="margin-bottom:1.2rem;border-bottom:1px solid var(--border);"></div>';
+
+            let recordsRowsHTML = '';
+            obby.victors.forEach(function(v, vIdx) {
+                const videoBtn = (v.video && v.video.trim() !== '')
+                    ? '<a class="record-video-btn" href="' + v.video + '" target="_blank">' + t('watch_video') + '</a>'
+                    : '<span class="no-video">' + t('no_video') + '</span>';
+
+                const safeNameAttr = v.player.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+
+                recordsRowsHTML +=
+                    '<tr>' +
+                        '<td style="color:var(--text-muted);font-weight:700;">#' + (vIdx + 1) + '</td>' +
+                        '<td>' +
+                            getFlag(v.country) + ' ' +
+                            '<span class="record-player-link" data-player="' + safeNameAttr + '" onclick="jumpToPlayerProfile(this.dataset.player)">' + v.player + '</span>' +
+                        '</td>' +
+                        '<td>' + v.country + '</td>' +
+                        '<td style="text-align:right;">' + videoBtn + '</td>' +
+                    '</tr>';
+            });
+
+            const container = document.getElementById('level-detail-content');
+            container.innerHTML =
+                '<div class="level-back-bar">' +
+                    '<button class="btn-back-list" onclick="backToCurrentList()">' + t('back_list') + '</button>' +
+                    '<span style="color:var(--text-muted);font-size:0.85rem;">' + t('level_sheet') + '</span>' +
+                '</div>' +
+
+                '<div class="level-hero-box">' +
+                    '<div class="level-nav-header">' +
+                        '<button class="level-arrow-btn" ' + (prevObby ? 'onclick="openLevelDetail(' + prevObby.id + ')"' : 'disabled') + '>‹</button>' +
+                        '<div class="level-hero-title-wrap">' +
+                            '<div class="level-hero-rank">#' + rank + (rank <= MAIN_LIST_LIMIT ? ' • Main List' : ' • Extended List') + '</div>' +
+                            '<h1 class="level-hero-title">' + obby.name + '</h1>' +
+                        '</div>' +
+                        '<button class="level-arrow-btn" ' + (nextObby ? 'onclick="openLevelDetail(' + nextObby.id + ')"' : 'disabled') + '>›</button>' +
+                    '</div>' +
+
+                    '<div class="level-creators-sub">' +
+                        t('created_by') + ' <strong>' + obby.creator + '</strong>' +
+                    '</div>' +
+
+                    descHTML +
+
+                    '<div class="level-video-frame">' + videoHTML + '</div>' +
+
+                    '<div class="level-meta-grid">' +
+                        '<div class="level-meta-item">' +
+                            '<div class="level-meta-label">' + t('verifier') + '</div>' +
+                            '<div class="level-meta-value">' + obby.verifier + '</div>' +
+                        '</div>' +
+                        '<div class="level-meta-item">' +
+                            '<div class="level-meta-label">' + t('location') + '</div>' +
+                            '<div class="level-meta-value">' + locationHTML + '</div>' +
+                        '</div>' +
+                        '<div class="level-meta-item">' +
+                            '<div class="level-meta-label">' + t('difficulty') + '</div>' +
+                            '<div class="level-meta-value">' + obby.tier + ' ' + getDifficultyBadgeHTML(obby.difficulty) + '</div>' +
+                        '</div>' +
+                        '<div class="level-meta-item">' +
+                            '<div class="level-meta-label">' + t('duration') + '</div>' +
+                            '<div class="level-meta-value">' + (obby.duration || '-') + '</div>' +
+                        '</div>' +
+                        '<div class="level-meta-item">' +
+                            '<div class="level-meta-label">' + t('points') + '</div>' +
+                            '<div class="level-meta-value" style="color:var(--accent);">' + points.toFixed(2) + ' pts</div>' +
+                        '</div>' +
+                        '<div class="level-meta-item">' +
+                            '<div class="level-meta-label">' + t('verif_date') + '</div>' +
+                            '<div class="level-meta-value">' + (obby.verificationDate || '-') + '</div>' +
+                        '</div>' +
+                        '<div class="level-meta-item" style="grid-column: 1 / -1;">' +
+                            '<div class="level-meta-label">' + t('style') + '</div>' +
+                            '<div class="level-meta-value">' + (obby.style || '-') + '</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+
+                '<div class="level-records-box">' +
+                    '<div class="level-records-header">' +
+                        '<h3>' + t('records_title') + '</h3>' +
+                        '<p>' + t('records_sub') + ' • ' + obby.victors.length + ' record(s)</p>' +
+                    '</div>' +
+                    '<table class="records-table">' +
+                        '<thead>' +
+                            '<tr>' +
+                                '<th style="width:60px;">#</th>' +
+                                '<th>' + t('th_player') + '</th>' +
+                                '<th>' + t('th_country') + '</th>' +
+                                '<th style="text-align:right;">' + t('th_proof') + '</th>' +
+                            '</tr>' +
+                        '</thead>' +
+                        '<tbody>' + recordsRowsHTML + '</tbody>' +
+                    '</table>' +
+                '</div>';
+        }
+
+        function backToCurrentList() {
+            currentOpenObbyId = null;
+            showTab('list', currentListMode);
+        }
+
+        function jumpToPlayerProfile(playerName) {
+            currentOpenObbyId = null;
+            selectedPlayerName = playerName;
+            showTab('stats');
+            const allPlayers = buildPlayersData();
+            const idx = allPlayers.findIndex(p => p.name === playerName);
+            if (idx !== -1) {
+                renderPlayerProfile(allPlayers[idx], idx + 1);
+            }
+        }
+
         function buildPlayersData() {
             const playerMap = {};
 
@@ -1260,7 +1933,6 @@
                     if (!playerMap[v.player]) {
                         playerMap[v.player] = {
                             name: v.player,
-                            clan: v.clan || '',
                             country: v.country,
                             points: 0,
                             completed: [],
@@ -1299,7 +1971,7 @@
             const currentVal = countrySelect.value;
             const countries = [...new Set(players.map(p => p.country))].sort();
 
-            countrySelect.innerHTML = '<option value="ALL">Todos (Internacional)</option>';
+            countrySelect.innerHTML = '<option value="ALL">' + t('all_countries') + '</option>';
             countries.forEach(function(c) {
                 const opt = document.createElement('option');
                 opt.value = c;
@@ -1320,11 +1992,11 @@
             const countryFilter = document.getElementById('countryFilterSelect').value;
 
             document.getElementById('stats-header-title').textContent =
-                countryFilter === 'ALL' ? 'Stats Viewer - Internacional' : 'Stats Viewer - ' + getFlag(countryFilter) + ' ' + countryFilter;
+                countryFilter === 'ALL' ? ('Stats Viewer - ' + t('all_countries')) : 'Stats Viewer - ' + getFlag(countryFilter) + ' ' + countryFilter;
 
             const filteredPlayers = allPlayers.filter(function(p) {
                 const matchCountry = (countryFilter === 'ALL') || (p.country === countryFilter);
-                const matchName = p.name.toLowerCase().includes(searchTerm) || (p.clan && p.clan.toLowerCase().includes(searchTerm));
+                const matchName = p.name.toLowerCase().includes(searchTerm);
                 return matchCountry && matchName;
             });
 
@@ -1340,11 +2012,10 @@
                     renderPlayerProfile(p, idx + 1);
                 };
 
-                const clanHTML = p.clan ? '<span class="player-clan">[' + p.clan + ']</span> ' : '';
                 item.innerHTML =
                     '<div>' +
                         '<span class="player-rank-num">#' + (idx + 1) + '</span> ' +
-                        getFlag(p.country) + ' ' + clanHTML + '<strong>' + p.name + '</strong>' +
+                        getFlag(p.country) + ' <strong>' + p.name + '</strong>' +
                     '</div>' +
                     '<span class="player-pts-small">' + p.points.toFixed(1) + '</span>';
 
@@ -1353,25 +2024,6 @@
 
             if (filteredPlayers.length === 0) {
                 sidebar.innerHTML = '<div style="padding:1rem;color:var(--text-muted);font-size:0.88rem;">Sin resultados.</div>';
-            }
-        }
-
-        // CARGAR AVATAR DE ROBLOX EN EL CÍRCULO (Si tiene ID configurado)
-        async function loadPlayerRobloxAvatar(playerName) {
-            const imgEl = document.getElementById('profile-roblox-avatar');
-            if (!imgEl) return;
-
-            const rbxId = robloxUserIds[playerName];
-            if (!rbxId || rbxId.trim() === '') return;
-
-            try {
-                const res = await fetch('https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=' + rbxId + '&size=150x150&format=Png&isCircular=true');
-                const data = await res.json();
-                if (data && data.data && data.data[0] && data.data[0].imageUrl) {
-                    imgEl.src = data.data[0].imageUrl;
-                }
-            } catch (err) {
-                console.log('No se pudo cargar avatar de Roblox:', err);
             }
         }
 
@@ -1386,14 +2038,13 @@
                 levels.sort((a, b) => a.rank - b.rank);
             }
 
-            const clanTag = player.clan ? '<span style="color:var(--accent);">[' + player.clan + ']</span> ' : '';
-            const verifiedText = player.verified.length > 0 ? player.verified.join(', ') : 'Ninguno';
+            const verifiedText = player.verified.length > 0 ? player.verified.join(', ') : t('none_word');
 
             let completedHTML = '';
             levels.forEach(function(lvl) {
                 const videoBtn = lvl.video ?
                     '<a href="' + lvl.video + '" target="_blank">Video ↗</a>' :
-                    '<span class="no-video">Sin enlace</span>';
+                    '<span class="no-video">' + t('no_video') + '</span>';
 
                 completedHTML +=
                     '<div class="completed-item">' +
@@ -1408,13 +2059,12 @@
 
             panel.innerHTML =
                 '<div class="profile-header">' +
-                    '<div class="profile-name">' + getFlag(player.country) + ' ' + clanTag + player.name + '</div>' +
-                    '<img id="profile-roblox-avatar" class="roblox-avatar-circle" src="' + DEFAULT_AVATAR_SVG + '" alt="Avatar de ' + player.name + '" title="Avatar de Roblox de ' + player.name + '">' +
-                    '<span class="tier-pill">Puesto #' + displayRank + '</span>' +
+                    '<div class="profile-name">' + getFlag(player.country) + ' ' + player.name + '</div>' +
+                    '<span class="tier-pill">#' + displayRank + '</span>' +
                 '</div>' +
                 '<div class="profile-grid">' +
                     '<div class="stat-mini-card">' +
-                        '<div class="stat-mini-label">Puntaje Total</div>' +
+                        '<div class="stat-mini-label">' + t('total_score') + '</div>' +
                         '<div class="stat-mini-value">' + player.points.toFixed(1) + ' pts</div>' +
                     '</div>' +
                     '<div class="stat-mini-card">' +
@@ -1422,18 +2072,15 @@
                         '<div class="stat-mini-value" style="font-size:0.98rem;">' + player.hardest + '</div>' +
                     '</div>' +
                     '<div class="stat-mini-card">' +
-                        '<div class="stat-mini-label">Completados</div>' +
-                        '<div class="stat-mini-value">' + player.completed.length + ' niveles</div>' +
+                        '<div class="stat-mini-label">' + t('completed_lbl') + '</div>' +
+                        '<div class="stat-mini-value">' + player.completed.length + ' ' + t('levels_word') + '</div>' +
                     '</div>' +
                 '</div>' +
                 '<p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:1rem;">' +
-                    '<strong>Verificaciones:</strong> ' + verifiedText +
+                    '<strong>' + t('verifications_lbl') + '</strong> ' + verifiedText +
                 '</p>' +
-                '<div class="panel-title">Niveles Completados</div>' +
+                '<div class="panel-title">' + t('completed_levels_title') + '</div>' +
                 completedHTML;
-
-            // Intentar cargar su imagen de Roblox si tiene ID registrado
-            loadPlayerRobloxAvatar(player.name);
         }
 
         function refreshSelectedProfile() {
@@ -1445,14 +2092,42 @@
             }
         }
 
-        // PEGA AQUÍ LA URL QUE COPIASTE DE DISCORD
-        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1572278824576487465/leqAJpt-CNMP5AUgPbPg0SecgOUj7LO66WGYmd3sK4WE87Dow-GMtjKShHbAZciSIErv";
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('obbylist_lang', lang);
 
-        // ENVIAR RÉCORD A DISCORD (WEBHOOK)
+            const langSelect = document.getElementById('langSelect');
+            if (langSelect) langSelect.value = lang;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                el.textContent = t(key);
+            });
+
+            const searchInput = document.getElementById('searchObby');
+            if (searchInput) searchInput.placeholder = t('search_placeholder');
+
+            const playerSearchInput = document.getElementById('playerSearchInput');
+            if (playerSearchInput) playerSearchInput.placeholder = t('player_search_placeholder');
+
+            const allTiersOpt = document.querySelector('#filterTier option[value="ALL"]');
+            if (allTiersOpt) allTiersOpt.textContent = t('all_tiers');
+
+            renderList();
+            renderStatsSidebar();
+            refreshSelectedProfile();
+
+            if (currentOpenObbyId !== null && document.getElementById('level-detail').classList.contains('active')) {
+                openLevelDetail(currentOpenObbyId);
+            }
+        }
+
+        const SUBMIT_API_URL = "";
+
         document.getElementById('record-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const playerName = document.getElementById('playerName').value.trim();
-            const playerClan = document.getElementById('playerClan').value.trim().toUpperCase();
+            const playerDiscord = document.getElementById('playerDiscord').value.trim();
             const playerCountry = document.getElementById('playerCountry').value;
             const obbyId = parseInt(document.getElementById('obbySelect').value);
             const videoUrl = document.getElementById('videoUrl').value.trim();
@@ -1467,45 +2142,40 @@
                 return;
             }
 
-            // Mensaje estructurado (Embed) que llegará a Discord
-            const payload = {
-                username: "ObbyList Submissions",
-                embeds: [{
-                    title: "🏆 Nuevo Récord Enviado",
-                    color: 3899638, // Azul ObbyList
-                    fields: [
-                        { name: "Jugador", value: (playerClan ? `[${playerClan}] ` : "") + playerName, inline: true },
-                        { name: "País", value: `${getFlag(playerCountry)} ${playerCountry}`, inline: true },
-                        { name: "Nivel", value: `${targetObby.name} (${targetObby.tier})`, inline: false },
-                        { name: "Video / Prueba", value: videoUrl, inline: false }
-                    ],
-                    footer: { text: "Pendiente de revisión por moderadores" },
-                    timestamp: new Date().toISOString()
-                }]
-            };
+            if (!SUBMIT_API_URL) {
+                alertBox.textContent = 'ℹ️ Récord preparado para ' + playerName + ' (Discord: ' + playerDiscord + ') en ' + targetObby.name + '. Conecta tu endpoint en Render (SUBMIT_API_URL) para enviarlo a Discord.';
+                alertBox.style.display = 'block';
+                return;
+            }
 
             try {
                 alertBox.textContent = '⏳ Enviando récord a revisión...';
                 alertBox.style.display = 'block';
 
-                const response = await fetch(DISCORD_WEBHOOK_URL, {
+                const response = await fetch(SUBMIT_API_URL, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({
+                        playerName,
+                        playerDiscord,
+                        playerCountry,
+                        obbyName: targetObby.name,
+                        obbyTier: targetObby.tier,
+                        videoUrl
+                    })
                 });
 
                 if (response.ok) {
                     alertBox.textContent = '✅ ¡Récord enviado con éxito! Un moderador revisará tu video pronto.';
                     this.reset();
                 } else {
-                    alertBox.textContent = '❌ Error al enviar el récord. Revisa que la URL del Webhook sea correcta.';
+                    alertBox.textContent = '❌ Error al enviar el récord.';
                 }
             } catch (error) {
-                alertBox.textContent = '❌ Error de conexión al contactar con Discord.';
+                alertBox.textContent = '❌ Error de conexión al contactar con el servidor.';
             }
         });
 
-        // EXPORTAR Y RESTAURAR
         function exportData() {
             const box = document.getElementById('export-box');
             box.style.display = 'block';
@@ -1517,17 +2187,16 @@
 
         function resetData() {
             if (confirm('¿Seguro que quieres borrar los récords simulados y volver a los datos originales?')) {
-                localStorage.removeItem('obbylist_data_v5');
+                localStorage.removeItem('obbylist_data_v9');
                 obbies = JSON.parse(JSON.stringify(defaultObbies));
                 selectedPlayerName = null;
                 renderList();
                 renderStatsSidebar();
                 document.getElementById('player-profile-panel').innerHTML =
-                    '<div class="player-profile-empty">Haz clic en el nombre de un jugador a la izquierda para ver sus estadísticas.</div>';
+                    '<div class="player-profile-empty">' + t('stats_empty') + '</div>';
             }
         }
 
-        // NAVEGACIÓN Y DROPDOWN
         function toggleDropdown() {
             document.getElementById('list-dropdown').classList.toggle('open');
         }
@@ -1539,6 +2208,10 @@
         });
 
         function showTab(tabId, listMode) {
+            if (tabId !== 'level-detail') {
+                currentOpenObbyId = null;
+            }
+
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('list-dropdown').classList.remove('open');
@@ -1561,9 +2234,8 @@
             }
         }
 
-        // INICIALIZAR
-        renderList();
-        renderStatsSidebar();
+        populateSubmitCountrySelect();
+        changeLanguage(currentLang);
     </script>
 </body>
 </html>
