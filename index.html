@@ -4,8 +4,8 @@
     <meta name="google-site-verification" content="7t2xyquhGgNPBbrMNp9ZSNdeuIBoxhZ888sbj5JCgjw" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ObbyList - Ranking Oficial de Tiered Obbies & Towers</title>
-     <style>
+    <title>ObbyList - Ranking de Tiered Obbies & Towers</title>
+    <style>
         :root {
             --bg-dark: #121417;
             --bg-card: #1b1e23;
@@ -18,6 +18,9 @@
             --border: #2e333d;
             --tier-extreme: #ef4444;
             --tier-extended: #f59e0b;
+            --gold: #fbbf24;
+            --gold-bg: rgba(251, 191, 36, 0.14);
+            --gold-border: rgba(251, 191, 36, 0.55);
         }
 
         * {
@@ -767,12 +770,35 @@
             text-align: center;
         }
 
-        .discord-widget-box h3 {
-            font-size: 1.15rem;
-            font-weight: 800;
+        .discord-widget-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
             margin-bottom: 0.65rem;
             padding-bottom: 0.5rem;
             border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .discord-widget-header h3 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+
+        .coming-soon-badge {
+            background-color: rgba(245, 158, 11, 0.16);
+            color: var(--tier-extended);
+            border: 1px solid var(--tier-extended);
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 0.12rem 0.5rem;
+            border-radius: 999px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
         }
 
         /* STATS VIEWER (3 COLUMNAS) */
@@ -908,6 +934,32 @@
             border-radius: 6px;
             margin-bottom: 0.5rem;
             font-size: 0.92rem;
+            gap: 0.6rem;
+        }
+
+        .completed-item.is-verified {
+            border-color: var(--gold-border);
+            background: linear-gradient(90deg, var(--gold-bg) 0%, var(--bg-dark) 100%);
+        }
+
+        .completed-item.is-verified .verified-level-title {
+            color: var(--gold);
+        }
+
+        .verified-gold-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            background-color: var(--gold-bg);
+            color: var(--gold);
+            border: 1px solid var(--gold-border);
+            padding: 0.1rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            margin-left: 0.35rem;
+            vertical-align: middle;
         }
 
         .completed-item a {
@@ -915,9 +967,10 @@
             text-decoration: none;
             font-weight: 600;
             font-size: 0.85rem;
+            flex-shrink: 0;
         }
 
-        /* REGLAS / GUIDELINES */
+        /* REGLAS / ACTUALIZACIONES */
         .rules-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border);
@@ -1024,7 +1077,91 @@
             font-size: 0.92rem;
         }
 
-        /* BOTÓN DE CRÉDITOS SIMPLE / SIN DECORACIÓN */
+        /* CRÉDITOS Y BOTÓN ESTILIZADO */
+        .credits-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.8rem 2rem;
+            max-width: 820px;
+            margin: 0 auto;
+        }
+
+        .credits-card p {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .credits-card strong {
+            color: var(--text-main);
+        }
+
+        .credits-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+            margin: 1.1rem 0 1.5rem 0;
+        }
+
+        .credit-source-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background-color: var(--bg-dark);
+            color: var(--accent);
+            border: 1px solid var(--border);
+            padding: 0.45rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.18s;
+        }
+
+        .credit-source-link:hover {
+            border-color: var(--accent);
+            background-color: rgba(59, 130, 246, 0.14);
+            transform: translateY(-1px);
+        }
+
+        .credits-team-box {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1.4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            font-size: 0.92rem;
+        }
+
+        .btn-credits-fancy {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.35));
+            color: var(--text-main);
+            border: 1px solid rgba(59, 130, 246, 0.55);
+            padding: 0.5rem 1.05rem;
+            border-radius: 8px;
+            font-size: 0.86rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.15);
+        }
+
+        .btn-credits-fancy:hover {
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            border-color: var(--accent);
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.3);
+        }
+
         footer {
             max-width: 1220px;
             margin: 2rem auto 1.5rem auto;
@@ -1042,7 +1179,7 @@
 
     <header>
         <div class="logo" onclick="showTab('list', 'main')">
-            OBBY<span>LIST</span> <small>Alpha v0.9.0</small>
+            OBBY<span>LIST</span> <small>Beta v1.0.0</small>
         </div>
 
         <nav>
@@ -1054,11 +1191,13 @@
                     <button class="dropdown-item" onclick="showTab('list', 'main')">Main List (Top 7)</button>
                     <button class="dropdown-item" onclick="showTab('list', 'extended')">Extended List (#8+)</button>
                     <button class="dropdown-item" onclick="showTab('rules')">Guidelines / Reglas</button>
+                    <button class="dropdown-item" onclick="showTab('updates')">Actualizaciones</button>
                 </div>
             </div>
 
             <button class="nav-btn" id="nav-stats" onclick="showTab('stats')" data-i18n="nav_stats">Stats Viewer</button>
             <button class="nav-btn" id="nav-submit" onclick="showTab('submit')" data-i18n="nav_submit">Enviar Récord</button>
+            <button class="nav-btn" id="nav-updates" onclick="showTab('updates')">Actualizaciones</button>
 
             <select id="langSelect" onchange="changeLanguage(this.value)" style="width: auto; padding: 0.4rem 0.6rem; font-size: 0.85rem; font-weight: 700;">
                 <option value="es">🇦🇷 ES</option>
@@ -1074,6 +1213,7 @@
                 <button class="list-subnav-btn active" id="subnav-main" onclick="showTab('list', 'main')">Main List (Top 7)</button>
                 <button class="list-subnav-btn" id="subnav-extended" onclick="showTab('list', 'extended')">Extended List</button>
                 <button class="list-subnav-btn" onclick="showTab('rules')">Guidelines</button>
+                <button class="list-subnav-btn" onclick="showTab('updates')">Actualizaciones</button>
             </div>
 
             <div class="demonlist-layout">
@@ -1105,7 +1245,10 @@
                     </aside>
 
                     <aside class="discord-widget-box">
-                        <h3>Discord Oficial</h3>
+                        <div class="discord-widget-header">
+                            <h3>Discord Oficial</h3>
+                            <span class="coming-soon-badge">Coming Soon</span>
+                        </div>
                         <iframe src="https://discord.com/widget?id=1428179469524009063&theme=dark" width="100%" height="380" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
                     </aside>
                 </div>
@@ -1163,11 +1306,11 @@
             </div>
         </section>
 
-        <!-- SECCIÓN 3: GUIDELINES / REGLAS OFICIALES -->
+        <!-- SECCIÓN 3: GUIDELINES / REGLAS -->
         <section id="rules" class="section">
             <div class="section-header">
                 <div>
-                    <h2 data-i18n="rules_title">Guidelines / Reglas Oficiales</h2>
+                    <h2 data-i18n="rules_title">Guidelines / Reglas</h2>
                     <p data-i18n="rules_subtitle">Normativa obligatoria para que un récord sea aceptado en ObbyList.</p>
                 </div>
             </div>
@@ -1226,8 +1369,16 @@
                         <select id="obbySelect" required></select>
                     </div>
                     <div class="form-group">
+                        <label for="playerFps">FPS utilizados en la run:</label>
+                        <input type="text" id="playerFps" placeholder="Ej. 60 FPS, 120 FPS, 240 FPS" required>
+                    </div>
+                    <div class="form-group">
                         <label data-i18n="lbl_video">Link de YouTube / Medal:</label>
                         <input type="url" id="videoUrl" placeholder="https://youtube.com/watch?v=...">
+                    </div>
+                    <div class="form-group">
+                        <label for="rawFootageUrl">Raw Footage (Link de video sin editar / grabación completa):</label>
+                        <input type="url" id="rawFootageUrl" placeholder="https://drive.google.com/... o https://youtube.com/watch?v=...">
                     </div>
                     <button type="submit" class="btn-primary" data-i18n="btn_submit_record">Registrar Récord en la Lista</button>
                 </form>
@@ -1245,19 +1396,98 @@
             </div>
         </section>
 
-        <!-- SECCIÓN 5: CRÉDITOS -->
+        <!-- SECCIÓN 5: ACTUALIZACIONES (ALPHA v0.6.0 -> BETA v1.0.0) -->
+        <section id="updates" class="section">
+            <div class="section-header">
+                <div>
+                    <h2>Actualizaciones (Alpha v0.6.0 — Beta v1.0.0)</h2>
+                    <p>Historial de cambios del proyecto desde la versión Alpha v0.6.0 hasta la Beta v1.0.0.</p>
+                </div>
+            </div>
+
+            <div class="rules-card">
+                <h3>Beta v1.0.0</h3>
+                <ul>
+                    <li><strong>Top 30 cargado:</strong> Incorporación de los niveles del #1 al #30 con creadores, verificadores, locaciones, tiers, duración, estilo y fechas.</li>
+                    <li><strong>Insignia dorada <em>Verified</em> en perfiles:</strong> En el Stats Viewer, los niveles verificados por cada jugador destacan en dorado con su etiqueta <code>★ Verified</code>.</li>
+                    <li><strong>Récords limpios por nivel:</strong> En la ficha de cada nivel se muestran únicamente los <em>victors</em> adicionales sin duplicar al verificador.</li>
+                    <li><strong>Archivo centralizado <code>levels.json</code>:</strong> Base de datos JSON pública en GitHub Pages sincronizada con el comando <code>/ranking</code> del bot de Discord.</li>
+                    <li><strong>Envío de récords ampliado:</strong> Se sumaron los campos de <strong>FPS</strong> y <strong>Raw Footage</strong> en el formulario de envío.</li>
+                    <li><strong>Sección de Créditos renovada:</strong> Presentación transparente del proyecto con fuentes comunitarias y créditos de desarrollo.</li>
+                </ul>
+            </div>
+
+            <div class="rules-card">
+                <h3>Alpha v0.9.0</h3>
+                <ul>
+                    <li><strong>Conexión Web → Discord:</strong> Integración del endpoint para enviar récords desde la página hacia el canal de revisión en Discord.</li>
+                    <li><strong>Ficha dedicada por nivel:</strong> Vista detallada de cada nivel con video embebido, metadatos y tabla de récords.</li>
+                </ul>
+            </div>
+
+            <div class="rules-card">
+                <h3>Alpha v0.8.0</h3>
+                <ul>
+                    <li><strong>Stats Viewer multi-país:</strong> Cálculo de puntajes, filtros por país/región y ordenamiento de niveles completados por jugador.</li>
+                    <li><strong>Soporte bilingüe (ES / EN):</strong> Cambio rápido de idioma en la interfaz y textos clave.</li>
+                </ul>
+            </div>
+
+            <div class="rules-card">
+                <h3>Alpha v0.7.0</h3>
+                <ul>
+                    <li><strong>Main List y Extended List:</strong> Separación entre el Top principal y los puestos posteriores con filtros por texto y tier.</li>
+                    <li><strong>Reglas / Guidelines iniciales:</strong> Primera versión de requisitos de video, FPS, audio y modificaciones permitidas/prohibidas.</li>
+                </ul>
+            </div>
+
+            <div class="rules-card">
+                <h3>Alpha v0.6.0</h3>
+                <ul>
+                    <li><strong>Base inicial del sitio web:</strong> Estructura principal en HTML/CSS/JS, navegación por pestañas y primer catálogo de niveles y récords.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 6: CRÉDITOS -->
         <section id="credits" class="section">
-            <h2>Créditos</h2>
-            <p style="margin-top: 0.5rem;">ObbyList creado por Wolfyter.</p>
-            <p>Aquí puedes agregar los créditos del equipo, colaboradores y agradecimientos.</p>
-            <br>
-            <button onclick="showTab('list', 'main')">Volver</button>
+            <div class="section-header">
+                <div>
+                    <h2>Créditos y Sobre el Proyecto</h2>
+                    <p>Información del proyecto, fuentes de datos y agradecimientos.</p>
+                </div>
+            </div>
+
+            <div class="credits-card">
+                <p>
+                    <strong>ObbyList</strong> es un proyecto personal e independiente creado con el único objetivo de ofrecer una vista clara, ordenada y detallada del ranking de <em>towers</em>, <em>citadels</em> y <em>tiered obbies</em>, junto con las estadísticas de sus jugadores.
+                </p>
+                <p>
+                    Sabemos que ya existen listas comunitarias históricas y súper completas como la <strong>TTL (Tiered Tower List)</strong> y la <strong>TCL</strong>, que son el verdadero referente de la comunidad. Este sitio nace simplemente para darle vida a este espacio web a mi manera, sin dejarlo abandonado y aportando una herramienta cómoda para explorar niveles y récords. ¡Ojalá esta comunidad siga creciendo cada vez más y gracias por pasar y apoyar el proyecto!
+                </p>
+
+                <div class="panel-title" style="margin-top: 1.2rem;">Fuentes y Comunidades de Referencia</div>
+                <div class="credits-links">
+                    <a class="credit-source-link" href="https://docs.google.com/spreadsheets/" target="_blank" rel="noopener">📊 TTL (Tiered Tower List) ↗</a>
+                    <a class="credit-source-link" href="https://docs.google.com/spreadsheets/" target="_blank" rel="noopener">🏆 TCL (Tiered Citadel List) ↗</a>
+                    <a class="credit-source-link" href="https://jtoh.fandom.com/wiki/EToH_Wiki" target="_blank" rel="noopener">📘 EToH Wiki ↗</a>
+                    <a class="credit-source-link" href="https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss" target="_blank" rel="noopener">🌌 The Eternal Abyss ↗</a>
+                    <a class="credit-source-link" href="https://www.roblox.com/es/games/18603968759/Community-Top-Towers" target="_blank" rel="noopener">🗼 Community Top Towers ↗</a>
+                </div>
+
+                <div class="credits-team-box">
+                    <div>👑 <strong>Creador & Mantenimiento:</strong> Wolfyter (Alejo)</div>
+                    <div>✨ <strong>Asistencia de Desarrollo & Código:</strong> Gemini</div>
+                </div>
+
+                <button class="btn-credits-fancy" onclick="showTab('list', 'main')">← Volver al Ranking</button>
+            </div>
         </section>
     </main>
 
     <footer>
-        <span>ObbyList • Alpha v0.9.0</span>
-        <button onclick="showTab('credits')">Créditos</button>
+        <span>ObbyList • Beta v1.0.0</span>
+        <button class="btn-credits-fancy" onclick="showTab('credits')">✨ Créditos</button>
     </footer>
 
     <script>
@@ -1273,7 +1503,7 @@
                 all_tiers: "Todos los Tiers",
                 editors_desc: "Contacta a cualquiera de los editores si tienes problemas con la lista o quieres sugerir un cambio de puesto.",
                 back_list: "← Volver al Ranking",
-                level_sheet: "Ficha oficial del nivel",
+                level_sheet: "Ficha del nivel",
                 created_by: "Creado por",
                 by_word: "por",
                 verified_by: "verificado por",
@@ -1284,8 +1514,9 @@
                 points: "Puntos (100%)",
                 verif_date: "Fecha de Verificación",
                 style: "Estilo de Gameplay",
-                records_title: "Récords Registrados",
-                records_sub: "100% requerido para calificar",
+                records_title: "Récords Registrados (Victors)",
+                records_sub: "100% requerido para calificar (excluye al verificador)",
+                no_extra_victors: "Aún no hay otros jugadores registrados que hayan completado este nivel.",
                 th_player: "Jugador",
                 th_country: "País",
                 th_proof: "Prueba",
@@ -1306,8 +1537,8 @@
                 levels_word: "niveles",
                 verifications_lbl: "Verificaciones:",
                 none_word: "Ninguno",
-                completed_levels_title: "Niveles Completados",
-                rules_title: "Guidelines / Reglas Oficiales",
+                completed_levels_title: "Niveles Completados y Verificados",
+                rules_title: "Guidelines / Reglas",
                 rules_subtitle: "Normativa obligatoria para que un récord sea aceptado en ObbyList.",
                 rule1_title: "1. Requisitos de Video y FPS",
                 rule1_li1: "Grabación completa sin cortes: El video debe mostrar el intento completo desde antes de tocar el primer salto hasta tocar el Winpad.",
@@ -1336,7 +1567,7 @@
                 all_tiers: "All Tiers",
                 editors_desc: "Contact any of the list editors if you have issues with the list or want to suggest a placement change.",
                 back_list: "← Back to Ranking",
-                level_sheet: "Official level sheet",
+                level_sheet: "Level sheet",
                 created_by: "Created by",
                 by_word: "by",
                 verified_by: "verified by",
@@ -1347,8 +1578,9 @@
                 points: "Points (100%)",
                 verif_date: "Verification Date",
                 style: "Gameplay Style",
-                records_title: "Registered Records",
-                records_sub: "100% required to qualify",
+                records_title: "Registered Records (Victors)",
+                records_sub: "100% required to qualify (excludes verifier)",
+                no_extra_victors: "No other players have beaten this level yet.",
                 th_player: "Player",
                 th_country: "Country",
                 th_proof: "Proof",
@@ -1369,8 +1601,8 @@
                 levels_word: "levels",
                 verifications_lbl: "Verifications:",
                 none_word: "None",
-                completed_levels_title: "Completed Levels",
-                rules_title: "Guidelines / Official Rules",
+                completed_levels_title: "Completed & Verified Levels",
+                rules_title: "Guidelines / Rules",
                 rules_subtitle: "Mandatory rules for a record to be accepted on ObbyList.",
                 rule1_title: "1. Video and FPS Requirements",
                 rule1_li1: "Full unedited recording: The video must show the entire attempt from before touching the first jump until touching the Winpad.",
@@ -1474,10 +1706,6 @@
             return '<span class="diff-badge ' + cls + '">' + difficultyName + '</span>';
         }
 
-        // =========================================================================
-        // TOP 10 DE TUS CAPTURAS (SIN THUMBNAIL NI CLAN)
-        // #1 - #7 => MAIN LIST | #8 - #10 => EXTENDED LIST
-        // =========================================================================
         const defaultObbies = [
             {
                 id: 1,
@@ -1486,13 +1714,13 @@
                 verifier: "Gehadimad",
                 locationUrl: "",
                 locationLabel: "Timeless Manor (TEA)",
-                tier: "High-Peak (~13.80)",
+                tier: "High-Peak",
                 difficulty: "Unreal",
                 duration: "Moderate (15+ min.)",
                 verificationDate: "September 17, 2026",
                 style: "Classic, Linear • Raw Difficulty, Punishment",
                 description: "",
-                video: "",
+                video: "https://www.youtube.com/watch?v=LBf_nZd5VxQ&t=396s",
                 victors: [
                     { player: "Gehadimad", country: "USA", video: "" }
                 ]
@@ -1502,7 +1730,7 @@
                 name: "ToINE (Tower of It Never Ends)",
                 creator: "ciel_azulsky",
                 verifier: "MonsterIsABlock",
-                locationUrl: "",
+                locationUrl: "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
                 locationLabel: "The Eternal Abyss",
                 tier: "Mid-High",
                 difficulty: "Unreal",
@@ -1510,7 +1738,7 @@
                 verificationDate: "May 6, 2026",
                 style: "Consistency, Linear • Length, Punishment",
                 description: "",
-                video: "",
+                video: "https://www.youtube.com/watch?v=bwDpQOuQaGg",
                 victors: [
                     { player: "MonsterIsABlock", country: "USA", video: "" }
                 ]
@@ -1520,15 +1748,15 @@
                 name: "ToMEC (Tower of My Emotional Compass)",
                 creator: "a1ien_ation, InBetweenSignals",
                 verifier: "InBetweenSignals",
-                locationUrl: "",
+                locationUrl: "https://www.roblox.com/es/games/18603968759/Community-Top-Towers",
                 locationLabel: "Lag-Free CTT",
                 tier: "Mid-High",
-                difficulty: "Horrific",
+                difficulty: "Unreal",
                 duration: "Long (20+ min.)",
                 verificationDate: "October 29, 2026",
                 style: "Technical, Camera Control • Raw Difficulty",
                 description: "",
-                video: "",
+                video: "https://www.youtube.com/watch?v=cpvnmhbJJIM",
                 victors: [
                     { player: "InBetweenSignals", country: "USA", video: "" }
                 ]
@@ -1538,7 +1766,7 @@
                 name: "STONE: Reborn",
                 creator: "IceNSalt, 7Zakki1",
                 verifier: "MonsterIsABlock",
-                locationUrl: "",
+                locationUrl: "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
                 locationLabel: "The Eternal Abyss",
                 tier: "Mid-High",
                 difficulty: "Horrific",
@@ -1556,7 +1784,7 @@
                 name: "ToID (Tower of Impending Doom)",
                 creator: "Various Creators",
                 verifier: "greenbean1421",
-                locationUrl: "",
+                locationUrl: "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
                 locationLabel: "The Eternal Abyss",
                 tier: "Mid",
                 difficulty: "Catastrophic",
@@ -1564,7 +1792,7 @@
                 verificationDate: "May 11, 2025",
                 style: "Mixed • Length, Punishment",
                 description: "",
-                video: "",
+                video: "https://www.youtube.com/watch?v=DRGmoqF1T_E",
                 victors: [
                     { player: "greenbean1421", country: "USA", video: "" }
                 ]
@@ -1574,7 +1802,7 @@
                 name: "ToW (Tower of Wigglecore)",
                 creator: "ScorpioexLOLez, kkdpracticeacc",
                 verifier: "BoomSasok",
-                locationUrl: "",
+                locationUrl: "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
                 locationLabel: "The Eternal Abyss",
                 tier: "Mid",
                 difficulty: "Terrifying",
@@ -1582,7 +1810,7 @@
                 verificationDate: "July 28, 2025",
                 style: "Camera Control • Raw Difficulty",
                 description: "",
-                video: "",
+                video: "https://www.youtube.com/watch?v=nj2vwu0LeG8&t=55s",
                 victors: [
                     { player: "BoomSasok", country: "Rusia", video: "" }
                 ]
@@ -1592,7 +1820,7 @@
                 name: "ToMH (Tower of Monochromatic Haze)",
                 creator: "Various Creators",
                 verifier: "Gehadimad",
-                locationUrl: "",
+                locationUrl: "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
                 locationLabel: "The Eternal Abyss",
                 tier: "Mid (13.50)",
                 difficulty: "Extreme",
@@ -1600,7 +1828,7 @@
                 verificationDate: "July 6, 2025",
                 style: "Purism, Technical • Raw Difficulty, Punishment",
                 description: "",
-                video: "",
+                video: "https://www.youtube.com/watch?v=HxCV-_zrLW0",
                 victors: [
                     { player: "Gehadimad", country: "USA", video: "" }
                 ]
@@ -1610,7 +1838,7 @@
                 name: "ToTCR (Tower of The Concluding Run)",
                 creator: "sokol50",
                 verifier: "glizzygladiattorrr",
-                locationUrl: "",
+                locationUrl: "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
                 locationLabel: "The Eternal Abyss",
                 tier: "Mid",
                 difficulty: "Extreme",
@@ -1628,7 +1856,7 @@
                 name: "ToMIH (Tower of My Inner Hatred)",
                 creator: "Various Creators",
                 verifier: "SwiftThunder06",
-                locationUrl: "",
+                locationUrl: "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
                 locationLabel: "The Eternal Abyss",
                 tier: "Mid",
                 difficulty: "Insane",
@@ -1646,7 +1874,7 @@
                 name: "ToYOLO (Tower of You Only Live Once)",
                 creator: "1n_rtex, a6iq1",
                 verifier: "a6iq1",
-                locationUrl: "",
+                locationUrl: "https://www.roblox.com/es/games/18603968759/Community-Top-Towers",
                 locationLabel: "Lag-Free CTT",
                 tier: "Mid",
                 difficulty: "Insane",
@@ -1654,9 +1882,369 @@
                 verificationDate: "October 10, 2026",
                 style: "Purism, Technical • Raw Difficulty, Punishment",
                 description: "",
-                video: "",
+                video: "https://www.youtube.com/watch?v=rp1nOIvJqcs&t=54s",
                 victors: [
                     { player: "a6iq1", country: "USA", video: "" }
+                ]
+            },
+            {
+                id: 11,
+                name: "ToDG3 (Tower of Dead Grandma 3)",
+                creator: "Various Creators",
+                verifier: "Gehadimad",
+                locationUrl: "",
+                locationLabel: "Lag-Free CTT",
+                tier: "Low-Mid",
+                difficulty: "",
+                duration: "Very Short (5+ min.)",
+                verificationDate: "July 21, 2026",
+                style: "Client Objects, Technical",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "Gehadimad", country: "", video: "" }
+                ]
+            },
+            {
+                id: 12,
+                name: "ToSF (Tower of Spiralling Fates)",
+                creator: "ciel_azulsky",
+                verifier: "MonsterIsABlock",
+                locationUrl: "",
+                locationLabel: "Pit of Misery (TEA)",
+                tier: "Low-Mid",
+                difficulty: "",
+                duration: "Long (20+ min.)",
+                verificationDate: "October 26, 2024",
+                style: "Purism, Technical",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "MonsterIsABlock", country: "", video: "" }
+                ]
+            },
+            {
+                id: 13,
+                name: "ToEF (Tower of Eternal Folk)",
+                creator: "Various Creators",
+                verifier: "Gehadimad",
+                locationUrl: "",
+                locationLabel: "Place",
+                tier: "Low-Mid",
+                difficulty: "",
+                duration: "Extremely Long (45+ min.)",
+                verificationDate: "July 27, 2026",
+                style: "Classic, Mixed",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "Gehadimad", country: "", video: "" }
+                ]
+            },
+            {
+                id: 14,
+                name: "CoEDS (Citadel of Eternal Decaying Sanity)",
+                creator: "jonyolive, Nevoymyst",
+                verifier: "CTgaming456",
+                locationUrl: "",
+                locationLabel: "Lost Continent (JToD)",
+                tier: "Low-Mid",
+                difficulty: "",
+                duration: "Absurdly Long (90+ min.)",
+                verificationDate: "September 18, 2026",
+                style: "Mixed",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "CTgaming456", country: "", video: "" }
+                ]
+            },
+            {
+                id: 15,
+                name: "CoCBF (Citadel of Cold Blooded Fatality)",
+                creator: "n_rtex, a6iq1",
+                verifier: "BlackportTransport",
+                locationUrl: "",
+                locationLabel: "The Eternal Abyss",
+                tier: "Low-Mid",
+                difficulty: "",
+                duration: "Extremely Long (45+ min.)",
+                verificationDate: "February 23, 2026",
+                style: "Mixed",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "BlackportTransport", country: "", video: "" }
+                ]
+            },
+            {
+                id: 16,
+                name: "ToMM (Tower of Muscle Mania)",
+                creator: "elusivveeee",
+                verifier: "a6iq1",
+                locationUrl: "",
+                locationLabel: "Pit of Misery (TEA)",
+                tier: "Low",
+                difficulty: "",
+                duration: "Moderate (15+ min.)",
+                verificationDate: "August 1, 2026",
+                style: "Purism, Technical",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "a6iq1", country: "", video: "" }
+                ]
+            },
+            {
+                id: 17,
+                name: "ToRTE (Tower of Rebirth The End)",
+                creator: "polovnik30, sokol50",
+                verifier: "a6iq1",
+                locationUrl: "",
+                locationLabel: "Lag-Free CTT",
+                tier: "Low",
+                difficulty: "",
+                duration: "Short (10+ min.)",
+                verificationDate: "August 4, 2026",
+                style: "Technical, Camera Control",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "a6iq1", country: "", video: "" }
+                ]
+            },
+            {
+                id: 18,
+                name: "CoTEC (Citadel of The Eternal Calamity)",
+                creator: "susplayerslayer",
+                verifier: "Marquilitt",
+                locationUrl: "",
+                locationLabel: "The Eternal Abyss",
+                tier: "Low",
+                difficulty: "",
+                duration: "Ridiculously Long (60+ min.)",
+                verificationDate: "July 13, 2024",
+                style: "Mixed",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "Marquilitt", country: "", video: "" }
+                ]
+            },
+            {
+                id: 19,
+                name: "ToCV (Tower of Ceaseless Void)",
+                creator: "Various Creators",
+                verifier: "alexthealexlol",
+                locationUrl: "",
+                locationLabel: "The Soul Crushing Realm",
+                tier: "Low",
+                difficulty: "",
+                duration: "Extremely Long (45+ min.)",
+                verificationDate: "October 20, 2026",
+                style: "Mixed",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "alexthealexlol", country: "", video: "" }
+                ]
+            },
+            {
+                id: 20,
+                name: "OoUS (Obelisk of Unrealistic Sightings)",
+                creator: "Various Creators",
+                verifier: "Pyuruw",
+                locationUrl: "",
+                locationLabel: "Timeless Manor (TEA)",
+                tier: "Low",
+                difficulty: "",
+                duration: "Inhumanely Long (120+ min.)",
+                verificationDate: "April 7, 2026",
+                style: "Mixed",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "Pyuruw", country: "", video: "" }
+                ]
+            },
+            {
+                id: 21,
+                name: "ToQU (Tower of Qwerty Uiop)",
+                creator: "Purple_BaconHair",
+                verifier: "jeang4me",
+                locationUrl: "",
+                locationLabel: "The Eternal Abyss",
+                tier: "Low",
+                difficulty: "",
+                duration: "Moderate (15+ min.)",
+                verificationDate: "December 31, 2024",
+                style: "Purism, Technical",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "jeang4me", country: "", video: "" }
+                ]
+            },
+            {
+                id: 22,
+                name: "CoIV (Citadel of Infinite Void)",
+                creator: "Various Creators",
+                verifier: "skitsuna",
+                locationUrl: "",
+                locationLabel: "Pit of Misery (TEA)",
+                tier: "Low (13.25)",
+                difficulty: "",
+                duration: "Ridiculously Long (60+ min.)",
+                verificationDate: "October 14, 2023",
+                style: "Mixed",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "skitsuna", country: "", video: "" }
+                ]
+            },
+            {
+                id: 23,
+                name: "ToBF (Tower of Blind Fate)",
+                creator: "Nosav",
+                verifier: "tinenderman",
+                locationUrl: "",
+                locationLabel: "Pit of Misery (TEA)",
+                tier: "Low",
+                difficulty: "",
+                duration: "Very Long (30+ min.)",
+                verificationDate: "August 13, 2024",
+                style: "Linear, Purism",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "tinenderman", country: "", video: "" }
+                ]
+            },
+            {
+                id: 24,
+                name: "ToEZ (Tower of Everlasting Zenith)",
+                creator: "piejupiter",
+                verifier: "a6iq1",
+                locationUrl: "",
+                locationLabel: "Place",
+                tier: "Low",
+                difficulty: "",
+                duration: "Very Long (30+ min.)",
+                verificationDate: "September 5, 2026",
+                style: "Linear, Purism",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "a6iq1", country: "", video: "" }
+                ]
+            },
+            {
+                id: 25,
+                name: "ToCB (Tower of Celestial Bloom)",
+                creator: "zkv07, glizzygladiattorrr",
+                verifier: "hyperionblades",
+                locationUrl: "",
+                locationLabel: "The Eternal Abyss",
+                tier: "Low",
+                difficulty: "",
+                duration: "Short (10+ min.)",
+                verificationDate: "June 20, 2026",
+                style: "Voidbound",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "hyperionblades", country: "", video: "" }
+                ]
+            },
+            {
+                id: 26,
+                name: "ToP (Tower of Paradise)",
+                creator: "Macloux",
+                verifier: "Yazmania_1m",
+                locationUrl: "",
+                locationLabel: "Pit of Misery (TEA)",
+                tier: "Bottom-Low",
+                difficulty: "",
+                duration: "Short (10+ min.)",
+                verificationDate: "October 11, 2025",
+                style: "Purism, Technical",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "Yazmania_1m", country: "", video: "" }
+                ]
+            },
+            {
+                id: 27,
+                name: "ToMIM (Tower of Maybe In Mumbai)",
+                creator: "Various Creators",
+                verifier: "ChillUltralight",
+                locationUrl: "",
+                locationLabel: "Place",
+                tier: "Bottom-Low",
+                difficulty: "",
+                duration: "Very Long (30+ min.)",
+                verificationDate: "May 2, 2026",
+                style: "Mixed",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "ChillUltralight", country: "", video: "" }
+                ]
+            },
+            {
+                id: 28,
+                name: "ToZS (Tower of Zen Surplus)",
+                creator: "ciel_azulsky, skitsuna",
+                verifier: "SeeRyanplayroblox",
+                locationUrl: "",
+                locationLabel: "The Eternal Abyss",
+                tier: "Bottom-Low",
+                difficulty: "",
+                duration: "Very Short (5+ min.)",
+                verificationDate: "February 20, 2026",
+                style: "Purism, Technical",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "SeeRyanplayroblox", country: "", video: "" }
+                ]
+            },
+            {
+                id: 29,
+                name: "TT (Target Tower)",
+                creator: "Various Creators",
+                verifier: "player0v0",
+                locationUrl: "",
+                locationLabel: "Void's Pique",
+                tier: "Bottom-Low",
+                difficulty: "",
+                duration: "Short (10+ min.)",
+                verificationDate: "December 12, 2025",
+                style: "Purism, Technical",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "player0v0", country: "", video: "" }
+                ]
+            },
+            {
+                id: 30,
+                name: "ToTT (Tower of Twenty Two)",
+                creator: "Various Creators",
+                verifier: "carmenistal",
+                locationUrl: "",
+                locationLabel: "Timeless Manor (TEA)",
+                tier: "Bottom",
+                difficulty: "",
+                duration: "Extremely Long (45+ min.)",
+                verificationDate: "February 7, 2026",
+                style: "Purism, Mixed",
+                description: "",
+                video: "",
+                victors: [
+                    { player: "carmenistal", country: "", video: "" }
                 ]
             }
         ];
@@ -1721,6 +2309,7 @@
                 const points = calculatePoints(rank);
                 const thumbSrc = resolveThumbnail(obby);
                 const verifyLink = obby.video || (obby.victors[0] && obby.victors[0].video) || '';
+                const extraVictorsCount = obby.victors.filter(v => v.player.toLowerCase() !== obby.verifier.toLowerCase()).length;
 
                 let thumbHTML = '';
                 if (thumbSrc) {
@@ -1752,7 +2341,7 @@
                             '<span>' + points.toFixed(2) + ' pts</span>' +
                             '<span class="tier-pill ' + (isExtended ? 'extended' : '') + '">' + obby.tier + '</span>' +
                             getDifficultyBadgeHTML(obby.difficulty) +
-                            '<span style="font-size:0.8rem;">• ' + obby.victors.length + ' record(s)</span>' +
+                            '<span style="font-size:0.8rem;">• ' + extraVictorsCount + ' victor(s)</span>' +
                         '</div>' +
                     '</div>';
 
@@ -1810,25 +2399,51 @@
                 ? '<div class="level-quote-desc">"' + obby.description + '"</div>'
                 : '<div style="margin-bottom:1.2rem;border-bottom:1px solid var(--border);"></div>';
 
-            let recordsRowsHTML = '';
-            obby.victors.forEach(function(v, vIdx) {
-                const videoBtn = (v.video && v.video.trim() !== '')
-                    ? '<a class="record-video-btn" href="' + v.video + '" target="_blank">' + t('watch_video') + '</a>'
-                    : '<span class="no-video">' + t('no_video') + '</span>';
-
-                const safeNameAttr = v.player.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
-
-                recordsRowsHTML +=
-                    '<tr>' +
-                        '<td style="color:var(--text-muted);font-weight:700;">#' + (vIdx + 1) + '</td>' +
-                        '<td>' +
-                            getFlag(v.country) + ' ' +
-                            '<span class="record-player-link" data-player="' + safeNameAttr + '" onclick="jumpToPlayerProfile(this.dataset.player)">' + v.player + '</span>' +
-                        '</td>' +
-                        '<td>' + v.country + '</td>' +
-                        '<td style="text-align:right;">' + videoBtn + '</td>' +
-                    '</tr>';
+            // Excluir al verificador de la tabla de récords del nivel
+            const nonVerifierVictors = obby.victors.filter(function(v) {
+                return v.player.trim().toLowerCase() !== obby.verifier.trim().toLowerCase();
             });
+
+            let recordsSectionBodyHTML = '';
+            if (nonVerifierVictors.length === 0) {
+                recordsSectionBodyHTML =
+                    '<p style="text-align:center;color:var(--text-muted);font-size:0.9rem;padding:0.8rem 0;">' +
+                        t('no_extra_victors') +
+                    '</p>';
+            } else {
+                let recordsRowsHTML = '';
+                nonVerifierVictors.forEach(function(v, vIdx) {
+                    const videoBtn = (v.video && v.video.trim() !== '')
+                        ? '<a class="record-video-btn" href="' + v.video + '" target="_blank">' + t('watch_video') + '</a>'
+                        : '<span class="no-video">' + t('no_video') + '</span>';
+
+                    const safeNameAttr = v.player.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+
+                    recordsRowsHTML +=
+                        '<tr>' +
+                            '<td style="color:var(--text-muted);font-weight:700;">#' + (vIdx + 1) + '</td>' +
+                            '<td>' +
+                                getFlag(v.country) + ' ' +
+                                '<span class="record-player-link" data-player="' + safeNameAttr + '" onclick="jumpToPlayerProfile(this.dataset.player)">' + v.player + '</span>' +
+                            '</td>' +
+                            '<td>' + (v.country || '-') + '</td>' +
+                            '<td style="text-align:right;">' + videoBtn + '</td>' +
+                        '</tr>';
+                });
+
+                recordsSectionBodyHTML =
+                    '<table class="records-table">' +
+                        '<thead>' +
+                            '<tr>' +
+                                '<th style="width:60px;">#</th>' +
+                                '<th>' + t('th_player') + '</th>' +
+                                '<th>' + t('th_country') + '</th>' +
+                                '<th style="text-align:right;">' + t('th_proof') + '</th>' +
+                            '</tr>' +
+                        '</thead>' +
+                        '<tbody>' + recordsRowsHTML + '</tbody>' +
+                    '</table>';
+            }
 
             const container = document.getElementById('level-detail-content');
             container.innerHTML =
@@ -1890,19 +2505,9 @@
                 '<div class="level-records-box">' +
                     '<div class="level-records-header">' +
                         '<h3>' + t('records_title') + '</h3>' +
-                        '<p>' + t('records_sub') + ' • ' + obby.victors.length + ' record(s)</p>' +
+                        '<p>' + t('records_sub') + ' • ' + nonVerifierVictors.length + ' victor(s)</p>' +
                     '</div>' +
-                    '<table class="records-table">' +
-                        '<thead>' +
-                            '<tr>' +
-                                '<th style="width:60px;">#</th>' +
-                                '<th>' + t('th_player') + '</th>' +
-                                '<th>' + t('th_country') + '</th>' +
-                                '<th style="text-align:right;">' + t('th_proof') + '</th>' +
-                            '</tr>' +
-                        '</thead>' +
-                        '<tbody>' + recordsRowsHTML + '</tbody>' +
-                    '</table>' +
+                    recordsSectionBodyHTML +
                 '</div>';
         }
 
@@ -1930,6 +2535,8 @@
                 const points = calculatePoints(rank);
 
                 obby.victors.forEach(function(v) {
+                    const isVerifier = obby.verifier.trim().toLowerCase() === v.player.trim().toLowerCase();
+
                     if (!playerMap[v.player]) {
                         playerMap[v.player] = {
                             name: v.player,
@@ -1947,10 +2554,11 @@
                         name: obby.name,
                         tier: obby.tier,
                         points: points,
-                        video: v.video
+                        video: v.video || (isVerifier ? obby.video : ''),
+                        isVerifiedByPlayer: isVerifier
                     });
 
-                    if (obby.verifier.toLowerCase() === v.player.toLowerCase()) {
+                    if (isVerifier) {
                         playerMap[v.player].verified.push(obby.name);
                     }
 
@@ -1969,7 +2577,7 @@
         function updateCountryDropdown(players) {
             const countrySelect = document.getElementById('countryFilterSelect');
             const currentVal = countrySelect.value;
-            const countries = [...new Set(players.map(p => p.country))].sort();
+            const countries = [...new Set(players.map(p => p.country).filter(Boolean))].sort();
 
             countrySelect.innerHTML = '<option value="ALL">' + t('all_countries') + '</option>';
             countries.forEach(function(c) {
@@ -2012,10 +2620,12 @@
                     renderPlayerProfile(p, idx + 1);
                 };
 
+                const verifierStar = p.verified.length > 0 ? ' <span style="color:var(--gold);font-size:0.8rem;" title="Verifier">★</span>' : '';
+
                 item.innerHTML =
                     '<div>' +
                         '<span class="player-rank-num">#' + (idx + 1) + '</span> ' +
-                        getFlag(p.country) + ' <strong>' + p.name + '</strong>' +
+                        getFlag(p.country) + ' <strong>' + p.name + '</strong>' + verifierStar +
                     '</div>' +
                     '<span class="player-pts-small">' + p.points.toFixed(1) + '</span>';
 
@@ -2038,7 +2648,13 @@
                 levels.sort((a, b) => a.rank - b.rank);
             }
 
-            const verifiedText = player.verified.length > 0 ? player.verified.join(', ') : t('none_word');
+            const verifiedText = player.verified.length > 0
+                ? '<span style="color:var(--gold);font-weight:700;">' + player.verified.join(', ') + '</span>'
+                : t('none_word');
+
+            const headerVerifiedBadge = player.verified.length > 0
+                ? '<span class="verified-gold-badge">★ Verifier (' + player.verified.length + ')</span>'
+                : '';
 
             let completedHTML = '';
             levels.forEach(function(lvl) {
@@ -2046,12 +2662,17 @@
                     '<a href="' + lvl.video + '" target="_blank">Video ↗</a>' :
                     '<span class="no-video">' + t('no_video') + '</span>';
 
+                const verifiedTag = lvl.isVerifiedByPlayer
+                    ? '<span class="verified-gold-badge">★ Verified</span>'
+                    : '';
+
                 completedHTML +=
-                    '<div class="completed-item">' +
+                    '<div class="completed-item' + (lvl.isVerifiedByPlayer ? ' is-verified' : '') + '">' +
                         '<div>' +
-                            '<strong style="color:var(--accent);">#' + lvl.rank + '</strong> ' +
-                            '<strong>' + lvl.name + '</strong> ' +
+                            '<strong style="color:' + (lvl.isVerifiedByPlayer ? 'var(--gold)' : 'var(--accent)') + ';">#' + lvl.rank + '</strong> ' +
+                            '<strong class="' + (lvl.isVerifiedByPlayer ? 'verified-level-title' : '') + '">' + lvl.name + '</strong> ' +
                             '<span style="color:var(--text-muted);font-size:0.82rem;">(' + lvl.tier + ' • +' + lvl.points + ' pts)</span>' +
+                            verifiedTag +
                         '</div>' +
                         videoBtn +
                     '</div>';
@@ -2059,7 +2680,7 @@
 
             panel.innerHTML =
                 '<div class="profile-header">' +
-                    '<div class="profile-name">' + getFlag(player.country) + ' ' + player.name + '</div>' +
+                    '<div class="profile-name">' + getFlag(player.country) + ' ' + player.name + headerVerifiedBadge + '</div>' +
                     '<span class="tier-pill">#' + displayRank + '</span>' +
                 '</div>' +
                 '<div class="profile-grid">' +
@@ -2122,7 +2743,7 @@
             }
         }
 
-        const SUBMIT_API_URL = "https://obbylist-bot.onrender.com/api/records";
+        const SUBMIT_API_URL = "";
 
         document.getElementById('record-form').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -2130,7 +2751,9 @@
             const playerDiscord = document.getElementById('playerDiscord').value.trim();
             const playerCountry = document.getElementById('playerCountry').value;
             const obbyId = parseInt(document.getElementById('obbySelect').value);
+            const playerFps = document.getElementById('playerFps').value.trim();
             const videoUrl = document.getElementById('videoUrl').value.trim();
+            const rawFootageUrl = document.getElementById('rawFootageUrl').value.trim();
             const alertBox = document.getElementById('submit-alert');
 
             const targetObby = obbies.find(o => o.id === obbyId);
@@ -2143,7 +2766,7 @@
             }
 
             if (!SUBMIT_API_URL) {
-                alertBox.textContent = 'ℹ️ Récord preparado para ' + playerName + ' (Discord: ' + playerDiscord + ') en ' + targetObby.name + '. Conecta tu endpoint en Render (SUBMIT_API_URL) para enviarlo a Discord.';
+                alertBox.textContent = 'ℹ️ Récord preparado para ' + playerName + ' (Discord: ' + playerDiscord + ' • FPS: ' + playerFps + ') en ' + targetObby.name + '. Conecta tu endpoint en Render (SUBMIT_API_URL) para enviarlo a Discord.';
                 alertBox.style.display = 'block';
                 return;
             }
@@ -2161,7 +2784,9 @@
                         playerCountry,
                         obbyName: targetObby.name,
                         obbyTier: targetObby.tier,
-                        videoUrl
+                        playerFps,
+                        videoUrl,
+                        rawFootageUrl
                     })
                 });
 
@@ -2226,6 +2851,8 @@
                 renderList();
             } else if (tabId === 'rules') {
                 document.getElementById('nav-list-btn').classList.add('active');
+            } else if (tabId === 'updates') {
+                document.getElementById('nav-updates').classList.add('active');
             } else if (tabId === 'stats') {
                 document.getElementById('nav-stats').classList.add('active');
                 renderStatsSidebar();
