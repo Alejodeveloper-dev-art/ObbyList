@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ObbyList - Ranking de Tiered Obbies & Towers</title>
+    
+
     <style>
         :root {
             --bg-dark: #121417;
@@ -539,12 +541,86 @@
         }
 
         .level-hero-box {
+            --diff-glow-color: rgba(59, 130, 246, 0.22);
+            --diff-border-color: var(--border);
             background-color: var(--bg-card);
-            border: 1px solid var(--border);
+            border: 1px solid var(--diff-border-color);
             border-radius: 10px;
             padding: 1.8rem 2rem;
             margin-bottom: 1.3rem;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, 0.4),
+                0 0 38px -6px var(--diff-glow-color),
+                inset 0 0 28px -14px var(--diff-glow-color);
+            transition: box-shadow 0.35s ease, border-color 0.35s ease;
+        }
+
+        .level-hero-box::before {
+            content: "";
+            position: absolute;
+            inset: -35%;
+            background: radial-gradient(circle at 50% 18%, var(--diff-glow-color), transparent 65%);
+            opacity: 0.55;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .level-hero-box > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes diffFlowPulse {
+            0%, 100% {
+                opacity: 0.42;
+                transform: scale(0.98) translateY(0px);
+            }
+            50% {
+                opacity: 0.78;
+                transform: scale(1.03) translateY(-6px);
+            }
+        }
+
+        .level-hero-box.diff-flow-animated::before {
+            animation: diffFlowPulse 5.5s ease-in-out infinite;
+        }
+
+        .level-hero-box.glow-insane {
+            --diff-glow-color: rgba(0, 68, 255, 0.36);
+            --diff-border-color: rgba(128, 159, 255, 0.5);
+        }
+
+        .level-hero-box.glow-extreme {
+            --diff-glow-color: rgba(0, 136, 255, 0.36);
+            --diff-border-color: rgba(102, 184, 255, 0.5);
+        }
+
+        .level-hero-box.glow-terrifying {
+            --diff-glow-color: rgba(0, 255, 255, 0.32);
+            --diff-border-color: rgba(92, 230, 230, 0.5);
+        }
+
+        .level-hero-box.glow-catastrophic {
+            --diff-glow-color: rgba(255, 255, 255, 0.24);
+            --diff-border-color: rgba(255, 255, 255, 0.45);
+        }
+
+        .level-hero-box.glow-horrific {
+            --diff-glow-color: rgba(150, 150, 255, 0.42);
+            --diff-border-color: rgba(184, 184, 255, 0.65);
+        }
+
+        .level-hero-box.glow-unreal {
+            --diff-glow-color: rgba(138, 43, 226, 0.48);
+            --diff-border-color: rgba(179, 102, 255, 0.7);
+        }
+
+        body.level-ambient-active {
+            --page-ambient-glow: rgba(59, 130, 246, 0.08);
+            background-image: radial-gradient(circle at 50% 120px, var(--page-ambient-glow), transparent 58%);
+            background-attachment: fixed;
         }
 
         .level-nav-header {
@@ -1447,7 +1523,7 @@
 
     <header>
         <div class="logo" onclick="showTab('list', 'tower-main')">
-            OBBY<span>LIST</span> <small>Beta v1.2.1</small>
+            OBBY<span>LIST</span> <small>Beta v1.2.2</small>
         </div>
 
         <nav>
@@ -1506,11 +1582,6 @@
                         <input type="text" id="searchObby" placeholder="Buscar nivel, creador o verificador..." oninput="renderList()">
                         <select id="filterTier" onchange="renderList()">
                             <option value="ALL">Todos los Tiers</option>
-                            <option value="High-Peak">High-Peak</option>
-                            <option value="Mid-High">Mid-High</option>
-                            <option value="Mid">Mid</option>
-                            <option value="Low">Low</option>
-                            <option value="Bottom">Bottom</option>
                         </select>
                     </div>
 
@@ -1699,11 +1770,29 @@
             </div>
 
             <div class="rules-card">
+                <h3>Beta v1.2.2</h3>
+                <ul>
+                    <li><strong>Filtro de tiers dinámico por categoría:</strong> El selector de dificultades ahora cambia automáticamente entre <em>Towers</em> y <em>Obbys</em> según la pestaña activa.</li>
+                    <li><strong>Catálogo de filtros en Towers:</strong> Incorporación de <em>Unreal</em>, <em>Horrific</em>, <em>Catastrophic</em>, <em>Terrifying</em>, <em>Extreme</em>, <em>Insane</em>, <em>Peak</em>, <em>High-Peak</em>, <em>high</em>, <em>mid-high</em>, <em>mid</em>, <em>low-mid</em>, <em>low</em>, <em>low-bottom</em> y <em>bottom</em>.</li>
+                    <li><strong>Catálogo de filtros en Obbys:</strong> Incorporación de <em>Tier 18</em> hasta <em>Tier 15</em> junto con <em>Peak</em>, <em>High-Peak</em>, <em>high</em>, <em>mid-high</em>, <em>mid</em>, <em>low-mid</em>, <em>low</em>, <em>low-bottom</em> y <em>bottom</em>.</li>
+                    <li><strong>Filtrado más preciso:</strong> Ajuste en la lógica para evitar que rangos como <em>Low-Mid</em> o <em>Mid-High</em> se mezclen al filtrar por <em>Low</em> o <em>Mid</em>, y compatibilidad con <em>Bottom-Low</em> dentro de <em>low-bottom</em>.</li>
+                </ul>
+            </div>
+
+            <div class="rules-card">
                 <h3>Beta v1.2.1</h3>
                 <ul>
                     <li><strong>Sección Obbys activada:</strong> Incorporación de las pestañas <em>Main List</em> y <em>Legacy List</em> dentro del apartado de Obbys, con niveles iniciales de ejemplo (<em>Stairway to Heaven</em> y <em>Back There Benjamin</em>).</li>
                     <li><strong>Stats Viewer separado (Global, Towers y Obbys):</strong> Nuevo filtro por categoría en el ranking de jugadores, con estadísticas independientes de puntaje, <em>Hardest</em>, completados y verificados para Towers y Obbys.</li>
                     <li><strong>Nuevos victors y videos en Towers:</strong> Actualización de récords, enlaces de verificación y locaciones en el Top 30 de Towers.</li>
+                </ul>
+            </div>
+
+            <div class="rules-card">
+                <h3>Beta v1.2.0</h3>
+                <ul>
+                    <li><strong>Ampliación de catálogo y puntajes:</strong> Expansión de la lista de Towers hasta los 50 niveles y ajuste del sistema de puntos hasta el #100 (0 pts desde el #101).</li>
+                    <li><strong>Base de envío y perfiles lista para Obbys:</strong> Preparación de los campos de envío y estructura de datos previa a la activación de la sección de Obbys.</li>
                 </ul>
             </div>
 
@@ -1736,10 +1825,27 @@
             </div>
 
             <div class="rules-card">
+                <h3>Alpha v0.8.1</h3>
+                <ul>
+                    <li><strong>Idioma ES / EN:</strong> Se añadió el selector de idioma con traducción para navegación, reglas, ficha de nivel, stats y formulario.</li>
+                    <li><strong>Widget de Discord y badges de dificultad:</strong> Incorporación del widget lateral de Discord y colores distintivos por dificultad (*Insane* a *Unreal*).</li>
+                    <li><strong>Sección de Créditos inicial:</strong> Primer botón en el <em>footer</em> y vista base de créditos del proyecto.</li>
+                </ul>
+            </div>
+
+            <div class="rules-card">
                 <h3>Alpha v0.8.0</h3>
                 <ul>
                     <li><strong>Stats Viewer multi-país:</strong> Cálculo de puntajes, filtros por país/región y ordenamiento de niveles completados por jugador.</li>
                     <li><strong>Soporte bilingüe (ES / EN):</strong> Cambio rápido de idioma en la interfaz y textos clave.</li>
+                </ul>
+            </div>
+
+            <div class="rules-card">
+                <h3>Alpha v0.7.1</h3>
+                <ul>
+                    <li><strong>Base de ranking y Stats Viewer:</strong> Estructura inicial de <em>Main List</em> y <em>Extended List</em>, filtros por texto/tier, perfil de jugador con clanes/países y vista detallada por nivel.</li>
+                    <li><strong>Simulador y exportación:</strong> Formulario de envío de récords con guardado local y exportación de <code>defaultObbies</code>.</li>
                 </ul>
             </div>
 
@@ -1805,6 +1911,40 @@
         const TOWER_MAIN_LIMIT = 25;
         // Obby Main List = Top 1 por ahora (Stairway to Heaven #1 Main, Back There Benjamin #2 Legacy)
         const OBBY_MAIN_LIMIT = 1;
+
+        const TOWER_FILTER_OPTIONS = [
+            "Unreal",
+            "Horrific",
+            "Catastrophic",
+            "Terrifying",
+            "Extreme",
+            "Insane",
+            "Peak",
+            "High-Peak",
+            "high",
+            "mid-high",
+            "mid",
+            "low-mid",
+            "low",
+            "low-bottom",
+            "bottom"
+        ];
+
+        const OBBY_FILTER_OPTIONS = [
+            "Tier 18",
+            "Tier 17",
+            "Tier 16",
+            "Tier 15",
+            "Peak",
+            "High-Peak",
+            "high",
+            "mid-high",
+            "mid",
+            "low-mid",
+            "low",
+            "low-bottom",
+            "bottom"
+        ];
 
         const translations = {
             es: {
@@ -2026,6 +2166,32 @@
             else if (d.includes('insane')) cls = 'diff-insane';
 
             return '<span class="diff-badge ' + cls + '">' + difficultyName + '</span>';
+        }
+
+        function getLevelGlowConfig(difficultyName) {
+            if (!difficultyName) {
+                return { cls: '', animate: false, ambientRgba: 'rgba(59, 130, 246, 0.08)' };
+            }
+            const d = difficultyName.toLowerCase();
+            if (d.includes('unreal')) {
+                return { cls: 'glow-unreal', animate: true, ambientRgba: 'rgba(138, 43, 226, 0.14)' };
+            }
+            if (d.includes('horrific')) {
+                return { cls: 'glow-horrific', animate: true, ambientRgba: 'rgba(150, 150, 255, 0.12)' };
+            }
+            if (d.includes('catastrophic')) {
+                return { cls: 'glow-catastrophic', animate: false, ambientRgba: 'rgba(255, 255, 255, 0.08)' };
+            }
+            if (d.includes('terrifying')) {
+                return { cls: 'glow-terrifying', animate: false, ambientRgba: 'rgba(0, 255, 255, 0.09)' };
+            }
+            if (d.includes('extreme')) {
+                return { cls: 'glow-extreme', animate: false, ambientRgba: 'rgba(0, 136, 255, 0.10)' };
+            }
+            if (d.includes('insane')) {
+                return { cls: 'glow-insane', animate: false, ambientRgba: 'rgba(0, 68, 255, 0.10)' };
+            }
+            return { cls: '', animate: false, ambientRgba: 'rgba(59, 130, 246, 0.08)' };
         }
 
         // =========================================================================
@@ -2255,7 +2421,7 @@
                 verificationDate: "October 26, 2024",
                 style: "Purism, Technical",
                 description: "",
-                video: "",
+                video: "https://www.youtube.com/watch?v=Wc3IJivXjfE",
                 victors: [
                     { player: "MonsterIsABlock", country: "", video: "" }
                 ]
@@ -2273,7 +2439,7 @@
                 verificationDate: "July 27, 2026",
                 style: "Classic, Mixed",
                 description: "",
-                video: "",
+                video: "https://www.youtube.com/watch?v=ju3qJdAgb94",
                 victors: [
                     { player: "Gehadimad", country: "", video: "" }
                 ]
@@ -2291,7 +2457,7 @@
                 verificationDate: "September 18, 2026",
                 style: "Mixed",
                 description: "",
-                video: "",
+                video: "https://www.youtube.com/watch?v=t3-YcRXsHhY",
                 victors: [
                     { player: "CTgaming456", country: "", video: "" }
                 ]
@@ -2309,7 +2475,7 @@
                 verificationDate: "February 23, 2026",
                 style: "Mixed",
                 description: "",
-                video: "",
+                video: "https://www.youtube.com/watch?v=foOtLcnyII0",
                 victors: [
                     { player: "BlackportTransport", country: "", video: "" },
                     { player: "Purominasa", country: "", video: "https://www.youtube.com/watch?v=q776RVGR224" },
@@ -2349,7 +2515,7 @@
                 verificationDate: "August 4, 2026",
                 style: "Technical, Camera Control",
                 description: "",
-                video: "",
+                video: "https://www.youtube.com/watch?v=gQobUYJc6XE",
                 victors: [
                     { player: "a6iq1", country: "", video: "" },
                     { player: "CTgaming456", country: "", video: "https://www.youtube.com/watch?v=bYzHJIjfEqY" },
@@ -2386,7 +2552,7 @@
                 locationUrl: "",
                 locationLabel: "The Soul Crushing Realm",
                 tier: "Low",
-                difficulty: "",
+                difficulty: "Unreal",
                 duration: "Extremely Long (45+ min.)",
                 verificationDate: "October 20, 2026",
                 style: "Mixed",
@@ -2404,7 +2570,7 @@
                 locationUrl: "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
                 locationLabel: "Timeless Manor (TEA)",
                 tier: "Low",
-                difficulty: "",
+                difficulty: "Unreal",
                 duration: "Inhumanely Long (120+ min.)",
                 verificationDate: "April 7, 2026",
                 style: "Mixed",
@@ -2412,7 +2578,7 @@
                 video: "https://www.youtube.com/watch?v=C2J7jaC-pt0",
                 victors: [
                     { player: "Pyuruw", country: "", video: "" },
-                    {player: "Carolistic", country: "", video: "https://www.youtube.com/watch?v=F0RTpD7uq4Q"}
+                    { player: "Carolistic", country: "", video: "https://www.youtube.com/watch?v=F0RTpD7uq4Q" }
                 ]
             },
             {
@@ -2423,7 +2589,7 @@
                 locationUrl: "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
                 locationLabel: "The Eternal Abyss",
                 tier: "Low",
-                difficulty: "",
+                difficulty: "Unreal",
                 duration: "Moderate (15+ min.)",
                 verificationDate: "December 31, 2024",
                 style: "Purism, Technical",
@@ -2441,7 +2607,7 @@
                 locationUrl: "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
                 locationLabel: "Pit of Misery (TEA)",
                 tier: "Low (13.25)",
-                difficulty: "",
+                difficulty: "Unreal",
                 duration: "Ridiculously Long (60+ min.)",
                 verificationDate: "October 14, 2023",
                 style: "Mixed",
@@ -2462,12 +2628,12 @@
                 locationUrl: "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
                 locationLabel: "Pit of Misery (TEA)",
                 tier: "Low",
-                difficulty: "",
+                difficulty: "Unreal",
                 duration: "Very Long (30+ min.)",
                 verificationDate: "August 13, 2024",
                 style: "Linear, Purism",
                 description: "",
-                video: "",
+                video: "https://www.youtube.com/watch?v=uALJaitSYNs",
                 victors: [
                     { player: "tinenderman", country: "", video: "" }
                 ]
@@ -2480,12 +2646,12 @@
                 locationUrl: "",
                 locationLabel: "Place",
                 tier: "Low",
-                difficulty: "",
+                difficulty: "Unreal",
                 duration: "Very Long (30+ min.)",
                 verificationDate: "September 5, 2026",
                 style: "Linear, Purism",
                 description: "",
-                video: "",
+                video: "https://www.youtube.com/watch?v=aznbmQBZeHI",
                 victors: [
                     { player: "a6iq1", country: "", video: "" }
                 ]
@@ -2498,12 +2664,12 @@
                 locationUrl: "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
                 locationLabel: "The Eternal Abyss",
                 tier: "Low",
-                difficulty: "",
+                difficulty: "Unreal",
                 duration: "Short (10+ min.)",
                 verificationDate: "June 20, 2026",
                 style: "Voidbound",
                 description: "",
-                video: "",
+                video: "https://www.youtube.com/watch?v=I5QVrxvPaXY",
                 victors: [
                     { player: "hyperionblades", country: "", video: "" }
                 ]
@@ -2516,12 +2682,12 @@
                 locationUrl: "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
                 locationLabel: "Pit of Misery (TEA)",
                 tier: "Bottom-Low",
-                difficulty: "",
+                difficulty: "Unreal",
                 duration: "Short (10+ min.)",
                 verificationDate: "October 11, 2025",
                 style: "Purism, Technical",
                 description: "",
-                video: "",
+                video: "https://www.youtube.com/watch?v=FvNNImNop-Y",
                 victors: [
                     { player: "Yazmania_1m", country: "", video: "" }
                 ]
@@ -2534,12 +2700,12 @@
                 locationUrl: "",
                 locationLabel: "Place",
                 tier: "Bottom-Low",
-                difficulty: "",
+                difficulty: "Unreal",
                 duration: "Very Long (30+ min.)",
                 verificationDate: "May 2, 2026",
                 style: "Mixed",
                 description: "",
-                video: "",
+                video: "https://www.youtube.com/watch?v=_e93li9cdDE",
                 victors: [
                     { player: "ChillUltralight", country: "", video: "" }
                 ]
@@ -2552,14 +2718,16 @@
                 locationUrl: "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
                 locationLabel: "The Eternal Abyss",
                 tier: "Bottom-Low",
-                difficulty: "",
+                difficulty: "Unreal",
                 duration: "Very Short (5+ min.)",
                 verificationDate: "February 20, 2026",
                 style: "Purism, Technical",
                 description: "",
-                video: "",
+                video: "https://www.youtube.com/watch?v=AT90nqEX0NE",
                 victors: [
-                    { player: "SeeRyanplayroblox", country: "", video: "" }
+                    { player: "SeeRyanplayroblox", country: "", video: "" },
+                    { player: "Yazmania_1m", country: "", video: "https://www.youtube.com/watch?v=2e4RvYVtDmQ" },
+                    { player: "Slicerr", country: "", video: "https://www.youtube.com/watch?v=uG-UrT9V23s" }
                 ]
             },
             {
@@ -2570,14 +2738,15 @@
                 locationUrl: "",
                 locationLabel: "Void's Pique",
                 tier: "Bottom-Low",
-                difficulty: "",
+                difficulty: "Unreal",
                 duration: "Short (10+ min.)",
                 verificationDate: "December 12, 2025",
                 style: "Purism, Technical",
                 description: "",
-                video: "",
+                video: "https://www.youtube.com/watch?v=UiK6pKgHGpU",
                 victors: [
-                    { player: "player0v0", country: "", video: "" }
+                    { player: "player0v0", country: "", video: "" },
+                    { player: "Yazmania_1m", country: "", video: "https://www.youtube.com/watch?v=8wK_wdE7pWQ&t" }
                 ]
             },
             {
@@ -2588,378 +2757,394 @@
                 locationUrl: "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
                 locationLabel: "Timeless Manor (TEA)",
                 tier: "Bottom",
-                difficulty: "",
+                difficulty: "Unreal",
                 duration: "Extremely Long (45+ min.)",
                 verificationDate: "February 7, 2026",
                 style: "Purism, Mixed",
                 description: "",
-                video: "",
+                video: "https://www.youtube.com/watch?v=RQn5FtX5CSo",
                 victors: [
-                    { player: "carmenistal", country: "", video: "" }
+                    { player: "carmenistal", country: "", video: "" },
+                    { player: "Skillboy900", country: "", video: "https://www.youtube.com/watch?v=erZsm4uKnkA" }
                 ]
             },
             {
-                "id": 31,
-                "name": "ToMM (Tower of Malevolent Maelstrom)",
-                "creator": "Various Creators",
-                "verifier": "BlackportTransport",
-                "locationUrl": "https://www.roblox.com/es/games/18603968759/Community-Top-Towers",
-                "locationLabel": "Lag-Free CTT",
-                "tier": "Bottom",
-                "difficulty": "",
-                "duration": "Moderate (15+ min.)",
-                "verificationDate": "October 11, 2026",
-                "style": "Client Objects • Raw Difficulty, Punishment",
-                "description": "",
-                "video": "",
-                "victors": [
-                    {player: "BlackportTransport",country: "",video: ""}
+                id: 31,
+                name: "ToMM (Tower of Malevolent Maelstrom)",
+                creator: "Various Creators",
+                verifier: "BlackportTransport",
+                locationUrl: "https://www.roblox.com/es/games/18603968759/Community-Top-Towers",
+                locationLabel: "Lag-Free CTT",
+                tier: "Bottom",
+                difficulty: "Unreal",
+                duration: "Moderate (15+ min.)",
+                verificationDate: "October 11, 2026",
+                style: "Client Objects • Raw Difficulty, Punishment",
+                description: "",
+                video: "https://www.youtube.com/watch?v=BBCx9qcSOv0",
+                victors: [
+                    { player: "BlackportTransport", country: "", video: "" }
                 ]
             },
             {
-                "id": 32,
-                "name": "3008-T (3008 Tower)",
-                "creator": "pczm1",
-                "verifier": "ChillUltralight",
-                "locationUrl": "https://www.roblox.com/es/games/18603968759/Community-Top-Towers",
-                "locationLabel": "Lag-Free CTT",
-                "tier": "Bottom",
-                "difficulty": "",
-                "duration": "Long (20+ min.)",
-                "verificationDate": "March 31, 2026",
-                "style": "Purism, Technical • Raw Difficulty, Length",
-                "description": "",
-                "video": "",
-                "victors": [
-                    {player: "ChillUltralight",country: "",video: ""}
-                                
+                id: 32,
+                name: "3008-T (3008 Tower)",
+                creator: "pczm1",
+                verifier: "ChillUltralight",
+                locationUrl: "https://www.roblox.com/es/games/18603968759/Community-Top-Towers",
+                locationLabel: "Lag-Free CTT",
+                tier: "Bottom",
+                difficulty: "Unreal",
+                duration: "Long (20+ min.)",
+                verificationDate: "March 31, 2026",
+                style: "Purism, Technical • Raw Difficulty, Length",
+                description: "",
+                video: "https://www.youtube.com/watch?v=rO8Czv0HcNk",
+                victors: [
+                    { player: "ChillUltralight", country: "", video: "" },
+                    { player: "4ktart", country: "", video: "https://www.youtube.com/watch?v=O6ChBhTbemM" }
                 ]
-},
-{
-                "id": 33,
-                "name": "ToWC (Tower of Withered Consensus)",
-                "creator": "glizzygladiattorrr",
-                "verifier": "glizzygladiattorrr",
-                "locationUrl": "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
-                "locationLabel": "The Eternal Abyss",
-                "tier": "Bottom",
-                "difficulty": "",
-                "duration": "Very Short (5+ min.)",
-                "verificationDate": "April 8, 2026",
-                "style": "Client Objects, Technical • Raw Difficulty",
-                "description": "",
-                "video": "",
-                "victors": [
-                    {player: "glizzygladiattorrr",country: "",video: ""}
-                                
+            },
+            {
+                id: 33,
+                name: "ToWC (Tower of Withered Consensus)",
+                creator: "glizzygladiattorrr",
+                verifier: "glizzygladiattorrr",
+                locationUrl: "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
+                locationLabel: "The Eternal Abyss",
+                tier: "Bottom",
+                difficulty: "Unreal",
+                duration: "Very Short (5+ min.)",
+                verificationDate: "April 8, 2026",
+                style: "Client Objects, Technical • Raw Difficulty",
+                description: "",
+                video: "https://www.youtube.com/watch?v=DLKMIGM6mS8",
+                victors: [
+                    { player: "glizzygladiattorrr", country: "", video: "" }
                 ]
-},
-{
-                "id": 34,
-                "name": "IKEA (Ikea Tower)",
-                "creator": "Higherthanblox",
-                "verifier": "MonsterIsABlock",
-                "locationUrl": "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
-                "locationLabel": "Pit of Misery (TEA)",
-                "tier": "Bottom",
-                "difficulty": "",
-                "duration": "Short (10+ min.)",
-                "verificationDate": "June 7, 2024",
-                "style": "Purism, Linear • Raw Difficulty",
-                "description": "",
-                "video": "",
-                "victors": [
-                    {player: "MonsterIsABlock",country: "",video: ""}
-                                
+            },
+            {
+                id: 34,
+                name: "IKEA (Ikea Tower)",
+                creator: "Higherthanblox",
+                verifier: "MonsterIsABlock",
+                locationUrl: "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
+                locationLabel: "Pit of Misery (TEA)",
+                tier: "Bottom",
+                difficulty: "Unreal",
+                duration: "Short (10+ min.)",
+                verificationDate: "June 7, 2024",
+                style: "Purism, Linear • Raw Difficulty",
+                description: "",
+                video: "https://www.youtube.com/watch?v=fpJmckiIzFw",
+                victors: [
+                    { player: "MonsterIsABlock", country: "", video: "" }
                 ]
-},
-{
-                "id": 35,
-                "name": "ToLSB (Tower of Light Speed Buttons)",
-                "creator": "Various Creators",
-                "verifier": "DD3985666",
-                "locationUrl": "",
-                "locationLabel": "Place",
-                "tier": "Bottom",
-                "difficulty": "",
-                "duration": "Extremely Short (<5 min.)",
-                "verificationDate": "April 11, 2026",
-                "style": "Speedrun, Camera Control • Raw Difficulty",
-                "description": "",
-                "video": "",
-                "victors": [
-                    {player: "DD3985666",country: "",video: ""}
+            },
+            {
+                id: 35,
+                name: "ToLSB (Tower of Light Speed Buttons)",
+                creator: "Various Creators",
+                verifier: "DD3985666",
+                locationUrl: "",
+                locationLabel: "Place",
+                tier: "Bottom",
+                difficulty: "Unreal",
+                duration: "Extremely Short (<5 min.)",
+                verificationDate: "April 11, 2026",
+                style: "Speedrun, Camera Control • Raw Difficulty",
+                description: "",
+                video: "https://www.youtube.com/watch?v=8FF_2Q262fM",
+                victors: [
+                    { player: "DD3985666", country: "", video: "" },
+                    { player: "Sander", country: "", video: "https://www.youtube.com/watch?v=DodrPMIxVtM" }
                 ]
-},
-{
-                "id": 36,
-                "name": "ToSD (Tower of Sudden Death)",
-                "creator": "WaterMakeer, CosmikChaos",
-                "verifier": "skitsuna",
-                "locationUrl": "https://www.roblox.com/es/games/18603968759/Community-Top-Towers",
-                "locationLabel": "Lag-Free CTT",
-                "tier": "Bottom",
-                "difficulty": "",
-                "duration": "Very Short (5+ min.)",
-                "verificationDate": "January 3, 2025",
-                "style": "Purism, Camera Control • Raw Difficulty, Punishment",
-                "description": "",
-                "video": "",
-                "victors": [
-                    {player: "skitsuna",country: "",video: ""}
+            },
+            {
+                id: 36,
+                name: "ToSD (Tower of Sudden Death)",
+                creator: "WaterMakeer, CosmikChaos",
+                verifier: "skitsuna",
+                locationUrl: "https://www.roblox.com/es/games/18603968759/Community-Top-Towers",
+                locationLabel: "Lag-Free CTT",
+                tier: "Bottom",
+                difficulty: "Unreal",
+                duration: "Very Short (5+ min.)",
+                verificationDate: "January 3, 2025",
+                style: "Purism, Camera Control • Raw Difficulty, Punishment",
+                description: "",
+                video: "https://www.youtube.com/watch?v=75VZzOgVyHc",
+                victors: [
+                    { player: "skitsuna", country: "", video: "" }
                 ]
-},
-{
-                "id": 37,
-                "name": "GCoGDC (Great Citadel of Great Difficulty Chart)",
-                "creator": "kaylian0, skitsuna",
-                "verifier": "skitsuna",
-                "locationUrl": "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
-                "locationLabel": "Timeless Manor (TEA)",
-                "tier": "Baseline (13.00)",
-                "difficulty": "",
-                "duration": "Absurdly Long (90+ min.)",
-                "verificationDate": "February 22, 2025",
-                "style": "Classic, Mixed • Length",
-                "description": "",
-                "video": "",
-                "victors": [
-                    {player: "skitsuna",country: "",video: ""}
+            },
+            {
+                id: 37,
+                name: "GCoGDC (Great Citadel of Great Difficulty Chart)",
+                creator: "kaylian0, skitsuna",
+                verifier: "skitsuna",
+                locationUrl: "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
+                locationLabel: "Timeless Manor (TEA)",
+                tier: "Baseline (13.00)",
+                difficulty: "Unreal",
+                duration: "Absurdly Long (90+ min.)",
+                verificationDate: "February 22, 2025",
+                style: "Classic, Mixed • Length",
+                description: "",
+                video: "https://www.youtube.com/watch?v=E8xuQCbvgO8",
+                victors: [
+                    { player: "skitsuna", country: "", video: "" },
+                    { player: "Gehadimad", country: "", video: "https://www.youtube.com/watch?v=BjkHxhUw9uE&t" }
                 ]
-},
-{
-                "id": 38,
-                "name": "CoTFD (Citadel of The Final Destination)",
-                "creator": "grand admiral thrawn",
-                "verifier": "skitsuna",
-                "locationUrl": "",
-                "locationLabel": "Lush Colosseum (CSCD)",
-                "tier": "Peak (12.99)",
-                "difficulty": "",
-                "duration": "Inhumanely Long (120+ min.)",
-                "verificationDate": "April 10, 2025",
-                "style": "Purism, Client Objects • Length, Punishment",
-                "description": "",
-                "video": "",
-                "victors": [
-                    {player: "skitsuna",country: "",video: ""}
+            },
+            {
+                id: 38,
+                name: "CoTFD (Citadel of The Final Destination)",
+                creator: "grand admiral thrawn",
+                verifier: "skitsuna",
+                locationUrl: "",
+                locationLabel: "Lush Colosseum (CSCD)",
+                tier: "Peak (12.99)",
+                difficulty: "Horrific",
+                duration: "Inhumanely Long (120+ min.)",
+                verificationDate: "April 10, 2025",
+                style: "Purism, Client Objects • Length, Punishment",
+                description: "",
+                video: "https://www.youtube.com/watch?v=XQeq0xpjNko",
+                victors: [
+                    { player: "skitsuna", country: "", video: "" },
+                    { player: "Slicerr", country: "", video: "https://www.youtube.com/watch?v=inbTehSx-2s&t" },
+                    { player: "onese3r", country: "", video: "https://www.youtube.com/watch?v=UlH320IMaCU&t" },
+                    { player: "Starjtoh", country: "", video: "https://www.youtube.com/watch?v=bITdIJ7pqDY" },
+                    { player: "Hira", country: "", video: "https://www.youtube.com/watch?v=KsYFShsD1XU" }
                 ]
-},
-{
-                "id": 39,
-                "name": "ToDB (Tower of Dense Beauty)",
-                "creator": "OrangeBubblyTea, InBetweenSignals",
-                "verifier": "InBetweenSignals",
-                "locationUrl": "",
-                "locationLabel": "Place",
-                "tier": "High-Peak",
-                "difficulty": "",
-                "duration": "Extremely Short (<5 min.)",
-                "verificationDate": "September 4, 2025",
-                "style": "Jank, Technical, Purism • Raw Difficulty",
-                "description": "",
-                "video": "",
-                "victors": [
-                    {player: "InBetweenSignals",country: "",video: ""}
+            },
+            {
+                id: 39,
+                name: "ToDB (Tower of Dense Beauty)",
+                creator: "OrangeBubblyTea, InBetweenSignals",
+                verifier: "InBetweenSignals",
+                locationUrl: "",
+                locationLabel: "Place",
+                tier: "High-Peak",
+                difficulty: "Horrific",
+                duration: "Extremely Short (<5 min.)",
+                verificationDate: "September 4, 2025",
+                style: "Jank, Technical, Purism, Raw Difficulty",
+                description: "",
+                video: "https://www.youtube.com/watch?v=pzM7SJQ1UJM",
+                victors: [
+                    { player: "InBetweenSignals", country: "", video: "" }
                 ]
-},
-{
-                "id": 40,
-                "name": "ToS (Tower of Skyfall)",
-                "creator": "POTATOGARDENFARM",
-                "verifier": "Ypzm",
-                "locationUrl": "https://www.roblox.com/es/games/18603968759/Community-Top-Towers",
-                "locationLabel": "Lag-Free CTT",
-                "tier": "High-Peak",
-                "difficulty": "",
-                "duration": "Moderate (15+ min.)",
-                "verificationDate": "August 4, 2026",
-                "style": "Purism, Camera Control • Raw Difficulty",
-                "description": "",
-                "video": "",
-                "victors": [
-                    {player: "Ypzm",country: "",video: ""}
+            },
+            {
+                id: 40,
+                name: "ToS (Tower of Skyfall)",
+                creator: "POTATOGARDENFARM",
+                verifier: "Ypzm",
+                locationUrl: "https://www.roblox.com/es/games/18603968759/Community-Top-Towers",
+                locationLabel: "Lag-Free CTT",
+                tier: "High-Peak",
+                difficulty: "Horrific",
+                duration: "Moderate (15+ min.)",
+                verificationDate: "August 4, 2026",
+                style: "Purism, Camera Control • Raw Difficulty",
+                description: "",
+                video: "https://www.youtube.com/watch?v=F55PSHt2_TY",
+                victors: [
+                    { player: "Ypzm", country: "", video: "" },
+                    { player: "Egowist", country: "", video: "https://www.youtube.com/watch?v=FUqyIqvuHRM" },
+                    { player: "ex_0tical", country: "", video: "https://www.youtube.com/watch?v=GtKnKL9z9pw" }
                 ]
-},
-{
-                "id": 41,
-                "name": "ToYK (Tower of Yasamsal Kiyamet)",
-                "creator": "Various Creators",
-                "verifier": "Yazmania_1m",
-                "locationUrl": "https://www.roblox.com/es/games/18603968759/Community-Top-Towers",
-                "locationLabel": "Lag-Free CTT",
-                "tier": "High-Peak",
-                "difficulty": "",
-                "duration": "Very Short (5+ min.)",
-                "verificationDate": "February 13, 2025",
-                "style": "Purism, Cam Control • Raw Difficulty",
-                "description": "",
-                "video": "",
-                "victors": [
-                    {player: "Yazmania_1m",country: "",video: ""}
+            },
+            {
+                id: 41,
+                name: "ToYK (Tower of Yasamsal Kiyamet)",
+                creator: "Various Creators",
+                verifier: "Yazmania_1m",
+                locationUrl: "https://www.roblox.com/es/games/18603968759/Community-Top-Towers",
+                locationLabel: "Lag-Free CTT",
+                tier: "High-Peak",
+                difficulty: "Horrific",
+                duration: "Very Short (5+ min.)",
+                verificationDate: "February 13, 2025",
+                style: "Purism, Cam Control • Raw Difficulty",
+                description: "",
+                video: "https://www.youtube.com/watch?v=p658sx8wcgc",
+                victors: [
+                    { player: "Yazmania_1m", country: "", video: "" }
                 ]
-},
-{
-                "id": 42,
-                "name": "ToCC (Tower of Computer Crippling)",
-                "creator": "Various Creators",
-                "verifier": "skitsuna",
-                "locationUrl": "",
-                "locationLabel": "Jongular Jungle (ToS)",
-                "tier": "High-Peak",
-                "difficulty": "",
-                "duration": "Long (20+ min.)",
-                "verificationDate": "October 3, 2025",
-                "style": "Chinese Water Torture • Suicidal Thoughts",
-                "description": "",
-                "video": "",
-                "victors": [
-                    {player: "skitsuna",country: "",video: ""}
+            },
+            {
+                id: 42,
+                name: "ToCC (Tower of Computer Crippling)",
+                creator: "Various Creators",
+                verifier: "skitsuna",
+                locationUrl: "",
+                locationLabel: "Jongular Jungle (ToS)",
+                tier: "High-Peak",
+                difficulty: "Horrific",
+                duration: "Long (20+ min.)",
+                verificationDate: "October 3, 2025",
+                style: "Chinese Water Torture • Suicidal Thoughts",
+                description: "",
+                video: "https://www.youtube.com/watch?v=EakjdRkCJI0",
+                victors: [
+                    { player: "skitsuna", country: "", video: "" },
+                    { player: "microwavium", country: "", video: "https://www.youtube.com/watch?v=5KH6pe1uLQQ" },
+                    { player: "xxxevanplayzgamesxxx", country: "", video: "https://www.youtube.com/watch?v=ygYL1545LSY" }
                 ]
-},
-{
-                "id": 43,
-                "name": "ToHQ (Tower of Head Quarters)",
-                "creator": "KairaSpeedrun",
-                "verifier": "KairaSpeedrun",
-                "locationUrl": "",
-                "locationLabel": "Scope 1 (CSCD)",
-                "tier": "High-Peak",
-                "difficulty": "",
-                "duration": "Moderate (15+ min.)",
-                "verificationDate": "January 10th, 2026",
-                "style": "Client Objects • last 2 floors",
-                "description": "",
-                "video": "",
-                "victors": [
-                    {player: "KairaSpeedrun",country: "",video: ""}
+            },
+            {
+                id: 43,
+                name: "ToHQ (Tower of Head Quarters)",
+                creator: "KairaSpeedrun",
+                verifier: "KairaSpeedrun",
+                locationUrl: "https://www.roblox.com/es/games/10283991824/Calebs-Soul-Crushing-Domain",
+                locationLabel: "Scope 1 (CSCD)",
+                tier: "High-Peak",
+                difficulty: "Horrific",
+                duration: "Moderate (15+ min.)",
+                verificationDate: "January 10th, 2026",
+                style: "Client Objects • last 2 floors",
+                description: "",
+                video: "https://www.youtube.com/watch?v=VBaL-vgFh0w",
+                victors: [
+                    { player: "KairaSpeedrun", country: "", video: "" },
+                    { player: "Yqzrm", country: "", video: "https://www.youtube.com/watch?v=FjLZK5DBN3M" }
                 ]
-},
-{
-                "id": 44,
-                "name": "ToRR (Tower of Ruthless Retribution)",
-                "creator": "Various Creators",
-                "verifier": "exexic",
-                "locationUrl": "",
-                "locationLabel": "Spot 3 (AHoSCT)",
-                "tier": "High-Peak",
-                "difficulty": "",
-                "duration": "Very Long (30+ min.)",
-                "verificationDate": "April 20, 2025",
-                "style": "Purism, Linear • Length, Raw Difficulty",
-                "description": "",
-                "video": "",
-                "victors": [
-                    {player: "exexic",country: "",video: ""}
+            },
+            {
+                id: 44,
+                name: "ToRR (Tower of Ruthless Retribution)",
+                creator: "Various Creators",
+                verifier: "exexic",
+                locationUrl: "https://www.roblox.com/es/games/83360243495088/Azis-House-of-Soul-Crushing-Towers",
+                locationLabel: "Spot 3 (AHoSCT)",
+                tier: "High-Peak",
+                difficulty: "Horrific",
+                duration: "Very Long (30+ min.)",
+                verificationDate: "April 20, 2025",
+                style: "Purism, Linear • Length, Raw Difficulty",
+                description: "",
+                video: "https://www.youtube.com/watch?v=dCFwvF_-xNk",
+                victors: [
+                    { player: "exexic", country: "", video: "" },
+                    { player: "ChillUltralight", country: "", video: "https://www.youtube.com/watch?v=prNesElWBBU" }
                 ]
-},
-{
-                "id": 45,
-                "name": "ToDF (Tower of Dissociative Force)",
-                "creator": "sladoledenavafla",
-                "verifier": "exexic",
-                "locationUrl": "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
-                "locationLabel": "Timeless Manor (TEA)",
-                "tier": "High-Peak",
-                "difficulty": "",
-                "duration": "Very Long (30+ min.)",
-                "verificationDate": "May 13, 2024",
-                "style": "Linear, Technical • Raw Difficulty, Length",
-                "description": "",
-                "video": "",
-                "victors": [
-                    {player: "exexic",country: "",video: ""}
+            },
+            {
+                id: 45,
+                name: "ToDF (Tower of Dissociative Force)",
+                creator: "sladoledenavafla",
+                verifier: "exexic",
+                locationUrl: "https://www.roblox.com/es/games/15873244701/The-Eternal-Abyss",
+                locationLabel: "Timeless Manor (TEA)",
+                tier: "High-Peak",
+                difficulty: "Horrific",
+                duration: "Very Long (30+ min.)",
+                verificationDate: "May 13, 2024",
+                style: "Linear, Technical • Raw Difficulty, Length",
+                description: "",
+                video: "https://www.youtube.com/watch?v=0WsH5yJ1Tdo",
+                victors: [
+                    { player: "exexic", country: "", video: "" },
+                    { player: "ZePlayerSlayer", country: "", video: "https://www.youtube.com/watch?v=XYpnC-4a9_8" },
+                    { player: "Marqlitt", country: "", video: "https://www.youtube.com/watch?v=WvSSo4bBs3g" }
                 ]
-},
-{
-                "id": 46,
-                "name": "ToSC (Tower of Stardust Conflagration)",
-                "creator": "the_atoms",
-                "verifier": "CarlosWA",
-                "locationUrl": "https://www.roblox.com/es/games/18603968759/Community-Top-Towers",
-                "locationLabel": "Lag-Free CTT",
-                "tier": "High",
-                "difficulty": "",
-                "duration": "Long (20+ min.)",
-                "verificationDate": "February 20, 2026",
-                "style": "Mixed",
-                "description": "",
-                "video": "",
-                "victors": [
-                    {player: "CarlosWA",country: "",video: ""}
+            },
+            {
+                id: 46,
+                name: "ToSC (Tower of Stardust Conflagration)",
+                creator: "the_atoms",
+                verifier: "CarlosWA",
+                locationUrl: "https://www.roblox.com/es/games/18603968759/Community-Top-Towers",
+                locationLabel: "Lag-Free CTT",
+                tier: "High",
+                difficulty: "Horrific",
+                duration: "Long (20+ min.)",
+                verificationDate: "February 20, 2026",
+                style: "Mixed",
+                description: "",
+                video: "https://www.youtube.com/watch?v=pHgZpnAb6S0",
+                victors: [
+                    { player: "CarlosWA", country: "", video: "" }
                 ]
-},
-{
-                "id": 47,
-                "name": "ToBTR (Tower of Breaking Through Restraints)",
-                "creator": "brycel50",
-                "verifier": "11Eleveth",
-                "locationUrl": "",
-                "locationLabel": "Place",
-                "tier": "High (12.75)",
-                "difficulty": "",
-                "duration": "Moderate (15+ min.)",
-                "verificationDate": "June 19, 2026",
-                "style": "Client Objects",
-                "description": "",
-                "video": "",
-                "victors": [
-                    {player: "11Eleveth",country: "",video: ""}
+            },
+            {
+                id: 47,
+                name: "ToBTR (Tower of Breaking Through Restraints)",
+                creator: "brycel50",
+                verifier: "11Eleveth",
+                locationUrl: "",
+                locationLabel: "Place",
+                tier: "High (12.75)",
+                difficulty: "Horrific",
+                duration: "Moderate (15+ min.)",
+                verificationDate: "June 19, 2026",
+                style: "Client Objects",
+                description: "",
+                video: "https://www.youtube.com/watch?v=KwviIPDjGY4",
+                victors: [
+                    { player: "11Eleveth", country: "", video: "" }
                 ]
-},
-{
-                "id": 48,
-                "name": "ToLN (Tower of Lucid Nightmares)",
-                "creator": "AddisonJudah, skitsuna",
-                "verifier": "microwavium",
-                "locationUrl": "",
-                "locationLabel": "Spot 2 (AHoSCT)",
-                "tier": "High",
-                "difficulty": "",
-                "duration": "Short (10+ min.)",
-                "verificationDate": "August 26, 2025",
-                "style": "Memory",
-                "description": "",
-                "video": "",
-                "victors": [
-                    {player: "microwavium",country: "",video: ""}
+            },
+            {
+                id: 48,
+                name: "ToLN (Tower of Lucid Nightmares)",
+                creator: "AddisonJudah, skitsuna",
+                verifier: "microwavium",
+                locationUrl: "https://www.roblox.com/es/games/83360243495088/Azis-House-of-Soul-Crushing-Towers",
+                locationLabel: "Spot 2 (AHoSCT)",
+                tier: "High",
+                difficulty: "Horrific",
+                duration: "Short (10+ min.)",
+                verificationDate: "August 26, 2025",
+                style: "Memory",
+                description: "",
+                video: "https://www.youtube.com/watch?v=Gc46rUlxXeQ",
+                victors: [
+                    { player: "microwavium", country: "", video: "" },
+                    { player: "dewant", country: "", video: "https://www.youtube.com/watch?v=lYms8iYcmM8" }
                 ]
-},
-{
-                "id": 49,
-                "name": "ToJC (Tower of Jaded Compromise)",
-                "creator": "glizzygladiattorrr, Incindius",
-                "verifier": "Truespirit",
-                "locationUrl": "https://www.roblox.com/es/games/18603968759/Community-Top-Towers",
-                "locationLabel": "Lag-Free CTT",
-                "tier": "High",
-                "difficulty": "",
-                "duration": "Client Objects, Technical",
-                "description": "",
-                "video": "",
-                "verificationDate": "July 14, 2024",
-                "victors": [
-                    {player: "Truespirit",country: "",video: ""}
+            },
+            {
+                id: 49,
+                name: "ToJC (Tower of Jaded Compromise)",
+                creator: "glizzygladiattorrr, Incindius",
+                verifier: "Truespirit",
+                locationUrl: "https://www.roblox.com/es/games/18603968759/Community-Top-Towers",
+                locationLabel: "Lag-Free CTT",
+                tier: "High",
+                difficulty: "Horrific",
+                duration: "Client Objects, Technical",
+                description: "",
+                video: "https://www.youtube.com/watch?v=Qvnn5IDNJRQ",
+                verificationDate: "July 14, 2024",
+                victors: [
+                    { player: "Truespirit", country: "", video: "" }
                 ]
-},
-{
-                "id": 50,
-                "name": "ToWaYG (Tower of Where are You Going)",
-                "creator": "ecotism, DD3895666",
-                "verifier": "DD3895666",
-                "locationUrl": "",
-                "locationLabel": "Place",
-                "tier": "High",
-                "difficulty": "",
-                "duration": "Extremely Short (<5 min.)",
-                "verificationDate": "September 19, 2024",
-                "style": "Speedrun, Camera Control",
-                "description": "",
-                "video": "",
-                "victors": [
-                    {player: "DD3895666",country: "",video: ""}
+            },
+            {
+                id: 50,
+                name: "ToWaYG (Tower of Where are You Going)",
+                creator: "ecotism, DD3895666",
+                verifier: "DD3895666",
+                locationUrl: "https://www.roblox.com/es/games/103374838624309/tower-hmm-tower",
+                locationLabel: "Place",
+                tier: "High",
+                difficulty: "Horrific",
+                duration: "Extremely Short (<5 min.)",
+                verificationDate: "September 19, 2024",
+                style: "Speedrun, Camera Control",
+                description: "",
+                video: "https://www.youtube.com/watch?v=E2QZt3XuaOw",
+                victors: [
+                    { player: "DD3895666", country: "", video: "" },
+                    { player: "Sander", country: "", video: "https://www.youtube.com/watch?v=KC2aWsONzsE" },
+                    { player: "imverygodatobbies", country: "", video: "https://www.youtube.com/watch?v=eQEnQ7jH_po" }
                 ]
-}
+            }
         ];
 
         // =========================================================================
@@ -3014,8 +3199,13 @@
             localStorage.setItem('obbylist_obbys_v121', JSON.stringify(obbysList));
         }
 
+        const MAX_POINTS_RANK = 100;
+
         function calculatePoints(rank) {
-            return Math.round(500 * Math.pow(0.88, rank - 1) * 100) / 100;
+            if (rank < 1 || rank > MAX_POINTS_RANK) {
+                return 0;
+            }
+            return Math.round(500 * Math.pow(0.98, rank - 1) * 100) / 100;
         }
 
         function isPlaceholderPlayer(name) {
@@ -3062,6 +3252,29 @@
             select.appendChild(obbyGroup);
         }
 
+        function updateFilterOptions() {
+            const select = document.getElementById('filterTier');
+            if (!select) return;
+
+            const isObbyCategory = currentListMode.startsWith('obby-');
+            const optionsList = isObbyCategory ? OBBY_FILTER_OPTIONS : TOWER_FILTER_OPTIONS;
+            const prevValue = select.value;
+
+            select.innerHTML = '<option value="ALL">' + t('all_tiers') + '</option>';
+            optionsList.forEach(function(optLabel) {
+                const opt = document.createElement('option');
+                opt.value = optLabel;
+                opt.textContent = optLabel;
+                select.appendChild(opt);
+            });
+
+            if (optionsList.includes(prevValue)) {
+                select.value = prevValue;
+            } else {
+                select.value = 'ALL';
+            }
+        }
+
         function renderList() {
             const container = document.getElementById('obby-container');
             const searchVal = document.getElementById('searchObby').value.toLowerCase();
@@ -3088,7 +3301,28 @@
                     item.creator.toLowerCase().includes(searchVal) ||
                     item.verifier.toLowerCase().includes(searchVal);
 
-                const matchesTier = (tierVal === 'ALL') || item.tier.includes(tierVal);
+                let matchesTier = (tierVal === 'ALL');
+                if (!matchesTier) {
+                    const filterLower = tierVal.toLowerCase();
+                    const itemTierLower = (item.tier || '').toLowerCase();
+                    const itemDiffLower = (item.difficulty || '').toLowerCase();
+
+                    if (filterLower === 'high') {
+                        matchesTier = itemTierLower.startsWith('high') && !itemTierLower.startsWith('high-peak');
+                    } else if (filterLower === 'mid') {
+                        matchesTier = itemTierLower.startsWith('mid') && !itemTierLower.startsWith('mid-high');
+                    } else if (filterLower === 'low') {
+                        matchesTier = itemTierLower.startsWith('low') && !itemTierLower.startsWith('low-mid') && !itemTierLower.startsWith('low-bottom');
+                    } else if (filterLower === 'bottom') {
+                        matchesTier = itemTierLower.startsWith('bottom') && !itemTierLower.startsWith('bottom-low');
+                    } else if (filterLower === 'low-bottom') {
+                        matchesTier = itemTierLower.includes('low-bottom') || itemTierLower.includes('bottom-low');
+                    } else if (filterLower === 'peak') {
+                        matchesTier = itemTierLower.startsWith('peak');
+                    } else {
+                        matchesTier = itemTierLower.includes(filterLower) || itemDiffLower.includes(filterLower);
+                    }
+                }
 
                 if (!matchesSearch || !matchesTier) return;
 
@@ -3156,11 +3390,14 @@
             const points = calculatePoints(rank);
             const prevItem = index > 0 ? listArray[index - 1] : null;
             const nextItem = index < listArray.length - 1 ? listArray[index + 1] : null;
+            const glowCfg = getLevelGlowConfig(item.difficulty);
 
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('nav-list-btn').classList.add('active');
             document.getElementById('level-detail').classList.add('active');
+            document.body.classList.add('level-ambient-active');
+            document.body.style.setProperty('--page-ambient-glow', glowCfg.ambientRgba);
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
             const videoSource = item.video || (item.victors[0] && item.victors[0].video) || '';
@@ -3239,6 +3476,7 @@
 
             const catLabel = category === 'obby' ? 'Obbys' : 'Towers';
             const rankBadgeClass = category === 'obby' ? 'level-hero-rank obby-rank-pill' : 'level-hero-rank';
+            const heroGlowClasses = glowCfg.cls + (glowCfg.animate ? ' diff-flow-animated' : '');
 
             const container = document.getElementById('level-detail-content');
             container.innerHTML =
@@ -3247,7 +3485,7 @@
                     '<span style="color:var(--text-muted);font-size:0.85rem;">' + t('level_sheet') + ' (' + catLabel + ')</span>' +
                 '</div>' +
 
-                '<div class="level-hero-box">' +
+                '<div class="level-hero-box ' + heroGlowClasses + '">' +
                     '<div class="level-nav-header">' +
                         '<button class="level-arrow-btn" ' + (prevItem ? 'onclick="openLevelDetail(\'' + category + '\',' + prevItem.id + ')"' : 'disabled') + '>‹</button>' +
                         '<div class="level-hero-title-wrap">' +
@@ -3684,9 +3922,7 @@
             const playerSearchInput = document.getElementById('playerSearchInput');
             if (playerSearchInput) playerSearchInput.placeholder = t('player_search_placeholder');
 
-            const allTiersOpt = document.querySelector('#filterTier option[value="ALL"]');
-            if (allTiersOpt) allTiersOpt.textContent = t('all_tiers');
-
+            updateFilterOptions();
             renderList();
             renderStatsSidebar();
             refreshSelectedProfile();
@@ -3777,6 +4013,7 @@
                 towers = JSON.parse(JSON.stringify(defaultTowers));
                 obbysList = JSON.parse(JSON.stringify(defaultObbysList));
                 selectedPlayerName = null;
+                updateFilterOptions();
                 renderList();
                 renderStatsSidebar();
                 document.getElementById('player-profile-panel').innerHTML =
@@ -3797,6 +4034,8 @@
         function showTab(tabId, listMode) {
             if (tabId !== 'level-detail') {
                 currentOpenLevel = null;
+                document.body.classList.remove('level-ambient-active');
+                document.body.style.removeProperty('--page-ambient-glow');
             }
 
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -3812,6 +4051,7 @@
                 document.getElementById('subnav-tower-legacy').classList.toggle('active', currentListMode === 'tower-legacy');
                 document.getElementById('subnav-obby-main').classList.toggle('active', currentListMode === 'obby-main');
                 document.getElementById('subnav-obby-legacy').classList.toggle('active', currentListMode === 'obby-legacy');
+                updateFilterOptions();
                 renderList();
             } else if (tabId === 'rules') {
                 document.getElementById('nav-list-btn').classList.add('active');
